@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="410.0" maxWidth="396.0" minHeight="410.0" minWidth="396.0" prefHeight="410.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="0.0" />
+    <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="110.0" minWidth="110.0" prefWidth="120.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="0.0" />
+      <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="395.0" minWidth="200.0" prefWidth="196.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="0.0" />
+  </columnConstraints>
+  <rowConstraints>
+      <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="35.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="35.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="35.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="35.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="147.0" minHeight="30.0" prefHeight="147.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="46.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="46.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="46.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="46.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="15.0" minHeight="15.0" prefHeight="46.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="283.0" minHeight="30.0" prefHeight="102.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label minWidth="80.0" text="Disciplina:" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label minWidth="80.0" text="Assunto:" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label minWidth="80.0" text="ID:" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtin_disc" promptText="Ex : Cáculo B, Sistemas Digitais, etc ..." GridPane.columnIndex="3" GridPane.rowIndex="1" />
+      <TextField fx:id="txtin_assun" promptText="Ex : Integral Definida, Mapa de karnough, etc ..." GridPane.columnIndex="3" GridPane.rowIndex="3" />
+      <TextField fx:id="txtin_id" promptText="Ex : Exemplo sala, Exercicio Livro, etc ..." GridPane.columnIndex="3" GridPane.rowIndex="5" />
+      <Label text="Descrição:" GridPane.columnIndex="1" GridPane.rowIndex="7">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="txtin_desc" prefHeight="90.0" prefWidth="226.0" promptText="Desceva a questão formatando as informações." GridPane.columnIndex="3" GridPane.rowIndex="7" />
+      <Label text="Escolher Imagem:" GridPane.columnIndex="1" GridPane.rowIndex="9">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btn_slt_image" mnemonicParsing="false" prefHeight="25.0" prefWidth="257.0" text="..." GridPane.columnIndex="3" GridPane.rowIndex="9" />
+      <Label text="Resposta:" GridPane.columnIndex="1" GridPane.rowIndex="11">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btn_slt_image_rep" mnemonicParsing="false" prefHeight="25.0" prefWidth="262.0" text="..." GridPane.columnIndex="3" GridPane.rowIndex="11" />
+      <Button fx:id="btn_add" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" text="Adicionar" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+      <Button fx:id="btn_canc" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" text="Cancelar" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+   </children>
+</GridPane>
