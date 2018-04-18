@@ -42,7 +42,7 @@
         <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="168.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Button fx:id="btn_remover_questao" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Remover Questão" GridPane.rowIndex="4" />
+        <Button fx:id="btn_remover_questao" onAction="#btnRemoverQuestao" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Remover Questão" GridPane.rowIndex="4" />
         <Button fx:id="btn_importar_bd" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Importar Questões" GridPane.rowIndex="5" />
         <Button fx:id="btn_exportar_bd" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Exportar Questões" GridPane.rowIndex="6" />
         <Button fx:id="btn_gerar_simulado" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Gerar Simulado" GridPane.rowIndex="7" />
@@ -78,7 +78,7 @@
             </children>
         </AnchorPane>
         <TreeView fx:id="list_dados" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="7" />
-        <Button fx:id="btn_add_questao" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onAction="#teste" prefHeight="30.0" prefWidth="130.0" text="Adicionar Questão" GridPane.rowIndex="3" />
+        <Button fx:id="btn_add_questao" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onAction="#btnAdicionarQuestao" prefHeight="30.0" prefWidth="130.0" text="Adicionar Questão" GridPane.rowIndex="3" />
         <Separator orientation="VERTICAL" prefHeight="505.0" prefWidth="26.0" GridPane.columnIndex="1" GridPane.rowSpan="11" />
     </children>
     <effect>

@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 public class TelaPrincipal extends Application {
     
     private static Stage window;
-    private static int widthWindow = 581;
+    private static int widthWindow = 600;
     private static int heightWindow = 505;
     
     @Override
@@ -33,8 +33,8 @@ public class TelaPrincipal extends Application {
         Parent fxmlTelaPrincipal = FXMLLoader.load(getClass().getResource("../View/Tela_Principal.fxml"));
         window.setTitle("QuizAcademy");
         window.setScene(new Scene(fxmlTelaPrincipal,widthWindow, heightWindow));
-        window.setMinWidth(600);
-        window.setMinHeight(505);
+        window.setMinWidth(widthWindow);
+        window.setMinHeight(heightWindow);
         window.show();
     }
 

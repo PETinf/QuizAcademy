@@ -13,6 +13,7 @@ import static javafx.application.ConditionalFeature.FXML;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeView;
+import javafx.stage.Stage;
 
 /**
  *
@@ -20,9 +21,15 @@ import javafx.scene.control.TreeView;
  */
 public class TelaPrincipalController implements Initializable{
     @FXML
-    protected void teste(ActionEvent event) {
-        System.out.println("BTN");
-        
+    protected void btnAdicionarQuestao(ActionEvent event) throws Exception {
+        AdicionarQuestao addQuest = new AdicionarQuestao();
+        addQuest.start(new Stage());
+    }
+    
+    @FXML
+    protected void btnRemoverQuestao(ActionEvent event) throws Exception {
+        RemoverQuestao rmvQuest = new RemoverQuestao();
+        rmvQuest.start(new Stage());
     }
 
     @Override

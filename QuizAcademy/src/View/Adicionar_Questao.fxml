@@ -5,7 +5,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="410.0" maxWidth="396.0" minHeight="410.0" minWidth="396.0" prefHeight="410.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="410.0" maxWidth="396.0" minHeight="410.0" minWidth="396.0" prefHeight="410.0" prefWidth="396.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AdicionarQuestaoController">
   <columnConstraints>
       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="0.0" />
     <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="110.0" minWidth="110.0" prefWidth="120.0" />
@@ -67,6 +67,6 @@
       </Label>
       <Button fx:id="btn_slt_image_rep" mnemonicParsing="false" prefHeight="25.0" prefWidth="262.0" text="..." GridPane.columnIndex="3" GridPane.rowIndex="11" />
       <Button fx:id="btn_add" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" text="Adicionar" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-      <Button fx:id="btn_canc" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" text="Cancelar" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+      <Button fx:id="btn_canc" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#Cancelar" text="Cancelar" GridPane.columnIndex="3" GridPane.rowIndex="13" />
    </children>
 </GridPane>
