@@ -31,6 +31,18 @@ public class TelaPrincipalController implements Initializable{
         RemoverQuestao rmvQuest = new RemoverQuestao();
         rmvQuest.start(new Stage());
     }
+    
+    @FXML
+    protected void btnGerarSimulado(ActionEvent event) throws Exception {
+        Simulado simulado = new Simulado();
+        simulado.start(new Stage());
+    }
+    
+    @FXML
+    protected void btnHistorico(ActionEvent event) throws Exception {
+        Historico historico = new Historico();
+        historico.start(new Stage());
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

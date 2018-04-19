@@ -15,6 +15,6 @@
       <Label layoutX="17.0" layoutY="130.0" text="Assunto: " />
       <Label layoutX="225.0" layoutY="130.0" text="Número: " />
       <Button fx:id="btn_remover" layoutX="33.0" layoutY="185.0" minWidth="100.0" mnemonicParsing="false" text="Remover" />
-      <Button fx:id="btn_cancelar" layoutX="159.0" layoutY="185.0" minWidth="100.0" mnemonicParsing="false" text="Cancelar" />
+      <Button fx:id="btn_cancelar" onAction="#Cancelar" layoutX="159.0" layoutY="185.0" minWidth="100.0" mnemonicParsing="false" text="Cancelar" />
    </children>
 </AnchorPane>
