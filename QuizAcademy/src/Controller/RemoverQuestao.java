@@ -1,7 +1,7 @@
 
-package Controller;
+package controller;
 
-import static Controller.AdicionarQuestao.window;
+import static controller.AdicionarQuestao.window;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
