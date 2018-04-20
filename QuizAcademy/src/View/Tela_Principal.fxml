@@ -42,11 +42,11 @@
         <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="168.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Button fx:id="btn_remover_questao" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onAction="#btnRemoverQuestao" prefHeight="30.0" prefWidth="130.0" text="Remover Questão" GridPane.rowIndex="4" />
+        <Button fx:id="btn_remover_questao" onAction="#btnRemoverQuestao" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Remover Questão" GridPane.rowIndex="4" />
         <Button fx:id="btn_importar_bd" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Importar Questões" GridPane.rowIndex="5" />
         <Button fx:id="btn_exportar_bd" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Exportar Questões" GridPane.rowIndex="6" />
-        <Button fx:id="btn_gerar_simulado" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onAction="#btnGerarSimulado" prefHeight="30.0" prefWidth="130.0" text="Gerar Simulado" GridPane.rowIndex="7" />
-        <Button fx:id="btn_historico" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onAction="#btnHistorico" prefHeight="30.0" prefWidth="130.0" text="Histórico" GridPane.rowIndex="8" />
+        <Button fx:id="btn_gerar_simulado" onAction="#btnGerarSimulado" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Gerar Simulado" GridPane.rowIndex="7" />
+        <Button fx:id="btn_historico" onAction="#btnHistorico" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Histórico" GridPane.rowIndex="8" />
         <Label text="Menu" textFill="#9e9a9a" GridPane.rowSpan="2">
             <font>
                 <Font size="24.0" />
@@ -70,7 +70,11 @@
         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
             <children>
                 <Button fx:id="btn_pesquisar" layoutX="81.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="119.0" text="Pequisar" AnchorPane.rightAnchor="0.0" />
-                <TextField layoutY="13.0" maxWidth="70.0" minWidth="50.0" prefHeight="25.0" prefWidth="70.0" promptText="Nª" />
+                <TextField layoutY="13.0" maxWidth="70.0" minWidth="50.0" prefHeight="25.0" prefWidth="70.0" promptText="Nª">
+                    <padding>
+                        <Insets left="15.0" />
+                    </padding>
+                </TextField>
             </children>
         </AnchorPane>
         <TreeView fx:id="list_dados" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="3" GridPane.rowIndex="3" GridPane.rowSpan="7" />

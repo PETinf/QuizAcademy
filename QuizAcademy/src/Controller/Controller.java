@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package Controller;
 
 /**
  *
- * @author Vinicius
+ * @author User
  */
-public class ConnectionFactory {
+public class Controller {
     
 }
