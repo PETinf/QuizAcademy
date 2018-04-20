@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package controller;
 
+/**
+ *
+ * @author Vinicius
+ */
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -16,30 +20,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 
-public class AdicionarQuestaoController implements Initializable{
+public class RemoverQuestaoController implements Initializable{
+    
     @FXML
-    private Button btn_slt_image_rep;
+    private Button btn_cancelar;
 
     @FXML
-    private Button btn_add;
-
-    @FXML
-    private TextField txtin_assun;
-
-    @FXML
-    private Button btn_canc;
-
-    @FXML
-    private TextField txtin_id;
-
-    @FXML
-    private Button btn_slt_image;
-
-    @FXML
-    private TextArea txtin_desc;
-
-    @FXML
-    private TextField txtin_disc;
+    private Button btn_remover;
     
     @FXML
     protected void Adicionar(ActionEvent event) {
@@ -48,7 +35,7 @@ public class AdicionarQuestaoController implements Initializable{
     
     @FXML
     protected void Cancelar(ActionEvent event) throws Exception {
-        Stage janelaAtual = (Stage) btn_canc.getScene().getWindow();
+        Stage janelaAtual = (Stage) btn_cancelar.getScene().getWindow();
         janelaAtual.close();
     }
 

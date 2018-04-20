@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,40 +11,50 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 
-/**
- *
- * @author Vinicius
- */
-public class SimuladoController implements Initializable{
+public class AdicionarQuestaoController implements Initializable{
     @FXML
-    private Button btn_cancelar;
+    private Button btn_slt_image_rep;
 
     @FXML
-    private Button btn_gerar_simulado;
+    private Button btn_add;
 
     @FXML
-    private TextField txtin_numero_perguntas;
+    private TextField txtin_assun;
 
     @FXML
-    private TextField txtin_disciplina;
+    private Button btn_canc;
 
     @FXML
-    private TextField txtin_nome_simulado;
+    private TextField txtin_id;
 
     @FXML
-    private TextField txtin_assunto;
+    private Button btn_slt_image;
 
     @FXML
-    protected void Cancelar(ActionEvent event) throws Exception {
-        Stage janelaAtual = (Stage) btn_cancelar.getScene().getWindow();
-        janelaAtual.close();
+    private TextArea txtin_desc;
+
+    @FXML
+    private TextField txtin_disc;
+    
+    @FXML
+    protected void Adicionar(ActionEvent event) {
+        System.out.println("BTN");
     }
     
+    @FXML
+    protected void Cancelar(ActionEvent event) throws Exception {
+        Stage janelaAtual = (Stage) btn_canc.getScene().getWindow();
+        janelaAtual.close();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
     }
+    
 }
