@@ -1,5 +1,5 @@
 
-package Controller;
+package Telas;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,18 +7,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AdicionarQuestao extends Application{
+/**
+ *
+ * @author Vinicius
+ */
+public class RemoverQuestao extends Application{
     public static Stage window;
-    private static int widthWindow = 396;
-    private static int heightWindow = 410;
+    private static int widthWindow = 296;
+    private static int heightWindow = 230;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         
-        Parent fxmlTelaPrincipal = FXMLLoader.load(getClass().getResource("../View/Adicionar_Questao.fxml"));
-        window.setTitle("Adicionar Questão");
-        window.setScene(new Scene(fxmlTelaPrincipal,widthWindow, heightWindow));
+        Parent fxmlRemoverQuestao = FXMLLoader.load(getClass().getResource("../View/Remover_Questao.fxml"));
+        window.setTitle("Remover Questão");
+        window.setScene(new Scene(fxmlRemoverQuestao,widthWindow, heightWindow));
         window.setMinWidth(widthWindow);
         window.setMinHeight(heightWindow);
         window.show();

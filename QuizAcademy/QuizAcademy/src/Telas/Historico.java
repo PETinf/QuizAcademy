@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package Telas;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,18 +15,18 @@ import javafx.stage.Stage;
  *
  * @author Vinicius
  */
-public class Simulado extends Application{
+public class Historico extends Application{
     public static Stage window;
-    private static int widthWindow = 400;
-    private static int heightWindow = 246;
+    private static int widthWindow = 444;
+    private static int heightWindow = 538;
     
     @Override
     public void start(Stage primaryStage) throws Exception {
         window = primaryStage;
         
-        Parent fxmlGerarSimulado = FXMLLoader.load(getClass().getResource("../View/Gerar_Simulado.fxml"));
+        Parent fxmlHistorico = FXMLLoader.load(getClass().getResource("../View/Historico_Simulados.fxml"));
         window.setTitle("Gerar Simulado");
-        window.setScene(new Scene(fxmlGerarSimulado,widthWindow, heightWindow));
+        window.setScene(new Scene(fxmlHistorico,widthWindow, heightWindow));
         window.setMinWidth(widthWindow);
         window.setMinHeight(heightWindow);
         window.show();
