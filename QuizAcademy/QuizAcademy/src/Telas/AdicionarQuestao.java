@@ -9,8 +9,8 @@ import javafx.stage.Stage;
 
 public class AdicionarQuestao extends Application{
     public static Stage window;
-    private static int widthWindow = 396;
-    private static int heightWindow = 410;
+    private static int widthWindow = 500;
+    private static int heightWindow = 700;
     
     @Override
     public void start(Stage primaryStage) throws Exception {

@@ -10,17 +10,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConnectionFactory {
-    private final String DRIVER = "com.mysql.jdbc.Driver";
-    private final String USER = "root";
-    private final String URL = "jdbc:mysql://localhost:3306/dbquizacademy";
-    private final String PASS = "";
+    private static final String DRIVER = "com.mysql.jdbc.Driver";
+    private static final String USER = "root";
+    private static final String URL = "jdbc:mysql://localhost:3306/quizacademy";
+    private static final String PASS = "1234";
     
     Connection conexao;
     
-    public Connection getConnection(){
+    public static Connection getConnection(){
         try {
             Class.forName(DRIVER);
-            return DriverManager.getConnection(USER,URL,PASS);
+            return DriverManager.getConnection(URL,USER,PASS);
         } catch (ClassNotFoundException | SQLException ex) {
             throw new RuntimeException("Erro na conexão: ",ex);
         }

@@ -5,6 +5,10 @@
  */
 package Controller;
 
+import Model.Pergunta;
+import Model.PerguntaDAO;
+import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -14,47 +18,95 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class AdicionarQuestaoController implements Initializable{
     @FXML
-    private Button btn_slt_image_rep;
+    private Button btnAdicionar;
 
     @FXML
-    private Button btn_add;
+    private TextField txtAssunto;
 
     @FXML
-    private TextField txtin_assun;
+    private ImageView imageResposta;
 
     @FXML
-    private Button btn_canc;
+    private Button btnCancelar;
 
     @FXML
-    private TextField txtin_id;
+    private TextArea txtEnunciado;
 
     @FXML
-    private Button btn_slt_image;
+    private TextField txtDescricao;
 
     @FXML
-    private TextArea txtin_desc;
+    private ImageView imageEnunciado;
 
     @FXML
-    private TextField txtin_disc;
+    private TextField txtDisciplina;
+    
+    private PerguntaDAO pdao;
+    
+    private Pergunta p;
     
     @FXML
-    protected void Adicionar(ActionEvent event) {
-        System.out.println("BTN");
+    protected void adicionar(ActionEvent event) {
+        
+        p.setDisciplina(txtDisciplina.getText());
+        p.setAssunto(txtAssunto.getText());
+        p.setDescricao(txtDescricao.getText());
+        p.setEnunciado(txtEnunciado.getText());
+        
+        pdao.insert(p);
+        cancelar();
     }
     
     @FXML
-    protected void Cancelar(ActionEvent event) throws Exception {
-        Stage janelaAtual = (Stage) btn_canc.getScene().getWindow();
+    protected void cancelar(){
+        Stage janelaAtual = (Stage) btnCancelar.getScene().getWindow();
         janelaAtual.close();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        pdao = new PerguntaDAO();
+        p = new Pergunta();
         
+        Image image = new Image(getClass().getResourceAsStream("../ImagemEnunciado/default.jpg"));
+        imageEnunciado.setImage(image);
+        imageResposta.setImage(image);
+    }
+    
+    @FXML
+    public void escolherImagemEnunciado(){
+        
+        FileChooser fc = new FileChooser();
+        String caminho = System.getProperty("user.dir") + "/src/ImagemEnunciado/";
+        fc.setInitialDirectory(new File(caminho));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens","*.jpg","*.png","*.jpeg"));
+        File arquivo = fc.showOpenDialog(new Stage());
+        if(arquivo != null){
+            imageEnunciado.setImage(new Image("file:///"+arquivo.getAbsolutePath()));
+            p.setImagemEnunciado("file:///"+arquivo.getAbsolutePath());
+            
+        }
+    }
+    
+    @FXML
+    public void escolherImagemResposta(){
+        
+        FileChooser fc = new FileChooser();
+        String caminho = System.getProperty("user.dir") + "/src/ImagemResposta/";
+        fc.setInitialDirectory(new File(caminho));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens","*.jpg","*.png","*.jpeg"));
+        File arquivo = fc.showOpenDialog(new Stage());
+        if(arquivo != null){
+            imageResposta.setImage(new Image("file:///"+arquivo.getAbsolutePath()));
+            p.setImagemResposta("file:///"+arquivo.getAbsolutePath());
+        }
     }
     
 }

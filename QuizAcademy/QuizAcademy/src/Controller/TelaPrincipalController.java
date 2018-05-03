@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import Model.Pergunta;
+import Model.PerguntaDAO;
 import Telas.AdicionarQuestao;
 import Telas.Historico;
 import Telas.RemoverQuestao;
@@ -13,11 +15,16 @@ import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 /**
@@ -29,11 +36,8 @@ import javafx.stage.Stage;
 
 public class TelaPrincipalController implements Initializable{
     
-    @FXML
+     @FXML
     private Button btnExport;
-
-    @FXML
-    private TreeView<?> listDados;
 
     @FXML
     private Button btnRemoverQuestao;
@@ -54,7 +58,10 @@ public class TelaPrincipalController implements Initializable{
     private TextField tfNumero;
 
     @FXML
-    private ComboBox<?> cbBanco;
+    private ComboBox<String> cbBanco;
+
+    @FXML
+    private TableView<Pergunta> tabela;
 
     @FXML
     private TextField tfAssunto;
@@ -66,10 +73,14 @@ public class TelaPrincipalController implements Initializable{
     private TextField tfDisciplina;
 
     @FXML
-    private Button btnGerarHistorico;
+    private Button gerarHistorico;
 
     @FXML
     private TextField tfId;
+    
+    private ObservableList perguntas;
+    
+    private PerguntaDAO pdao;
     
     @FXML
     protected void adicionarQuestao(ActionEvent event) throws Exception {
@@ -95,9 +106,41 @@ public class TelaPrincipalController implements Initializable{
         historico.start(new Stage());
     }
 
+    public void iniciarTabela(){
+        TableColumn colId;
+        TableColumn colDisciplina;
+        TableColumn colAssunto;
+        TableColumn colDescricao;
+        
+        colId = new TableColumn<>("ID");
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colId.setPrefWidth(30);
+        
+        colDisciplina = new TableColumn<>("Disciplina");
+        colDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
+        colDisciplina.setPrefWidth(100);
+        
+        colAssunto = new TableColumn<>("Assunto");
+        colAssunto.setCellValueFactory(new PropertyValueFactory<>("assunto"));
+        colAssunto.setPrefWidth(100);
+        
+        colDescricao = new TableColumn<>("Descricão");
+        colDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+        colDescricao.setPrefWidth(200);
+        
+        tabela.getColumns().addAll(colId, colDisciplina, colAssunto, colDescricao);
+    }
+    
+    public void carregarTabela(){
+        perguntas = FXCollections.observableList(pdao.read());
+        tabela.setItems(perguntas);
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        pdao = new PerguntaDAO();
+        iniciarTabela();
+        carregarTabela();
     }
     
 }

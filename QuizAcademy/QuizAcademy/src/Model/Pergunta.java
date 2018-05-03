@@ -2,16 +2,19 @@ package Model;
 
 public class Pergunta {
     
-    private Integer id;
+    private int id;
+    private String descricao;
     private String enunciado;
     private String disciplina;
     private String assunto;
+    private String imagemEnunciado;
+    private String imagemResposta;
     
-    public Integer getId() {
+    public int getId() {
         return id;
     }
     
-    public void serId(int id){
+    public void setId(int id){
         this.id = id;
     }
 
@@ -38,5 +41,31 @@ public class Pergunta {
     public void setAssunto(String assunto) {
         this.assunto = assunto;
     }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getImagemEnunciado() {
+        return imagemEnunciado;
+    }
+
+    public void setImagemEnunciado(String imagemEnunciado) {
+        this.imagemEnunciado = imagemEnunciado;
+    }
+
+    public String getImagemResposta() {
+        return imagemResposta;
+    }
+
+    public void setImagemResposta(String imagemResposta) {
+        this.imagemResposta = imagemResposta;
+    }
+    
+    
     
 }
