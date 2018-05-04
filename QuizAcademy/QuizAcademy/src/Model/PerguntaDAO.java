@@ -59,11 +59,12 @@ public class PerguntaDAO {
         
         try {
             stmt = conexao.prepareStatement("SELECT * FROM "+tabela+";");
-            
             rs = stmt.executeQuery();
-            Pergunta p = new Pergunta();
             
             while(rs.next()){
+                
+                Pergunta p = new Pergunta();
+                
                 p.setId(rs.getInt("id"));
                 p.setDisciplina(rs.getString("disciplina"));
                 p.setAssunto(rs.getString("assunto"));

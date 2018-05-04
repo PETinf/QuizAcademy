@@ -8,7 +8,6 @@ package Controller;
 import Model.Pergunta;
 import Model.PerguntaDAO;
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;

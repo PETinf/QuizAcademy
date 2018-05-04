@@ -11,10 +11,15 @@ import Telas.AdicionarQuestao;
 import Telas.Historico;
 import Telas.RemoverQuestao;
 import Telas.Simulado;
+import Telas.TelaPrincipal;
+import Telas.TelaQuestao;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -82,6 +87,8 @@ public class TelaPrincipalController implements Initializable{
     
     private PerguntaDAO pdao;
     
+    private int qtdadePerguntas;
+    
     @FXML
     protected void adicionarQuestao(ActionEvent event) throws Exception {
         AdicionarQuestao addQuest = new AdicionarQuestao();
@@ -105,6 +112,15 @@ public class TelaPrincipalController implements Initializable{
         Historico historico = new Historico();
         historico.start(new Stage());
     }
+    
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        pdao = new PerguntaDAO();
+        iniciarTabela();
+        carregarTabela();
+    }
+    
 
     public void iniciarTabela(){
         TableColumn colId;
@@ -114,7 +130,7 @@ public class TelaPrincipalController implements Initializable{
         
         colId = new TableColumn<>("ID");
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colId.setPrefWidth(30);
+        colId.setPrefWidth(50);
         
         colDisciplina = new TableColumn<>("Disciplina");
         colDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
@@ -126,21 +142,32 @@ public class TelaPrincipalController implements Initializable{
         
         colDescricao = new TableColumn<>("Descricão");
         colDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-        colDescricao.setPrefWidth(200);
+        colDescricao.setPrefWidth(300);
         
         tabela.getColumns().addAll(colId, colDisciplina, colAssunto, colDescricao);
     }
     
     public void carregarTabela(){
-        perguntas = FXCollections.observableList(pdao.read());
+        List<Pergunta> lista = pdao.read();
+        perguntas = FXCollections.observableList(lista);
         tabela.setItems(perguntas);
+        qtdadePerguntas = lista.size();
     }
     
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        pdao = new PerguntaDAO();
-        iniciarTabela();
-        carregarTabela();
+    public void selecionarQuestao(){
+        Pergunta p = tabela.getSelectionModel().getSelectedItem();
+        if(p != null){
+            
+            try {
+                TelaQuestao tq = new TelaQuestao();
+                TelaQuestao.setPerguntas(perguntas, tabela.getSelectionModel().getSelectedIndex());
+                tq.start(new Stage());
+                
+                //System.out.println(tabela.getSelectionModel().getSelectedIndex());
+                
+            } catch (Exception ex) {
+                Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
-    
 }

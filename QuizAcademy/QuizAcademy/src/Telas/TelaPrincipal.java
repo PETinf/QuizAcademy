@@ -5,6 +5,7 @@
  */
 package Telas;
 
+import Model.Pergunta;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,8 +19,8 @@ import javafx.stage.Stage;
 public class TelaPrincipal extends Application {
     
     private static Stage window;
-    private static int widthWindow = 580;
-    private static int heightWindow = 600;
+    private static final int WIDTH = 580;
+    private static final int HEIGHT = 600;
     
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -27,9 +28,9 @@ public class TelaPrincipal extends Application {
         
         Parent fxmlTelaPrincipal = FXMLLoader.load(getClass().getResource("../View/Tela_Principal.fxml"));
         window.setTitle("QuizAcademy");
-        window.setScene(new Scene(fxmlTelaPrincipal,widthWindow, heightWindow));
-        window.setMinWidth(widthWindow);
-        window.setMinHeight(heightWindow);
+        window.setScene(new Scene(fxmlTelaPrincipal,WIDTH, HEIGHT));
+        window.setMinWidth(WIDTH);
+        window.setMinHeight(HEIGHT);
         window.show();
     }
 
