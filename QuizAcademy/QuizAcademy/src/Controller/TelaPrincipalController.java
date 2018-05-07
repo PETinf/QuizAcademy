@@ -7,23 +7,29 @@ package Controller;
 
 import Model.Pergunta;
 import Model.PerguntaDAO;
-import Telas.AdicionarQuestao;
 import Telas.Historico;
-import Telas.RemoverQuestao;
 import Telas.Simulado;
 import Telas.TelaPrincipal;
 import Telas.TelaQuestao;
+import java.io.IOException;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -49,6 +55,9 @@ public class TelaPrincipalController implements Initializable{
 
     @FXML
     private Button btnAddQuestao;
+    
+    @FXML
+    private Button btnAlterarQuestao;
 
     @FXML
     private Button btnTrocarBD;
@@ -83,22 +92,104 @@ public class TelaPrincipalController implements Initializable{
     @FXML
     private TextField tfId;
     
-    private ObservableList perguntas;
-    
-    private PerguntaDAO pdao;
-    
-    private int qtdadePerguntas;
+    @FXML
+    private TableColumn<Pergunta,String> colDisciplina;
+
+    @FXML
+    private TableColumn<Pergunta,String> colDescricao;
+
+    @FXML
+    private TableColumn<Pergunta,String> colAssunto;
     
     @FXML
-    protected void adicionarQuestao(ActionEvent event) throws Exception {
-        AdicionarQuestao addQuest = new AdicionarQuestao();
-        addQuest.start(new Stage());
+    private TableColumn<Pergunta,Integer> colId;
+    
+    
+    
+    private List<Pergunta> lista; 
+    private PerguntaDAO pdao;
+    private ObservableList perguntas;
+    
+    
+    @FXML
+    protected void adicionarQuestao() throws IOException{
+        
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(TelaPrincipalController.class.getResource("../View/Adicionar_Questao.fxml"));
+        Parent root = loader.load();
+        
+        Stage telaAddQuestao = new Stage();
+        Scene cena = new Scene(root);
+        
+        AdicionarQuestaoController aqc = loader.getController();
+        
+        telaAddQuestao.setScene(cena);
+        telaAddQuestao.showAndWait();
+        
+        carregarTabela();
     }
     
     @FXML
     protected void removerQuestao(ActionEvent event) throws Exception {
-        RemoverQuestao rmvQuest = new RemoverQuestao();
-        rmvQuest.start(new Stage());
+        
+        Pergunta p = tabela.getSelectionModel().getSelectedItem();
+        PerguntaDAO dao = new PerguntaDAO();
+        
+        if(p != null){
+            Alert alerta = new Alert(AlertType.CONFIRMATION);
+            alerta.setTitle("Aguardando a confirmação da operação...");
+            alerta.setHeaderText("Você realmente deseja excluir esa questão?:");
+            
+            String questao = "Questão:\n\n";
+
+            questao += "ID: "+p.getId();
+            
+            if(p.getDescricao() != null){
+                questao += "\nDescrição: "+p.getDescricao();
+            }
+            if(p.getDisciplina() != null){
+                questao += "\nDisciplina: "+p.getDisciplina();
+            }
+            if(p.getAssunto() != null){
+                questao += "\nAssunto: "+p.getAssunto()+"\n";
+            }
+            
+            alerta.setContentText(questao);
+            Optional<ButtonType> result = alerta.showAndWait();
+            if (result.get() == ButtonType.OK){
+                dao.remove(p);
+                carregarTabela();
+            } else {
+               alerta.close();
+            }
+        }
+        
+        
+        carregarTabela();
+    }
+    
+    public void alterarQuestao() throws IOException{
+        
+        Pergunta pergunta = tabela.getSelectionModel().getSelectedItem();
+        
+        if(pergunta != null){
+            
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(TelaPrincipalController.class.getResource("../View/Alterar_Questao.fxml"));
+            Parent root = loader.load();
+
+            Stage telaAddQuestao = new Stage();
+            Scene cena = new Scene(root);
+
+            AlterarQuestaoController c = loader.getController();
+            c.setPergunta(pergunta);
+            c.carregarDados();
+
+            telaAddQuestao.setScene(cena);
+            telaAddQuestao.showAndWait();
+
+            carregarTabela();
+        }
     }
     
     @FXML
@@ -123,51 +214,19 @@ public class TelaPrincipalController implements Initializable{
     
 
     public void iniciarTabela(){
-        TableColumn colId;
-        TableColumn colDisciplina;
-        TableColumn colAssunto;
-        TableColumn colDescricao;
-        
-        colId = new TableColumn<>("ID");
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colId.setPrefWidth(50);
-        
-        colDisciplina = new TableColumn<>("Disciplina");
         colDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
-        colDisciplina.setPrefWidth(100);
-        
-        colAssunto = new TableColumn<>("Assunto");
         colAssunto.setCellValueFactory(new PropertyValueFactory<>("assunto"));
-        colAssunto.setPrefWidth(100);
-        
-        colDescricao = new TableColumn<>("Descricão");
         colDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-        colDescricao.setPrefWidth(300);
-        
-        tabela.getColumns().addAll(colId, colDisciplina, colAssunto, colDescricao);
     }
     
     public void carregarTabela(){
-        List<Pergunta> lista = pdao.read();
+        lista = pdao.read();
         perguntas = FXCollections.observableList(lista);
         tabela.setItems(perguntas);
-        qtdadePerguntas = lista.size();
     }
     
     public void selecionarQuestao(){
-        Pergunta p = tabela.getSelectionModel().getSelectedItem();
-        if(p != null){
-            
-            try {
-                TelaQuestao tq = new TelaQuestao();
-                TelaQuestao.setPerguntas(perguntas, tabela.getSelectionModel().getSelectedIndex());
-                tq.start(new Stage());
-                
-                //System.out.println(tabela.getSelectionModel().getSelectedIndex());
-                
-            } catch (Exception ex) {
-                Logger.getLogger(TelaPrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        //...
     }
 }

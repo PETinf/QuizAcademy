@@ -42,7 +42,7 @@ public class PerguntaDAO {
             stmt.executeUpdate();
             
         } catch (SQLException ex) {
-            Logger.getLogger(PerguntaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         
         ConnectionFactory.closeConnection(conexao, stmt);
@@ -77,7 +77,7 @@ public class PerguntaDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(PerguntaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         
         ConnectionFactory.closeConnection(conexao, stmt, rs);
@@ -85,35 +85,51 @@ public class PerguntaDAO {
         return perguntas;
     }
     
-    public void remove(){
+    public void remove(Pergunta p){
         
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
-        ResultSet rs = null;
-        List<Pergunta> perguntas = new LinkedList<>();
         
         try {
-            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+";");
+            stmt = conexao.prepareStatement("DELETE FROM "+tabela+" WHERE id=?");
+            stmt.setInt(1,p.getId());
             
-            rs = stmt.executeQuery();
-            Pergunta p = new Pergunta();
-            
-            while(rs.next()){
-                p.setDisciplina(rs.getString("disciplina"));
-                p.setAssunto(rs.getString("assunto"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setEnunciado(rs.getString("enunciado"));
-                p.setImagemEnunciado(rs.getString("imagemenunciado"));
-                p.setImagemResposta(rs.getString("imagemresposta"));
-                
-                perguntas.add(p);
-            }
+            stmt.executeUpdate();
             
         } catch (SQLException ex) {
-            Logger.getLogger(PerguntaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
         }
         
-        ConnectionFactory.closeConnection(conexao, stmt, rs);
+        ConnectionFactory.closeConnection(conexao, stmt);
+    }
+    
+    public void update(Pergunta p){
+        Connection conexao = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        
+        try {
+            stmt = conexao.prepareStatement("UPDATE "+tabela+" SET DISCIPLINA = ?,"
+                                                + "ASSUNTO = ?,"
+                                                + "DESCRICAO = ?,"
+                                                + "ENUNCIADO = ?,"
+                                                + "IMAGEMENUNCIADO = ?,"
+                                                + "IMAGEMRESPOSTA = ? WHERE id = ?");
+            
+            stmt.setString(1, p.getDisciplina());
+            stmt.setString(2, p.getAssunto());
+            stmt.setString(3, p.getDescricao());
+            stmt.setString(4, p.getEnunciado());
+            stmt.setString(5, p.getImagemEnunciado());
+            stmt.setString(6, p.getImagemResposta());
+            stmt.setInt(7, p.getId());
+            
+            stmt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        ConnectionFactory.closeConnection(conexao, stmt);
     }
     
 }

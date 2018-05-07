@@ -2,6 +2,9 @@ package Model;
 
 public class Pergunta {
     
+    public static String PATHENUNCIADO = System.getProperty("user.dir") + "/src/ImagemEnunciado/";
+    public static String PATHRESPOSTA = System.getProperty("user.dir") + "/src/ImagemResposta/";
+    
     private int id;
     private String descricao;
     private String enunciado;
@@ -9,6 +12,7 @@ public class Pergunta {
     private String assunto;
     private String imagemEnunciado;
     private String imagemResposta;
+    
     
     public int getId() {
         return id;
