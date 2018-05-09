@@ -12,13 +12,14 @@ import java.util.logging.Logger;
 public class ConnectionFactory {
     
     public static final String DRIVER = "org.sqlite.JDBC";
-    public static final String URL = "jdbc:sqlite:db/db_quiz_academy.db";
+    public static final String URL = "jdbc:sqlite:db/";
+    public static String banco = "db_quiz_academy.db";
     
     public static Connection getConnection(){
         
         try {
             Class.forName(DRIVER);
-            return DriverManager.getConnection(URL);
+            return DriverManager.getConnection(URL+banco);
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println(ex.getMessage());
             return null;
@@ -63,6 +64,14 @@ public class ConnectionFactory {
             System.out.println(ex.getMessage());
         }
         
+    }
+
+    public static String getBanco() {
+        return banco;
+    }
+
+    public static void setBanco(String banco) {
+        ConnectionFactory.banco = banco;
     }
     
     

@@ -5,16 +5,19 @@
  */
 package Controller;
 
+import Model.ConnectionFactory;
 import Model.Pergunta;
 import Model.PerguntaDAO;
 import Telas.Historico;
 import Telas.Simulado;
 import Telas.TelaPrincipal;
 import Telas.TelaQuestao;
+import java.io.File;
 import java.io.IOException;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -204,15 +207,6 @@ public class TelaPrincipalController implements Initializable{
         historico.start(new Stage());
     }
     
-    
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        pdao = new PerguntaDAO();
-        iniciarTabela();
-        carregarTabela();
-    }
-    
-
     public void iniciarTabela(){
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
@@ -229,4 +223,72 @@ public class TelaPrincipalController implements Initializable{
     public void selecionarQuestao(){
         //...
     }
+    
+    public void listarbancos(){
+        
+        File pasta = new File(System.getProperty("user.dir")+"/db/");
+        List<String> bds = new ArrayList<>();
+        File[] arquivos = pasta.listFiles();
+        
+        for(File arq: arquivos){
+            if(arq.getName().endsWith(".db")){
+                bds.add(arq.getName());
+            }
+        }
+        ObservableList obs = FXCollections.observableArrayList(bds);
+        cbBanco.setItems(obs);
+        
+        
+    }
+    public void selecionarBancoDeDados(){
+        String bd = cbBanco.getSelectionModel().getSelectedItem();
+        
+        if(bd != null){
+            ConnectionFactory.setBanco(bd);
+            carregarTabela();
+            
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Relatório de operação");
+            alerta.setHeaderText("Operação finalizada:");
+            alerta.setContentText("O Banco de Dados foi alterado para : "+bd+" com sucesso!");
+            alerta.showAndWait();
+        }else{
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Relatório de operação");
+            alerta.setHeaderText("Erro na operação:");
+            alerta.setContentText("Banco de Dados não selecionado ou não encontrado!");
+            alerta.showAndWait();
+        }
+    }
+    
+    
+    public void importarBanco(){
+        //...
+    }
+    public void exportarBanco(){
+        //....
+    }
+    public void gerarSimulado(){
+        //....
+    }
+    public void historico(){
+        //...
+    }
+    
+    
+    
+    
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        pdao = new PerguntaDAO();
+        iniciarTabela();
+        carregarTabela();
+        listarbancos();
+    }
+    
+    
+    
 }
+
+

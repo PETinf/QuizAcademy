@@ -40,6 +40,7 @@
         <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="185.0" minHeight="10.0" prefHeight="168.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
@@ -88,6 +89,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy></TableView>
       <Button fx:id="btnAlterarQuestao" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onMouseClicked="#alterarQuestao" prefHeight="30.0" prefWidth="130.0" text="Alterar Questão" GridPane.rowIndex="5" />
+      <Button fx:id="btnTrocarBanco" mnemonicParsing="false" onMouseClicked="#selecionarBancoDeDados" prefWidth="130.0" text="Trocar banco" GridPane.rowIndex="11" />
     </children>
     <effect>
         <ColorAdjust />
