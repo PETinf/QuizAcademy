@@ -17,6 +17,7 @@ import java.io.IOException;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -263,10 +267,40 @@ public class TelaPrincipalController implements Initializable{
     
     
     public void importarBanco(){
-        //...
+        
+        FileChooser fc = new FileChooser();
+        //fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Banco de Dados", "."));
+        File arquivo = fc.showOpenDialog(new Stage());
+        if(arquivo != null && arquivo.getName().endsWith(".db")){
+            String dir = System.getProperty("user.dir")+"/db/";
+            arquivo.renameTo(new File(dir, arquivo.getName()));
+            
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Relatório de operação");
+            alerta.setHeaderText("Operação finalizada:");
+            alerta.setContentText("O Banco de Dados "+arquivo.getName()+" importado com sucesso!");
+            alerta.showAndWait();
+            
+            listarbancos();
+        }else{
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Relatório de operação");
+            alerta.setHeaderText("Erro na operação:");
+            alerta.setContentText("Não foi possivel importar o banco de dados!");
+            alerta.showAndWait();
+        }
+        
+        
     }
     public void exportarBanco(){
-        //....
+        
+        DirectoryChooser dc = new DirectoryChooser();
+        File dir = dc.showDialog(new Stage());
+        
+        File bd = new File(System.getProperty("user.dir")+"/db/"+ConnectionFactory.getBanco());
+        
+        if(dir != null){
+        }
     }
     public void gerarSimulado(){
         //....

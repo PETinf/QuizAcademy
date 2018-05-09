@@ -5,6 +5,8 @@
  */
 package Telas;
 
+import Model.ConnectionFactory;
+import java.sql.Connection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -37,7 +39,13 @@ public class TelaPrincipal extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        //launch(args);
+        
+        ConnectionFactory.setBanco("db_teste.db");
+        
+        Connection con = ConnectionFactory.getConnection();
+        
+        System.out.println(con);
     }
     
 }

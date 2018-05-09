@@ -45,8 +45,8 @@
     </rowConstraints>
     <children>
         <Button fx:id="btnRemoverQuestao" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onAction="#removerQuestao" prefHeight="30.0" prefWidth="130.0" text="Remover Questão" GridPane.rowIndex="4" />
-        <Button fx:id="btnImport" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Importar Questões" GridPane.rowIndex="6" />
-        <Button fx:id="btnExport" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="130.0" text="Exportar Questões" GridPane.rowIndex="7" />
+        <Button fx:id="btnImport" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onMouseClicked="#importarBanco" prefHeight="30.0" prefWidth="130.0" text="Importar Questões" GridPane.rowIndex="6" />
+        <Button fx:id="btnExport" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onMouseClicked="#exportarBanco" prefHeight="30.0" prefWidth="130.0" text="Exportar Questões" GridPane.rowIndex="7" />
         <Button fx:id="gerarHistorico" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onAction="#gerarSimulado" prefHeight="30.0" prefWidth="130.0" text="Gerar Simulado" GridPane.rowIndex="8" />
         <Button fx:id="btnHistorico" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onAction="#historico" prefHeight="30.0" prefWidth="130.0" text="Histórico" GridPane.rowIndex="9" />
         <Label text="Menu" textFill="#9e9a9a" GridPane.rowSpan="2">

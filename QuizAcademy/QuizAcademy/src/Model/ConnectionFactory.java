@@ -27,6 +27,18 @@ public class ConnectionFactory {
         
     }
     
+    public static Connection getConnection(String banco){
+        
+        try {
+            Class.forName(DRIVER);
+            return DriverManager.getConnection(URL+banco);
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }
+        
+    }
+    
     public static void closeConnection(Connection conexao){
         
         try {
@@ -74,5 +86,32 @@ public class ConnectionFactory {
         ConnectionFactory.banco = banco;
     }
     
+    /* METODO EXPORTAR
+    public void dublicarBanco(String nomeBanco){
+        
+        Connection conexao = getConnection(nomeBanco);
+        PreparedStatement stmt = null;
+        
+        try {
+            
+            stmt = conexao.prepareStatement("CREATE TABLE original("
+                    + "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + "disciplina VARCHAR(50),"
+                    + "assunto VARCHAR(50),"
+                    + "descricao VARCHAR(100),"
+                    + "enunciado VARCHAR(100),"
+                    + "imagemenunciado VARCHAR(50),"
+                    + "imagemresposta VARCHAR(50)"
+                    + ")");
+            
+            stmt.executeUpdate();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+    }
     
+    */
 }
