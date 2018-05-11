@@ -27,7 +27,7 @@ public class TelaPrincipal extends Application {
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
         
-        Parent fxmlTelaPrincipal = FXMLLoader.load(getClass().getResource("../View/Tela_Principal.fxml"));
+        Parent fxmlTelaPrincipal = FXMLLoader.load(getClass().getResource("/View/Tela_Principal.fxml"));
         window.setTitle("QuizAcademy");
         window.setScene(new Scene(fxmlTelaPrincipal,WIDTH, HEIGHT));
         window.setMinWidth(WIDTH);
@@ -39,13 +39,7 @@ public class TelaPrincipal extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //launch(args);
-        
-        ConnectionFactory.setBanco("db_teste.db");
-        
-        Connection con = ConnectionFactory.getConnection();
-        
-        System.out.println(con);
+        launch(args);
     }
     
 }
