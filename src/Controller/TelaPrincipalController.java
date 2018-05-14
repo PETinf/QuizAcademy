@@ -5,10 +5,14 @@
  */
 package Controller;
 
+import Controller.AdicionarQuestaoController;
+import Controller.AlterarQuestaoController;
 import Model.ConnectionFactory;
 import Model.Pergunta;
 import Model.PerguntaDAO;
 import Telas.Historico;
+import Telas.Historico;
+import Telas.Simulado;
 import Telas.Simulado;
 import Telas.TelaPrincipal;
 import Telas.TelaQuestao;
@@ -122,7 +126,7 @@ public class TelaPrincipalController implements Initializable{
     protected void adicionarQuestao() throws IOException{
         
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(TelaPrincipalController.class.getResource("../View/Adicionar_Questao.fxml"));
+        loader.setLocation(getClass().getResource("/View/Adicionar_Questao.fxml"));
         Parent root = loader.load();
         
         Stage telaAddQuestao = new Stage();

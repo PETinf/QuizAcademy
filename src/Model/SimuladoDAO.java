@@ -5,26 +5,22 @@
  */
 package Model;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.control.Alert;
 
 /**
  *
  * @author Vinicius
  */
-public class PerguntaDAO {
+public class SimuladoDAO {
     private static String tabela = "original";
 
     public static void setTabela(String tabela) {
-        PerguntaDAO.tabela = tabela;
+        SimuladoDAO.tabela = tabela;
     }
     
     public void insert(Pergunta p){
@@ -33,15 +29,7 @@ public class PerguntaDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = conexao.prepareStatement("INSERT INTO "+tabela+"(DISCIPLINA,ASSUNTO,DESCRICAO,ENUNCIADO,IMAGEMENUNCIADO,IMAGEMRESPOSTA) VALUES(?,?,?,?,?,?)");
-            stmt.setString(1, p.getDisciplina());
-            stmt.setString(2, p.getAssunto());
-            stmt.setString(3, p.getDescricao());
-            stmt.setString(4, p.getEnunciado());
-            stmt.setString(5, p.getImagemEnunciado());
-            stmt.setString(6, p.getImagemResposta());
-            
-            stmt.executeUpdate();
+            stmt = conexao.prepareStatement("INSERT INTO "+tabela+"(ID,DISCIPLINA,DESCRICAO,NOTA,PERGUNTAS)");
             
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -133,74 +121,4 @@ public class PerguntaDAO {
         
         ConnectionFactory.closeConnection(conexao, stmt);
     }
-    
-    public Pergunta search(int id){
-        Connection conexao = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try {
-            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE id = ?");
-            stmt.setInt(1, id);
-            
-            rs = stmt.executeQuery();
-            
-            Pergunta p = new Pergunta();
-             
-                p.setId(rs.getInt("id"));
-                p.setDisciplina(rs.getString("disciplina"));
-                p.setAssunto(rs.getString("assunto"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setEnunciado(rs.getString("enunciado"));
-                p.setImagemEnunciado(rs.getString("imagemenunciado"));
-                p.setImagemResposta(rs.getString("imagemresposta"));
-            
-            
-            return p;
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }finally{
-            ConnectionFactory.closeConnection(conexao, stmt, rs);
-        }
-    }
-    
-    
-    public List<Pergunta> intelligenceSearch(String parametro, String valor){
-        Connection conexao = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        
-        try {
-            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE "+parametro+" = ?");
-            stmt.setString(1,valor);
-            
-            rs = stmt.executeQuery();
-            List<Pergunta> perguntas = new LinkedList<>();
-            
-            while(rs.next()){
-                
-                Pergunta p = new Pergunta();
-                
-                p.setId(rs.getInt("id"));
-                p.setDisciplina(rs.getString("disciplina"));
-                p.setAssunto(rs.getString("assunto"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setEnunciado(rs.getString("enunciado"));
-                p.setImagemEnunciado(rs.getString("imagemenunciado"));
-                p.setImagemResposta(rs.getString("imagemresposta"));
-                
-                perguntas.add(p);
-            }
-            
-            return perguntas;
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }finally{
-            ConnectionFactory.closeConnection(conexao, stmt, rs);
-        }
-    }
-    
 }
