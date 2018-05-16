@@ -12,6 +12,7 @@ public class Pergunta {
     private String assunto;
     private String imagemEnunciado;
     private String imagemResposta;
+    private String resposta;
     
     
     public int getId() {
@@ -69,6 +70,22 @@ public class Pergunta {
     public void setImagemResposta(String imagemResposta) {
         this.imagemResposta = imagemResposta;
     }
+
+    public String getResposta() {
+        return resposta;
+    }
+
+    public void setResposta(String resposta) {
+        this.resposta = resposta;
+    }
+
+    @Override
+    public String toString() {
+        return "Pergunta{" + "id=" + id + ", descricao=" + descricao + ", enunciado=" + enunciado + ", disciplina=" + disciplina + ", assunto=" + assunto + ", imagemEnunciado=" + imagemEnunciado + ", imagemResposta=" + imagemResposta + ", resposta=" + resposta + '}';
+    }
+
+    
+    
     
     
     

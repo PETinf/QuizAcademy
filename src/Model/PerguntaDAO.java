@@ -33,13 +33,14 @@ public class PerguntaDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = conexao.prepareStatement("INSERT INTO "+tabela+"(DISCIPLINA,ASSUNTO,DESCRICAO,ENUNCIADO,IMAGEMENUNCIADO,IMAGEMRESPOSTA) VALUES(?,?,?,?,?,?)");
+            stmt = conexao.prepareStatement("INSERT INTO "+tabela+"(DISCIPLINA,ASSUNTO,DESCRICAO,ENUNCIADO,IMAGEMENUNCIADO,IMAGEMRESPOSTA,resposta) VALUES(?,?,?,?,?,?,?)");
             stmt.setString(1, p.getDisciplina());
             stmt.setString(2, p.getAssunto());
             stmt.setString(3, p.getDescricao());
             stmt.setString(4, p.getEnunciado());
             stmt.setString(5, p.getImagemEnunciado());
             stmt.setString(6, p.getImagemResposta());
+            stmt.setString(7, p.getResposta());
             
             stmt.executeUpdate();
             
@@ -74,6 +75,7 @@ public class PerguntaDAO {
                 p.setEnunciado(rs.getString("enunciado"));
                 p.setImagemEnunciado(rs.getString("imagemenunciado"));
                 p.setImagemResposta(rs.getString("imagemresposta"));
+                p.setResposta(rs.getString("resposta"));
                 
                 perguntas.add(p);
             }
@@ -115,7 +117,8 @@ public class PerguntaDAO {
                                                 + "DESCRICAO = ?,"
                                                 + "ENUNCIADO = ?,"
                                                 + "IMAGEMENUNCIADO = ?,"
-                                                + "IMAGEMRESPOSTA = ? WHERE id = ?");
+                                                + "IMAGEMRESPOSTA = ?,"
+                                                + "resposta = ? WHERE id = ?");
             
             stmt.setString(1, p.getDisciplina());
             stmt.setString(2, p.getAssunto());
@@ -123,7 +126,8 @@ public class PerguntaDAO {
             stmt.setString(4, p.getEnunciado());
             stmt.setString(5, p.getImagemEnunciado());
             stmt.setString(6, p.getImagemResposta());
-            stmt.setInt(7, p.getId());
+            stmt.setString(7, p.getResposta());
+            stmt.setInt(8, p.getId());
             
             stmt.executeUpdate();
             
@@ -154,6 +158,7 @@ public class PerguntaDAO {
                 p.setEnunciado(rs.getString("enunciado"));
                 p.setImagemEnunciado(rs.getString("imagemenunciado"));
                 p.setImagemResposta(rs.getString("imagemresposta"));
+                p.setResposta(rs.getString("resposta"));
             
             
             return p;
@@ -166,14 +171,14 @@ public class PerguntaDAO {
     }
     
     
-    public List<Pergunta> intelligenceSearch(String parametro, String valor){
+    public List<Pergunta> pesquisarDisciplina(String disciplina){
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
         try {
-            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE "+parametro+" = ?");
-            stmt.setString(1,valor);
+            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE disciplina = ?");
+            stmt.setString(1,disciplina);
             
             rs = stmt.executeQuery();
             List<Pergunta> perguntas = new LinkedList<>();
@@ -189,6 +194,46 @@ public class PerguntaDAO {
                 p.setEnunciado(rs.getString("enunciado"));
                 p.setImagemEnunciado(rs.getString("imagemenunciado"));
                 p.setImagemResposta(rs.getString("imagemresposta"));
+                p.setResposta(rs.getString("resposta"));
+                
+                perguntas.add(p);
+            }
+            
+            return perguntas;
+            
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return null;
+        }finally{
+            ConnectionFactory.closeConnection(conexao, stmt, rs);
+        }
+    }
+    
+    public List<Pergunta> pesquisarDisciplinaAssunto(String disciplina, String assunto){
+        Connection conexao = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE disciplina = ? and assunto = ?");
+            stmt.setString(1,disciplina);
+            stmt.setString(2, assunto);
+            
+            rs = stmt.executeQuery();
+            List<Pergunta> perguntas = new LinkedList<>();
+            
+            while(rs.next()){
+                
+                Pergunta p = new Pergunta();
+                
+                p.setId(rs.getInt("id"));
+                p.setDisciplina(rs.getString("disciplina"));
+                p.setAssunto(rs.getString("assunto"));
+                p.setDescricao(rs.getString("descricao"));
+                p.setEnunciado(rs.getString("enunciado"));
+                p.setImagemEnunciado(rs.getString("imagemenunciado"));
+                p.setImagemResposta(rs.getString("imagemresposta"));
+                p.setResposta(rs.getString("resposta"));
                 
                 perguntas.add(p);
             }

@@ -43,18 +43,22 @@ public class TelaPrincipal extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //launch(args);
+        
+        launch(args);
+        
+        /*
         try{
             PerguntaDAO dao = new PerguntaDAO();
-            List<Pergunta> ps = dao.intelligenceSearch("disciplina", "a");
+            List<Pergunta> ps = dao.pesquisarDisciplina("CálculoA");
             for(Pergunta p: ps){
-                System.out.println(p.getAssunto());
+                System.out.println(p);
             }
         }catch(NullPointerException ex){
             System.out.println(ex.getMessage());
         }finally{
             System.out.println("FIM");
         }
+        */
     }
     
 }

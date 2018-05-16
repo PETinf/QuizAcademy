@@ -38,6 +38,8 @@ public class AlterarQuestaoController implements Initializable {
     @FXML
     private TextField txtDescricao;
     @FXML
+    private TextField txtResposta;
+    @FXML
     private Button btnEscolherEnunciado;
     @FXML
     private Button btnEscolherResposta;
@@ -107,6 +109,7 @@ public class AlterarQuestaoController implements Initializable {
         txtAssunto.setText(pergunta.getAssunto());
         txtDescricao.setText(pergunta.getDescricao());
         txtEnunciado.setText(pergunta.getEnunciado());
+        txtResposta.setText(pergunta.getResposta());
         
         imageEnunciado.setImage(new Image("file:///"+Pergunta.PATHENUNCIADO+pergunta.getImagemEnunciado()));
         imageResposta.setImage(new Image("file:///"+Pergunta.PATHRESPOSTA+pergunta.getImagemResposta()));
@@ -117,5 +120,9 @@ public class AlterarQuestaoController implements Initializable {
         pergunta.setAssunto(txtAssunto.getText());
         pergunta.setDescricao(txtDescricao.getText());
         pergunta.setEnunciado(txtEnunciado.getText());
+        txtResposta.setText(pergunta.getResposta());
+        
+        Stage s = (Stage) btnAlterar.getScene().getWindow();
+        s.close();
     }
 }

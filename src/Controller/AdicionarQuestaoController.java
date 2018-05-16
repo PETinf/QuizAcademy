@@ -44,6 +44,9 @@ public class AdicionarQuestaoController implements Initializable{
     @FXML
     private TextField txtDisciplina;
     
+    @FXML
+    private TextField txtResposta;
+    
     private PerguntaDAO pdao;
     
     private Pergunta p;
@@ -65,6 +68,7 @@ public class AdicionarQuestaoController implements Initializable{
         txtAssunto.setText(p.getAssunto());
         txtDescricao.setText(p.getDescricao());
         txtEnunciado.setText(p.getEnunciado());
+        txtResposta.setText(p.getResposta());
         
         File imagem;
         String caminho;
@@ -90,6 +94,7 @@ public class AdicionarQuestaoController implements Initializable{
         p.setAssunto(txtAssunto.getText());
         p.setDescricao(txtDescricao.getText());
         p.setEnunciado(txtEnunciado.getText());
+        p.setResposta(txtResposta.getText());
         
         pdao.insert(p);
         cancelar();
