@@ -9,14 +9,14 @@
    <children>
       <Button fx:id="btnVoltar" layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#prev" text="Voltar" />
       <Button fx:id="btnAvancar" layoutX="559.0" layoutY="14.0" mnemonicParsing="false" onAction="#next" text="Avançar" />
-      <Button fx:id="btnFinalizar" layoutX="260.0" layoutY="533.0" mnemonicParsing="false" text="Finalizar Simulado" />
+      <Button fx:id="btnFinalizar" layoutX="260.0" layoutY="533.0" mnemonicParsing="false" onAction="#finalizarSimulado" text="Finalizar Simulado" />
       <Label fx:id="lblDisciplina" layoutX="302.0" layoutY="31.0" text="Disciplina" />
       <Label fx:id="lblAssunto" layoutX="314.0" layoutY="68.0" text="Assunto" />
       <Label fx:id="lblDescricao" layoutX="314.0" layoutY="100.0" text="Descricao" />
       <Label fx:id="lblEnunciado" layoutX="302.0" layoutY="137.0" text="Enunciado" />
       <ImageView fx:id="imgEnunciado" fitHeight="150.0" fitWidth="200.0" layoutX="240.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="txtResposta" alignment="CENTER" layoutX="253.0" layoutY="416.0" promptText="Resposta" />
-      <Button fx:id="btnComitar" layoutX="426.0" layoutY="416.0" mnemonicParsing="false" text="Comitar" />
+      <Button fx:id="btnComitar" layoutX="426.0" layoutY="416.0" mnemonicParsing="false" onAction="#comitar" text="Comitar" />
       <ImageView fx:id="imgConfirm" fitHeight="25.0" fitWidth="29.0" layoutX="211.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

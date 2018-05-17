@@ -17,19 +17,26 @@ import java.util.List;
  * @author Vinicius
  */
 public class SimuladoDAO {
-    private static String tabela = "original";
+    private static String tabela = "simulados";
 
     public static void setTabela(String tabela) {
         SimuladoDAO.tabela = tabela;
     }
     
-    public void insert(Pergunta p){
+    public void insert(Simulado s){
         
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         try {
-            stmt = conexao.prepareStatement("INSERT INTO "+tabela+"(ID,DISCIPLINA,DESCRICAO,NOTA,PERGUNTAS)");
+            stmt = conexao.prepareStatement("INSERT INTO "+tabela+"(DESCRICAO,DISCIPLINA,ASSUNTO,NOTA,ID_PERGUNTAS) VALUES(?,?,?,?,?)");
+            stmt.setString(1, s.getDescricao());
+            stmt.setString(2, s.getDisciplina());
+            stmt.setString(3, s.getAssunto());
+            stmt.setDouble(4, s.getNota());
+            stmt.setString(5, s.getIdPerguntas());
+            
+            stmt.executeUpdate();
             
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
@@ -40,12 +47,12 @@ public class SimuladoDAO {
                 
     }
     
-    public List<Pergunta> read(){
+    public List<Simulado> read(){
         
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        List<Pergunta> perguntas = new LinkedList<>();
+        List<Simulado> simulados = new LinkedList<>();
         
         try {
             stmt = conexao.prepareStatement("SELECT * FROM "+tabela+";");
@@ -53,17 +60,16 @@ public class SimuladoDAO {
             
             while(rs.next()){
                 
-                Pergunta p = new Pergunta();
+                Simulado s = new Simulado();
                 
-                p.setId(rs.getInt("id"));
-                p.setDisciplina(rs.getString("disciplina"));
-                p.setAssunto(rs.getString("assunto"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setEnunciado(rs.getString("enunciado"));
-                p.setImagemEnunciado(rs.getString("imagemenunciado"));
-                p.setImagemResposta(rs.getString("imagemresposta"));
+                s.setId(rs.getInt("id"));
+                s.setDisciplina(rs.getString("disciplina"));
+                s.setAssunto(rs.getString("assunto"));
+                s.setDescricao(rs.getString("descricao"));
+                s.setNota(rs.getDouble("nota"));
+                s.setIdPerguntas(rs.getString("id_perguntas"));
                 
-                perguntas.add(p);
+                simulados.add(s);
             }
             
         } catch (SQLException ex) {
@@ -72,17 +78,17 @@ public class SimuladoDAO {
         
         ConnectionFactory.closeConnection(conexao, stmt, rs);
         
-        return perguntas;
+        return simulados;
     }
     
-    public void remove(Pergunta p){
+    public void remove(Simulado s){
         
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         try {
             stmt = conexao.prepareStatement("DELETE FROM "+tabela+" WHERE id=?");
-            stmt.setInt(1,p.getId());
+            stmt.setInt(1,s.getId());
             
             stmt.executeUpdate();
             
@@ -93,25 +99,23 @@ public class SimuladoDAO {
         ConnectionFactory.closeConnection(conexao, stmt);
     }
     
-    public void update(Pergunta p){
+    public void update(Simulado s){
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         try {
-            stmt = conexao.prepareStatement("UPDATE "+tabela+" SET DISCIPLINA = ?,"
+            stmt = conexao.prepareStatement("UPDATE "+tabela+" SET DESCRICAO = ?,"
+                                                + "DISCIPLINA = ?,"
                                                 + "ASSUNTO = ?,"
-                                                + "DESCRICAO = ?,"
-                                                + "ENUNCIADO = ?,"
-                                                + "IMAGEMENUNCIADO = ?,"
-                                                + "IMAGEMRESPOSTA = ? WHERE id = ?");
+                                                + "NOTA = ?,"
+                                                + "ID_PERGUNTAS = ? WHERE id = ?");
             
-            stmt.setString(1, p.getDisciplina());
-            stmt.setString(2, p.getAssunto());
-            stmt.setString(3, p.getDescricao());
-            stmt.setString(4, p.getEnunciado());
-            stmt.setString(5, p.getImagemEnunciado());
-            stmt.setString(6, p.getImagemResposta());
-            stmt.setInt(7, p.getId());
+            stmt.setString(1, s.getDescricao());
+            stmt.setString(2, s.getDisciplina());
+            stmt.setString(3, s.getAssunto());
+            stmt.setDouble(4, s.getNota());
+            stmt.setString(5, s.getIdPerguntas());
+            stmt.setInt(7, s.getId());
             
             stmt.executeUpdate();
             

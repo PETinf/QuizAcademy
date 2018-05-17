@@ -12,23 +12,24 @@ import java.util.List;
  * @author Vinicius
  */
 public class Simulado {
-    private int _id;
     private int id;
     private String disciplina;
     private String descricao;
-    private List<Pergunta> pergutnas;
+    private String assunto;
     private double nota;
+    private String idPerguntas;
 
-    
-    
-    public int get_Id() {
-        return _id;
+    public Simulado(int id, String disciplina, String descricao, String assunto, double nota, String idPerguntas) {
+        this.id = id;
+        this.disciplina = disciplina;
+        this.descricao = descricao;
+        this.assunto = assunto;
+        this.nota = nota;
+        this.idPerguntas = idPerguntas;
     }
 
-    public void set_Id(int _id) {
-        this._id = _id;
-    }
-
+    public Simulado(){}
+    
     public int getId() {
         return id;
     }
@@ -53,20 +54,33 @@ public class Simulado {
         this.descricao = descricao;
     }
 
-    public List<Pergunta> getPergutnas() {
-        return pergutnas;
+    public String getAssunto() {
+        return assunto;
     }
 
-    public void setPergutnas(List<Pergunta> pergutnas) {
-        this.pergutnas = pergutnas;
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
     }
-
+    
     public double getNota() {
         return nota;
     }
 
     public void setNota(double nota) {
         this.nota = nota;
+    }
+
+    public String getIdPerguntas() {
+        return idPerguntas;
+    }
+
+    public void setIdPerguntas(String idPerguntas) {
+        this.idPerguntas = idPerguntas;
+    }
+
+    @Override
+    public String toString() {
+        return "Simulado{" + "id=" + id + ", disciplina=" + disciplina + ", descricao=" + descricao + ", assunto=" + assunto + ", nota=" + nota + ", idPerguntas=" + idPerguntas + '}';
     }
     
     

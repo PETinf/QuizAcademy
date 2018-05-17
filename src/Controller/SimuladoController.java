@@ -79,15 +79,15 @@ public class SimuladoController implements Initializable{
         Parent root = loader.load();
         
         SimuladoQuestaoController sqc = loader.getController();
-        sqc.setPerguntas(perguntas);
-        sqc.carregarCampos(0);
+        sqc.iniciarSimulado(perguntas);
         
         Stage telaAddQuestao = new Stage();
         Scene cena = new Scene(root);
-        
         telaAddQuestao.setScene(cena);
-        
         telaAddQuestao.showAndWait();
+        
+        Stage window = (Stage) btnGerar.getScene().getWindow();
+        window.close();
     }
     
     

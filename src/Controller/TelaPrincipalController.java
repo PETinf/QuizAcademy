@@ -15,7 +15,6 @@ import Telas.Historico;
 import Telas.Simulado;
 import Telas.Simulado;
 import Telas.TelaPrincipal;
-import Telas.TelaQuestao;
 import java.io.File;
 import java.io.IOException;
 import javafx.scene.control.Button;

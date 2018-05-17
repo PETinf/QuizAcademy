@@ -12,11 +12,13 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -51,11 +53,12 @@ public class SimuladoQuestaoController implements Initializable {
     private List<Pergunta> perguntas;
     private int nroPergunta;
     
+    private Integer[] respostas;
     
+    private static final String PATHIMAGE = "file:///"+System.getProperty("user.dir") + "/src/ImagemResposta/";
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        nroPergunta = 0;
     }    
     
     public void setPerguntas(List<Pergunta> perguntas){
@@ -75,19 +78,67 @@ public class SimuladoQuestaoController implements Initializable {
         }
     }
     
+    public void iniciarSimulado(List<Pergunta> perguntas){
+        this.perguntas = perguntas;
+        respostas = new Integer[perguntas.size()];
+        nroPergunta = 0;
+        carregarCampos(nroPergunta);
+    }
+    
     public void next(){
         if(nroPergunta < perguntas.size()-1){
             carregarCampos(++nroPergunta);
+            atualizarResposta();
+        }
+    }
+    
+    public void atualizarResposta(){
+        txtResposta.setText("");
+        if(respostas[nroPergunta]!= null){
+            imgConfirm.setImage(new Image(PATHIMAGE+respostas[nroPergunta]+".png"));
+            btnComitar.setDisable(true);
+        }
+        else{
+            imgConfirm.setImage(null);
+            btnComitar.setDisable(false);
         }
     }
     
     public void prev(){
         if(nroPergunta > 0){
             carregarCampos(--nroPergunta);
+            atualizarResposta();
         }
     }
     
     public void comitar(){
-        //.......
+        Pergunta p = perguntas.get(nroPergunta);
+        String resposta = p.getResposta();
+        if(txtResposta.getText().equals(resposta)){
+            respostas[nroPergunta] = 1;
+            imgConfirm.setImage(new Image(PATHIMAGE+1+".png"));
+        }else{
+            respostas[nroPergunta] = 0;
+            imgConfirm.setImage(new Image(PATHIMAGE+0+".png"));
+        }
+        btnComitar.setDisable(true);
+    }
+    
+    public void finalizarSimulado(){
+        int resultado = 0;
+        for (Integer resposta : respostas) {
+            if (resposta != null) {
+                resultado += resposta;
+            }
+        }
+        
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Operação Finalizada");
+        alerta.setHeaderText("Resultado do Simulado");
+        alerta.setContentText("Nota: "+resultado);
+        alerta.showAndWait();
+        
+        Stage window = (Stage) btnFinalizar.getScene().getWindow();
+        window.close();
     }
 }

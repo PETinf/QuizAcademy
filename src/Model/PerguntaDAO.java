@@ -21,7 +21,7 @@ import javafx.scene.control.Alert;
  * @author Vinicius
  */
 public class PerguntaDAO {
-    private static String tabela = "original";
+    private static String tabela = "perguntas";
 
     public static void setTabela(String tabela) {
         PerguntaDAO.tabela = tabela;
