@@ -19,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -56,13 +57,15 @@ public class SimuladoController implements Initializable{
     }
     
     public void GerarSimulado() throws Exception{
-        int nroPerguntas = Integer.parseInt(txtNroPerguntas.getText());
+        
+        String nPerguntas = txtNroPerguntas.getText();
         String disciplina = txtDisciplina.getText();
         String assunto = txtAssunto.getText();
         
-        List<Pergunta> perguntas = null;
+        if(verificarCampos(disciplina,nPerguntas)){
+            List<Pergunta> perguntas = null;
+            int nroPerguntas = Integer.parseInt(nPerguntas);
         
-        if(!disciplina.equals("")){
             if(!assunto.equals("")){
                 System.out.println(disciplina + "  "+ assunto);
                 perguntas = dao.pesquisarDisciplinaAssunto(disciplina, assunto);
@@ -70,24 +73,49 @@ public class SimuladoController implements Initializable{
                 System.out.println(disciplina + "  "+ assunto);
                 perguntas = dao.pesquisarDisciplina(disciplina);
             }
+            //Valor DEFAULT;
+            if(nroPerguntas == 0) nroPerguntas = 10;
+            
+            
+            perguntas = escolherPerguntasAleatoriamente(perguntas, nroPerguntas);
+
+            if(!perguntas.isEmpty()){
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/View/Simulado.fxml"));
+                Parent root = loader.load();
+
+                SimuladoQuestaoController sqc = loader.getController();
+                sqc.iniciarSimulado(perguntas);
+
+                Stage telaAddQuestao = new Stage();
+                Scene cena = new Scene(root);
+                telaAddQuestao.setScene(cena);
+                telaAddQuestao.showAndWait();
+
+                Stage window = (Stage) btnGerar.getScene().getWindow();
+                window.close();
+
+            }else{
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setTitle("Resultado da Operação:");
+                alerta.setHeaderText("Erro ao gerar o simulado!");
+
+                String erro = "Perguntas não encontradas para os seguintes parametros:\n\n"
+                        + "Disciplina: "+txtDisciplina.getText()+"\n"
+                        + "Assunto: "+txtAssunto.getText();
+
+                alerta.setContentText(erro);
+                alerta.showAndWait();
+            }
+        }else{
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("Resultado da Operação:");
+            alerta.setHeaderText("Erro ao gerar o simulado!");
+            alerta.setContentText("Informações inválidas encontradas nos compos obrigatórios!");
+            alerta.showAndWait();
         }
         
-        perguntas = escolherPerguntasAleatoriamente(perguntas, nroPerguntas);
         
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("../View/Simulado.fxml"));
-        Parent root = loader.load();
-        
-        SimuladoQuestaoController sqc = loader.getController();
-        sqc.iniciarSimulado(perguntas);
-        
-        Stage telaAddQuestao = new Stage();
-        Scene cena = new Scene(root);
-        telaAddQuestao.setScene(cena);
-        telaAddQuestao.showAndWait();
-        
-        Stage window = (Stage) btnGerar.getScene().getWindow();
-        window.close();
     }
     
     
@@ -110,5 +138,16 @@ public class SimuladoController implements Initializable{
         }
         
         return listaPerguntas;
+    }
+    
+    
+    public boolean verificarCampos(String p1, String p2){
+        if(p1.equals("")){
+            return false;
+        }else if(p2.equals("")){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

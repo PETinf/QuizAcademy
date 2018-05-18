@@ -5,10 +5,10 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="461.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="461.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RespostaController">
    <children>
-      <ImageView fitHeight="384.0" fitWidth="433.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
-      <Button layoutX="181.0" layoutY="417.0" minWidth="100.0" mnemonicParsing="false" text="Voltar" />
+      <ImageView fx:id="imgResposta" fitHeight="279.0" fitWidth="433.0" layoutX="14.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btnVoltar" layoutX="181.0" layoutY="417.0" minWidth="100.0" mnemonicParsing="false" onAction="#voltar" text="Voltar" />
+      <Label fx:id="lblResposta" layoutX="203.0" layoutY="45.0" text="RESPOSTA" />
    </children>
 </AnchorPane>

@@ -7,7 +7,12 @@ package Controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -16,12 +21,41 @@ import javafx.fxml.Initializable;
  */
 public class ExportarController implements Initializable {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private TextField txtDiretorio;
+    @FXML
+    private TextField txtNomeBD;
+    @FXML
+    private Button btnEscolherPasta;
+    @FXML
+    private Button btnConfirmar;
+    @FXML
+    private Button btnCancelar;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }    
+
+    @FXML
+    private void escolherPsta(MouseEvent event) {
+        
+        
+    }
+
+    @FXML
+    private void confirmar(MouseEvent event) {
+        
+        
+        
+    }
+
+    @FXML
+    private void cancelar(MouseEvent event) {
+        
+        Stage janela = (Stage) btnCancelar.getScene().getWindow();
+        janela.close();
+        
+    }
     
 }
