@@ -14,10 +14,16 @@ import java.io.IOException;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -32,6 +38,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -46,65 +53,25 @@ import javafx.stage.Stage;
 
 public class TelaPrincipalController implements Initializable{
     
-     @FXML
-    private Button btnExport;
-
-    @FXML
-    private Button btnRemoverQuestao;
-
-    @FXML
-    private Button btnAddQuestao;
-    
-    @FXML
-    private Button btnAlterarQuestao;
-
-    @FXML
-    private Button btnTrocarBD;
-
-    @FXML
-    private Button btnImport;
-
-    @FXML
-    private Button btnHistorico;
-
-    @FXML
-    private TextField tfNumero;
-
-    @FXML
-    private ComboBox<String> cbBanco;
-
-    @FXML
-    private TableView<Pergunta> tabela;
-
-    @FXML
-    private TextField tfAssunto;
-
-    @FXML
-    private Button btnPequisar;
-
-    @FXML
-    private TextField tfDisciplina;
-
-    @FXML
-    private Button gerarHistorico;
-
-    @FXML
-    private TextField tfId;
-    
-    @FXML
-    private TableColumn<Pergunta,String> colDisciplina;
-
-    @FXML
-    private TableColumn<Pergunta,String> colDescricao;
-
-    @FXML
-    private TableColumn<Pergunta,String> colAssunto;
-    
-    @FXML
-    private TableColumn<Pergunta,Integer> colId;
-    
-    
-    
+    @FXML private Button btnExport; 
+    @FXML private Button btnRemoverQuestao;
+    @FXML private Button btnAddQuestao;
+    @FXML private Button btnAlterarQuestao;
+    @FXML private Button btnTrocarBD;
+    @FXML private Button btnImport;
+    @FXML private Button btnHistorico;
+    @FXML private TextField tfNumero;
+    @FXML private ComboBox<String> cbBanco;
+    @FXML private TableView<Pergunta> tabela;
+    @FXML private TextField tfAssunto;
+    @FXML private Button btnPequisar;
+    @FXML private TextField tfDisciplina;
+    @FXML private Button gerarHistorico;
+    @FXML private TextField tfId;
+    @FXML private TableColumn<Pergunta,String> colDisciplina;
+    @FXML private TableColumn<Pergunta,String> colDescricao;
+    @FXML private TableColumn<Pergunta,String> colAssunto;
+    @FXML private TableColumn<Pergunta,Integer> colId;
     private List<Pergunta> lista; 
     private PerguntaDAO pdao;
     private ObservableList perguntas;
@@ -190,13 +157,13 @@ public class TelaPrincipalController implements Initializable{
             carregarTabela();
         }
     }
-    
+    /*
     @FXML
     protected void historico(ActionEvent event) throws Exception {
         Historico historico = new Historico();
         historico.start(new Stage());
     }
-    
+    */
     public void iniciarTabela(){
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
@@ -294,12 +261,30 @@ public class TelaPrincipalController implements Initializable{
     public void exportarBanco(){
         
         DirectoryChooser dc = new DirectoryChooser();
-        File dir = dc.showDialog(new Stage());
         
-        File bd = new File(System.getProperty("user.dir")+"/db/"+ConnectionFactory.getBanco());
-        
-        if(dir != null){
+        try{
+            String c = dc.showDialog(new Stage()).getAbsolutePath();
+            String nome = setNomeArquivo();
+            Path destino = Paths.get(c+"//"+nome+".db");
+            Path arquivo = Paths.get(System.getProperty("user.dir")+"/db/"+ConnectionFactory.getBanco());
+            
+            Files.copy(arquivo, destino, StandardCopyOption.REPLACE_EXISTING);
+            
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Resultado da operacao:");
+            alerta.setHeaderText("Operacao finalizada:");
+            alerta.setContentText("Banco de dados exportado com sucesso!");
+            alerta.showAndWait();
+            
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Resultado da operacao:");
+            alerta.setHeaderText("ERRO!");
+            alerta.setContentText("Erro ao exportar o banco de dados!");
+            alerta.showAndWait();
         }
+        
     }
     
     @FXML
@@ -316,11 +301,29 @@ public class TelaPrincipalController implements Initializable{
         
     }
     
-    public void historico(){
-        //...
+    public void historico() throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/View/Historico_Simulados.fxml"));
+        Parent root = loader.load();
+
+        Stage telaHistorico = new Stage();
+        Scene cena = new Scene(root);
+
+        HistoricoController hc = loader.getController();
+        hc.carregarSimulados();
+        
+        telaHistorico.setScene(cena);
+        telaHistorico.showAndWait();
     }
     
-    
+    public String setNomeArquivo(){
+        TextInputDialog alerta = new TextInputDialog();
+        alerta.setTitle("Aguardando ...:");
+        alerta.setHeaderText("Nome do novo arquivo!");
+        alerta.setContentText("Insira o nome do novo banco a ser gerado: ");
+        Optional<String> nome = alerta.showAndWait();
+        return nome.get();
+    }
     
     
     

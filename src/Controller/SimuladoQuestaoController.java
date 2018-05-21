@@ -6,14 +6,18 @@
 package Controller;
 
 import Model.Pergunta;
+import Model.Simulado;
+import Model.SimuladoDAO;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -27,34 +31,21 @@ import javafx.stage.Stage;
  */
 public class SimuladoQuestaoController implements Initializable {
 
-    @FXML
-    private Button btnVoltar;
-    @FXML
-    private Button btnAvancar;
-    @FXML
-    private Button btnComitar;
-    @FXML
-    private Button btnFinalizar;
-    @FXML
-    private Label lblDisciplina;
-    @FXML
-    private Label lblAssunto;
-    @FXML
-    private Label lblDescricao;
-    @FXML
-    private Label lblEnunciado;
-    @FXML
-    private ImageView imgEnunciado;
-    @FXML
-    private ImageView imgConfirm;
-    @FXML
-    private TextField txtResposta;
-
+    @FXML private Button btnVoltar;
+    @FXML private Button btnAvancar;
+    @FXML private Button btnComitar;
+    @FXML private Button btnFinalizar;
+    @FXML private Label lblDisciplina;
+    @FXML private Label lblAssunto;
+    @FXML private Label lblDescricao;
+    @FXML private Label lblEnunciado;
+    @FXML private ImageView imgEnunciado;
+    @FXML private ImageView imgConfirm;
+    @FXML private TextField txtResposta;
+    private Simulado simulado;
     private List<Pergunta> perguntas;
-    private int nroPergunta;
-    
-    private Integer[] respostas;
-    
+    private int nroPergunta; 
+    private Integer[] respostas; 
     private static final String PATHIMAGE = "file:///"+System.getProperty("user.dir") + "/src/ImagemResposta/";
     
     @Override
@@ -78,8 +69,9 @@ public class SimuladoQuestaoController implements Initializable {
         }
     }
     
-    public void iniciarSimulado(List<Pergunta> perguntas){
+    public void iniciarSimulado(List<Pergunta> perguntas, Simulado simulado){
         this.perguntas = perguntas;
+        this.simulado = simulado;
         respostas = new Integer[perguntas.size()];
         nroPergunta = 0;
         carregarCampos(nroPergunta);
@@ -125,20 +117,41 @@ public class SimuladoQuestaoController implements Initializable {
     }
     
     public void finalizarSimulado(){
-        int resultado = 0;
+        double resultado = 0;
+        String ids = "";
+        
         for (Integer resposta : respostas) {
             if (resposta != null) {
                 resultado += resposta;
             }
         }
+        for(Pergunta p: perguntas){
+            ids += ","+p.getId();
+        }
+        ids = ids.substring(1, ids.length());
         
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Operação Finalizada");
-        alerta.setHeaderText("Resultado do Simulado");
-        alerta.setContentText("Nota: "+resultado);
-        alerta.showAndWait();
+        resultado = (int) ((resultado/perguntas.size())*100);
+        
+        simulado.setNota(resultado);
+        simulado.setIdPerguntas(ids);
+        
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Resultado do Simulado");
+        alerta.setHeaderText("Nota: "+resultado);
+        alerta.setContentText("Deseja salvar esse simulado?");
+        
+        Optional<ButtonType> opcao = alerta.showAndWait();
+        if(opcao.get() == ButtonType.OK){
+            salvarSimulado();
+        }
         
         Stage window = (Stage) btnFinalizar.getScene().getWindow();
         window.close();
+    }
+    
+    
+    public void salvarSimulado(){
+        SimuladoDAO dao = new SimuladoDAO();
+        dao.insert(simulado);
     }
 }

@@ -7,6 +7,14 @@
 <AnchorPane maxHeight="538.0" maxWidth="444.0" minHeight="538.0" minWidth="444.0" prefHeight="538.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HistoricoController">
    <children>
       <Button fx:id="btnVoltar" layoutX="198.0" layoutY="499.0" mnemonicParsing="false" onAction="#voltar" text="Voltar" />
-      <ListView fx:id="listSimulados" layoutX="14.0" layoutY="14.0" prefHeight="462.0" prefWidth="416.0" />
+      <TableView fx:id="tableSimulado" layoutX="14.0" layoutY="14.0" prefHeight="468.0" prefWidth="417.0">
+        <columns>
+          <TableColumn fx:id="colNota" prefWidth="75.0" text="Nota" />
+          <TableColumn fx:id="colDescricao" prefWidth="75.0" text="Descricao" />
+            <TableColumn fx:id="colDisciplina" prefWidth="75.0" text="Disciplina" />
+            <TableColumn fx:id="colAssunto" prefWidth="75.0" text="Assunto" />
+            <TableColumn fx:id="colId" prefWidth="116.0" text="IDs perguntas" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

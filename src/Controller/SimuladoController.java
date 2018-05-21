@@ -7,6 +7,7 @@ package Controller;
 
 import Model.Pergunta;
 import Model.PerguntaDAO;
+import Model.Simulado;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -58,19 +59,19 @@ public class SimuladoController implements Initializable{
     
     public void GerarSimulado() throws Exception{
         
+        Simulado simulado = new Simulado();
+        
         String nPerguntas = txtNroPerguntas.getText();
         String disciplina = txtDisciplina.getText();
         String assunto = txtAssunto.getText();
         
         if(verificarCampos(disciplina,nPerguntas)){
-            List<Pergunta> perguntas = null;
+            List<Pergunta> perguntas;
             int nroPerguntas = Integer.parseInt(nPerguntas);
         
             if(!assunto.equals("")){
-                System.out.println(disciplina + "  "+ assunto);
                 perguntas = dao.pesquisarDisciplinaAssunto(disciplina, assunto);
             }else{
-                System.out.println(disciplina + "  "+ assunto);
                 perguntas = dao.pesquisarDisciplina(disciplina);
             }
             //Valor DEFAULT;
@@ -78,14 +79,18 @@ public class SimuladoController implements Initializable{
             
             
             perguntas = escolherPerguntasAleatoriamente(perguntas, nroPerguntas);
-
+            
+            simulado.setDescricao(txtDescricaoSimulado.getText());
+            simulado.setDisciplina(disciplina);
+            simulado.setAssunto(assunto);
+            
             if(!perguntas.isEmpty()){
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/View/Simulado.fxml"));
                 Parent root = loader.load();
 
                 SimuladoQuestaoController sqc = loader.getController();
-                sqc.iniciarSimulado(perguntas);
+                sqc.iniciarSimulado(perguntas, simulado);
 
                 Stage telaAddQuestao = new Stage();
                 Scene cena = new Scene(root);

@@ -7,7 +7,14 @@ package Telas;
 
 import Model.Pergunta;
 import Model.PerguntaDAO;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,22 +50,7 @@ public class TelaPrincipal extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
         launch(args);
-        
-        /*
-        try{
-            PerguntaDAO dao = new PerguntaDAO();
-            List<Pergunta> ps = dao.pesquisarDisciplina("CálculoA");
-            for(Pergunta p: ps){
-                System.out.println(p);
-            }
-        }catch(NullPointerException ex){
-            System.out.println(ex.getMessage());
-        }finally{
-            System.out.println("FIM");
-        }
-        */
     }
     
 }
