@@ -8,7 +8,6 @@ package Controller;
 import Model.ConnectionFactory;
 import Model.Pergunta;
 import Model.PerguntaDAO;
-import Telas.Historico;
 import java.io.File;
 import java.io.IOException;
 import javafx.scene.control.Button;
@@ -18,12 +17,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -123,8 +121,12 @@ public class TelaPrincipalController implements Initializable{
             alerta.setContentText(questao);
             Optional<ButtonType> result = alerta.showAndWait();
             if (result.get() == ButtonType.OK){
-                dao.remove(p);
-                carregarTabela();
+                try{
+                    dao.remove(p);
+                    carregarTabela();
+                }catch(SQLException ex){
+                    TelaPrincipalController.showErrorAsDialog(ex);
+                }
             } else {
                alerta.close();
             }
@@ -172,9 +174,13 @@ public class TelaPrincipalController implements Initializable{
     }
     
     public void carregarTabela(){
-        lista = pdao.read();
-        perguntas = FXCollections.observableList(lista);
-        tabela.setItems(perguntas);
+        try{
+            lista = pdao.read();
+            perguntas = FXCollections.observableList(lista);
+            tabela.setItems(perguntas);
+        }catch(SQLException ex){
+            showErrorAsDialog(ex);
+        }
     }
     
     public void selecionarQuestao() throws IOException{
@@ -323,6 +329,14 @@ public class TelaPrincipalController implements Initializable{
         alerta.setContentText("Insira o nome do novo banco a ser gerado: ");
         Optional<String> nome = alerta.showAndWait();
         return nome.get();
+    }
+    
+    public static void showErrorAsDialog(SQLException ex){
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Resultado da operação:");
+        alerta.setHeaderText("Erro:");
+        alerta.setContentText(ex.getMessage());
+        alerta.showAndWait();
     }
     
     

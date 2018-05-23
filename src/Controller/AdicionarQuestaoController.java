@@ -9,6 +9,7 @@ import Model.Pergunta;
 import Model.PerguntaDAO;
 import java.io.File;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -96,8 +97,12 @@ public class AdicionarQuestaoController implements Initializable{
         p.setEnunciado(txtEnunciado.getText());
         p.setResposta(txtResposta.getText());
         
-        pdao.insert(p);
-        cancelar();
+        try{
+            pdao.insert(p);
+            cancelar();
+        }catch(SQLException ex){
+            TelaPrincipalController.showErrorAsDialog(ex);
+        }
     }
     
     @FXML

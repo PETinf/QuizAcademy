@@ -8,6 +8,7 @@ package Controller;
 import Model.Simulado;
 import Model.SimuladoDAO;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -49,12 +50,16 @@ public class HistoricoController implements Initializable{
     public void carregarSimulados(){
         SimuladoDAO dao = new SimuladoDAO();
         
-        List<Simulado> aux = dao.read();
+        try{
+            List<Simulado> aux = dao.read();
         
-        ObservableList listaSimulados = FXCollections.observableList(aux);
-        formatarTabela();
+            ObservableList listaSimulados = FXCollections.observableList(aux);
+            formatarTabela();
         
-        tableSimulado.getItems().addAll(listaSimulados);
+            tableSimulado.getItems().addAll(listaSimulados);
+        }catch(SQLException ex){
+            TelaPrincipalController.showErrorAsDialog(ex);
+        }
     }
     
     public void formatarTabela(){

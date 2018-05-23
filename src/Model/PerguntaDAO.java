@@ -27,61 +27,50 @@ public class PerguntaDAO {
         PerguntaDAO.tabela = tabela;
     }
     
-    public void insert(Pergunta p){
+    public void insert(Pergunta p) throws SQLException{
         
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
-        try {
-            stmt = conexao.prepareStatement("INSERT INTO "+tabela+"(DISCIPLINA,ASSUNTO,DESCRICAO,ENUNCIADO,IMAGEMENUNCIADO,IMAGEMRESPOSTA,resposta) VALUES(?,?,?,?,?,?,?)");
-            stmt.setString(1, p.getDisciplina());
-            stmt.setString(2, p.getAssunto());
-            stmt.setString(3, p.getDescricao());
-            stmt.setString(4, p.getEnunciado());
-            stmt.setString(5, p.getImagemEnunciado());
-            stmt.setString(6, p.getImagemResposta());
-            stmt.setString(7, p.getResposta());
+        stmt = conexao.prepareStatement("INSERT INTO "+tabela+"(DISCIPLINA,ASSUNTO,DESCRICAO,ENUNCIADO,IMAGEMENUNCIADO,IMAGEMRESPOSTA,resposta) VALUES(?,?,?,?,?,?,?)");
+        stmt.setString(1, p.getDisciplina());
+        stmt.setString(2, p.getAssunto());
+        stmt.setString(3, p.getDescricao());
+        stmt.setString(4, p.getEnunciado());
+        stmt.setString(5, p.getImagemEnunciado());
+        stmt.setString(6, p.getImagemResposta());
+        stmt.setString(7, p.getResposta());
             
-            stmt.executeUpdate();
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+        stmt.executeUpdate();
         
-        ConnectionFactory.closeConnection(conexao, stmt);
-                
-                
+        
+        ConnectionFactory.closeConnection(conexao, stmt);      
     }
     
-    public List<Pergunta> read(){
+    public List<Pergunta> read() throws SQLException{
         
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Pergunta> perguntas = new LinkedList<>();
         
-        try {
-            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+";");
-            rs = stmt.executeQuery();
+        stmt = conexao.prepareStatement("SELECT * FROM "+tabela+";");
+        rs = stmt.executeQuery();
             
-            while(rs.next()){
+        while(rs.next()){
                 
-                Pergunta p = new Pergunta();
+            Pergunta p = new Pergunta();
                 
-                p.setId(rs.getInt("id"));
-                p.setDisciplina(rs.getString("disciplina"));
-                p.setAssunto(rs.getString("assunto"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setEnunciado(rs.getString("enunciado"));
-                p.setImagemEnunciado(rs.getString("imagemenunciado"));
-                p.setImagemResposta(rs.getString("imagemresposta"));
-                p.setResposta(rs.getString("resposta"));
+            p.setId(rs.getInt("id"));
+            p.setDisciplina(rs.getString("disciplina"));
+            p.setAssunto(rs.getString("assunto"));
+            p.setDescricao(rs.getString("descricao"));
+            p.setEnunciado(rs.getString("enunciado"));
+            p.setImagemEnunciado(rs.getString("imagemenunciado"));
+            p.setImagemResposta(rs.getString("imagemresposta"));
+            p.setResposta(rs.getString("resposta"));
                 
-                perguntas.add(p);
-            }
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            perguntas.add(p);
         }
         
         ConnectionFactory.closeConnection(conexao, stmt, rs);
@@ -89,30 +78,25 @@ public class PerguntaDAO {
         return perguntas;
     }
     
-    public void remove(Pergunta p){
+    public void remove(Pergunta p) throws SQLException{
         
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
-        try {
-            stmt = conexao.prepareStatement("DELETE FROM "+tabela+" WHERE id=?");
-            stmt.setInt(1,p.getId());
+        
+        stmt = conexao.prepareStatement("DELETE FROM "+tabela+" WHERE id=?");
+        stmt.setInt(1,p.getId());
             
-            stmt.executeUpdate();
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+        stmt.executeUpdate();
         
         ConnectionFactory.closeConnection(conexao, stmt);
     }
     
-    public void update(Pergunta p){
+    public void update(Pergunta p) throws SQLException{
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
-        try {
-            stmt = conexao.prepareStatement("UPDATE "+tabela+" SET DISCIPLINA = ?,"
+        stmt = conexao.prepareStatement("UPDATE "+tabela+" SET DISCIPLINA = ?,"
                                                 + "ASSUNTO = ?,"
                                                 + "DESCRICAO = ?,"
                                                 + "ENUNCIADO = ?,"
@@ -120,132 +104,111 @@ public class PerguntaDAO {
                                                 + "IMAGEMRESPOSTA = ?,"
                                                 + "resposta = ? WHERE id = ?");
             
-            stmt.setString(1, p.getDisciplina());
-            stmt.setString(2, p.getAssunto());
-            stmt.setString(3, p.getDescricao());
-            stmt.setString(4, p.getEnunciado());
-            stmt.setString(5, p.getImagemEnunciado());
-            stmt.setString(6, p.getImagemResposta());
-            stmt.setString(7, p.getResposta());
-            stmt.setInt(8, p.getId());
-            
-            stmt.executeUpdate();
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-        }
+        stmt.setString(1, p.getDisciplina());
+        stmt.setString(2, p.getAssunto());
+        stmt.setString(3, p.getDescricao());
+        stmt.setString(4, p.getEnunciado());
+        stmt.setString(5, p.getImagemEnunciado());
+        stmt.setString(6, p.getImagemResposta());
+        stmt.setString(7, p.getResposta());
+        stmt.setInt(8, p.getId());
+           
+        stmt.executeUpdate();
+           
         
         ConnectionFactory.closeConnection(conexao, stmt);
     }
     
-    public Pergunta search(int id){
+    public Pergunta search(int id) throws SQLException{
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        try {
-            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE id = ?");
-            stmt.setInt(1, id);
+        stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE id = ?");
+        stmt.setInt(1, id);
             
-            rs = stmt.executeQuery();
+        rs = stmt.executeQuery();
             
-            Pergunta p = new Pergunta();
+        Pergunta p = new Pergunta();
              
-                p.setId(rs.getInt("id"));
-                p.setDisciplina(rs.getString("disciplina"));
-                p.setAssunto(rs.getString("assunto"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setEnunciado(rs.getString("enunciado"));
-                p.setImagemEnunciado(rs.getString("imagemenunciado"));
-                p.setImagemResposta(rs.getString("imagemresposta"));
-                p.setResposta(rs.getString("resposta"));
+        p.setId(rs.getInt("id"));
+        p.setDisciplina(rs.getString("disciplina"));
+        p.setAssunto(rs.getString("assunto"));
+        p.setDescricao(rs.getString("descricao"));
+        p.setEnunciado(rs.getString("enunciado"));
+        p.setImagemEnunciado(rs.getString("imagemenunciado"));
+        p.setImagemResposta(rs.getString("imagemresposta"));
+        p.setResposta(rs.getString("resposta"));
             
-            
-            return p;
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }finally{
-            ConnectionFactory.closeConnection(conexao, stmt, rs);
-        }
+        ConnectionFactory.closeConnection(conexao, stmt, rs);
+        
+        return p;
     }
     
     
-    public List<Pergunta> pesquisarDisciplina(String disciplina){
+    public List<Pergunta> pesquisarDisciplina(String disciplina) throws SQLException{
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        try {
-            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE disciplina = ?");
-            stmt.setString(1,disciplina);
+        stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE disciplina = ?");
+        stmt.setString(1,disciplina);
             
-            rs = stmt.executeQuery();
-            List<Pergunta> perguntas = new LinkedList<>();
-            
-            while(rs.next()){
+        rs = stmt.executeQuery();
+        List<Pergunta> perguntas = new LinkedList<>();
+          
+        while(rs.next()){
+               
+            Pergunta p = new Pergunta();
                 
-                Pergunta p = new Pergunta();
-                
-                p.setId(rs.getInt("id"));
-                p.setDisciplina(rs.getString("disciplina"));
-                p.setAssunto(rs.getString("assunto"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setEnunciado(rs.getString("enunciado"));
-                p.setImagemEnunciado(rs.getString("imagemenunciado"));
-                p.setImagemResposta(rs.getString("imagemresposta"));
-                p.setResposta(rs.getString("resposta"));
-                
-                perguntas.add(p);
-            }
-            
-            return perguntas;
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }finally{
-            ConnectionFactory.closeConnection(conexao, stmt, rs);
+            p.setId(rs.getInt("id"));
+            p.setDisciplina(rs.getString("disciplina"));
+            p.setAssunto(rs.getString("assunto"));
+            p.setDescricao(rs.getString("descricao"));
+            p.setEnunciado(rs.getString("enunciado"));
+            p.setImagemEnunciado(rs.getString("imagemenunciado"));
+            p.setImagemResposta(rs.getString("imagemresposta"));
+            p.setResposta(rs.getString("resposta"));
+               
+            perguntas.add(p);
         }
+            
+        ConnectionFactory.closeConnection(conexao, stmt, rs);
+            
+        return perguntas;
     }
     
-    public List<Pergunta> pesquisarDisciplinaAssunto(String disciplina, String assunto){
+    public List<Pergunta> pesquisarDisciplinaAssunto(String disciplina, String assunto) throws SQLException{
         Connection conexao = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        try {
-            stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE disciplina = ? and assunto = ?");
-            stmt.setString(1,disciplina);
-            stmt.setString(2, assunto);
+        stmt = conexao.prepareStatement("SELECT * FROM "+tabela+" WHERE disciplina = ? and assunto = ?");
+        stmt.setString(1,disciplina);
+        stmt.setString(2, assunto);
             
-            rs = stmt.executeQuery();
-            List<Pergunta> perguntas = new LinkedList<>();
+        rs = stmt.executeQuery();
+        List<Pergunta> perguntas = new LinkedList<>();
             
-            while(rs.next()){
+        while(rs.next()){
                 
-                Pergunta p = new Pergunta();
+            Pergunta p = new Pergunta();
                 
-                p.setId(rs.getInt("id"));
-                p.setDisciplina(rs.getString("disciplina"));
-                p.setAssunto(rs.getString("assunto"));
-                p.setDescricao(rs.getString("descricao"));
-                p.setEnunciado(rs.getString("enunciado"));
-                p.setImagemEnunciado(rs.getString("imagemenunciado"));
-                p.setImagemResposta(rs.getString("imagemresposta"));
-                p.setResposta(rs.getString("resposta"));
-                
-                perguntas.add(p);
-            }
-            
-            return perguntas;
-            
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            return null;
-        }finally{
-            ConnectionFactory.closeConnection(conexao, stmt, rs);
+            p.setId(rs.getInt("id"));
+            p.setDisciplina(rs.getString("disciplina"));
+            p.setAssunto(rs.getString("assunto"));
+            p.setDescricao(rs.getString("descricao"));
+            p.setEnunciado(rs.getString("enunciado"));
+            p.setImagemEnunciado(rs.getString("imagemenunciado"));
+            p.setImagemResposta(rs.getString("imagemresposta"));
+            p.setResposta(rs.getString("resposta"));
+             
+            perguntas.add(p);
         }
+            
+        ConnectionFactory.closeConnection(conexao, stmt, rs);
+            
+        return perguntas;
     }
     
 }
