@@ -31,130 +31,141 @@ import javafx.stage.Stage;
  */
 public class SimuladoQuestaoController implements Initializable {
 
-    @FXML private Button btnVoltar;
-    @FXML private Button btnAvancar;
-    @FXML private Button btnComitar;
-    @FXML private Button btnFinalizar;
-    @FXML private Label lblDisciplina;
-    @FXML private Label lblAssunto;
-    @FXML private Label lblDescricao;
-    @FXML private Label lblEnunciado;
-    @FXML private ImageView imgEnunciado;
-    @FXML private ImageView imgConfirm;
-    @FXML private TextField txtResposta;
+    @FXML
+    private Button btnVoltar;
+    @FXML
+    private Button btnAvancar;
+    @FXML
+    private Button btnComitar;
+    @FXML
+    private Button btnFinalizar;
+    @FXML
+    private Label lblDisciplina;
+    @FXML
+    private Label lblAssunto;
+    @FXML
+    private Label lblDescricao;
+    @FXML
+    private Label lblEnunciado;
+    @FXML
+    private ImageView imgEnunciado;
+    @FXML
+    private ImageView imgConfirm;
+    @FXML
+    private TextField txtResposta;
     private Simulado simulado;
     private List<Pergunta> perguntas;
-    private int nroPergunta; 
-    private Integer[] respostas; 
-    private static final String PATHIMAGE = "file:///"+System.getProperty("user.dir") + "/src/ImagemResposta/";
-    
+    private int nroPergunta;
+    private Integer[] respostas;
+    private static final String PATHIMAGE = "file:///" + System.getProperty("user.dir") + "/src/ImagemResposta/";
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
-    
-    public void setPerguntas(List<Pergunta> perguntas){
+    }
+
+    public void setPerguntas(List<Pergunta> perguntas) {
         this.perguntas = perguntas;
     }
-    
-    public void carregarCampos(int nroPergunta){
+
+    public void carregarCampos(int nroPergunta) {
         Pergunta p = perguntas.get(nroPergunta);
         lblDisciplina.setText(p.getDisciplina());
         lblAssunto.setText(p.getAssunto());
         lblDescricao.setText(p.getDescricao());
         lblEnunciado.setText(p.getEnunciado());
-        if(p.getImagemEnunciado() != null){
-            imgEnunciado.setImage(new Image("file:///"+Pergunta.PATHENUNCIADO+p.getImagemEnunciado()));
-        }else{
+        if (p.getImagemEnunciado() != null) {
+            imgEnunciado.setImage(new Image("file:///" + Pergunta.PATHENUNCIADO + p.getImagemEnunciado()));
+        } else {
             imgEnunciado.setImage(null);
         }
     }
-    
-    public void iniciarSimulado(List<Pergunta> perguntas, Simulado simulado){
+
+    public void iniciarSimulado(List<Pergunta> perguntas, Simulado simulado) {
+
         this.perguntas = perguntas;
         this.simulado = simulado;
         respostas = new Integer[perguntas.size()];
         nroPergunta = 0;
         carregarCampos(nroPergunta);
+
     }
-    
-    public void next(){
-        if(nroPergunta < perguntas.size()-1){
+
+    public void next() {
+        if (nroPergunta < perguntas.size() - 1) {
             carregarCampos(++nroPergunta);
             atualizarResposta();
         }
     }
-    
-    public void atualizarResposta(){
+
+    public void atualizarResposta() {
         txtResposta.setText("");
-        if(respostas[nroPergunta]!= null){
-            imgConfirm.setImage(new Image(PATHIMAGE+respostas[nroPergunta]+".png"));
+        if (respostas[nroPergunta] != null) {
+            imgConfirm.setImage(new Image(PATHIMAGE + respostas[nroPergunta] + ".png"));
             btnComitar.setDisable(true);
-        }
-        else{
+        } else {
             imgConfirm.setImage(null);
             btnComitar.setDisable(false);
         }
     }
-    
-    public void prev(){
-        if(nroPergunta > 0){
+
+    public void prev() {
+        if (nroPergunta > 0) {
             carregarCampos(--nroPergunta);
             atualizarResposta();
         }
     }
-    
-    public void comitar(){
+
+    public void comitar() {
         Pergunta p = perguntas.get(nroPergunta);
         String resposta = p.getResposta();
-        if(txtResposta.getText().equals(resposta)){
+        if (txtResposta.getText().equals(resposta)) {
             respostas[nroPergunta] = 1;
-            imgConfirm.setImage(new Image(PATHIMAGE+1+".png"));
-        }else{
+            imgConfirm.setImage(new Image(PATHIMAGE + 1 + ".png"));
+        } else {
             respostas[nroPergunta] = 0;
-            imgConfirm.setImage(new Image(PATHIMAGE+0+".png"));
+            imgConfirm.setImage(new Image(PATHIMAGE + 0 + ".png"));
         }
         btnComitar.setDisable(true);
     }
-    
-    public void finalizarSimulado(){
+
+    public void finalizarSimulado() {
         double resultado = 0;
         String ids = "";
-        
+
         for (Integer resposta : respostas) {
             if (resposta != null) {
                 resultado += resposta;
             }
         }
-        for(Pergunta p: perguntas){
-            ids += ","+p.getId();
+        for (Pergunta p : perguntas) {
+            ids += "," + p.getId();
         }
         ids = ids.substring(1, ids.length());
-        
-        resultado = (int) ((resultado/perguntas.size())*100);
-        
+
+        resultado = (int) ((resultado / perguntas.size()) * 100);
+
         simulado.setNota(resultado);
         simulado.setIdPerguntas(ids);
-        
+
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Resultado do Simulado");
-        alerta.setHeaderText("Nota: "+resultado);
+        alerta.setHeaderText("Nota: " + resultado);
         alerta.setContentText("Deseja salvar esse simulado?");
-        
+
         Optional<ButtonType> opcao = alerta.showAndWait();
-        if(opcao.get() == ButtonType.OK){
+        if (opcao.get() == ButtonType.OK) {
             salvarSimulado();
         }
-        
+
         Stage window = (Stage) btnFinalizar.getScene().getWindow();
         window.close();
     }
-    
-    
-    public void salvarSimulado(){
+
+    public void salvarSimulado() {
         SimuladoDAO dao = new SimuladoDAO();
-        try{
+        try {
             dao.insert(simulado);
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             TelaPrincipalController.showErrorAsDialog(ex);
         }
     }

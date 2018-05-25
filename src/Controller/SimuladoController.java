@@ -29,7 +29,8 @@ import javafx.stage.Stage;
  *
  * @author Vinicius
  */
-public class SimuladoController implements Initializable{
+public class SimuladoController implements Initializable {
+
     private Button btn_cancelar;
 
     @FXML
@@ -48,7 +49,7 @@ public class SimuladoController implements Initializable{
     private Button btnGerar;
     @FXML
     private Button btnCancelar;
-    
+
     private PerguntaDAO dao;
 
     @FXML
@@ -56,102 +57,103 @@ public class SimuladoController implements Initializable{
         Stage s = (Stage) btnGerar.getScene().getWindow();
         s.close();
     }
-    
-    public void GerarSimulado() throws Exception{
-        
-        Simulado simulado = new Simulado();
-        
-        String nPerguntas = txtNroPerguntas.getText();
-        String disciplina = txtDisciplina.getText();
-        String assunto = txtAssunto.getText();
-        
-        if(verificarCampos(disciplina,nPerguntas)){
-            List<Pergunta> perguntas;
-            int nroPerguntas = Integer.parseInt(nPerguntas);
-        
-            if(!assunto.equals("")){
-                perguntas = dao.pesquisarDisciplinaAssunto(disciplina, assunto);
-            }else{
-                perguntas = dao.pesquisarDisciplina(disciplina);
+
+    public void GerarSimulado() throws Exception {
+
+        try {
+            Simulado simulado = new Simulado();
+
+            String nPerguntas = txtNroPerguntas.getText();
+            String disciplina = txtDisciplina.getText();
+            String assunto = txtAssunto.getText();
+
+            if (verificarCampos(disciplina, nPerguntas)) {
+                List<Pergunta> perguntas;
+                int nroPerguntas = Integer.parseInt(nPerguntas);
+
+                if (!assunto.equals("")) {
+                    perguntas = dao.pesquisarDisciplinaAssunto(disciplina, assunto);
+                } else {
+                    perguntas = dao.pesquisarDisciplina(disciplina);
+                }
+                //Valor DEFAULT;
+                if (nroPerguntas == 0) {
+                    nroPerguntas = 10;
+                }
+
+                perguntas = escolherPerguntasAleatoriamente(perguntas, nroPerguntas);
+
+                simulado.setDescricao(txtDescricaoSimulado.getText());
+                simulado.setDisciplina(disciplina);
+                simulado.setAssunto(assunto);
+
+                if (!perguntas.isEmpty()) {
+                    FXMLLoader loader = new FXMLLoader();
+                    loader.setLocation(getClass().getResource("/View/Simulado.fxml"));
+                    Parent root = loader.load();
+
+                    SimuladoQuestaoController sqc = loader.getController();
+                    sqc.iniciarSimulado(perguntas, simulado);
+
+                    Stage telaAddQuestao = new Stage();
+                    Scene cena = new Scene(root);
+                    telaAddQuestao.setScene(cena);
+                    telaAddQuestao.showAndWait();
+
+                    Stage window = (Stage) btnGerar.getScene().getWindow();
+                    window.close();
+
+                } else {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR);
+                    alerta.setTitle("Resultado da Operação:");
+                    alerta.setHeaderText("Erro ao gerar o simulado!");
+
+                    String erro = "Perguntas não encontradas para os seguintes parametros:\n\n"
+                            + "Disciplina: " + txtDisciplina.getText() + "\n"
+                            + "Assunto: " + txtAssunto.getText();
+
+                    alerta.setContentText(erro);
+                    alerta.showAndWait();
+                }
             }
-            //Valor DEFAULT;
-            if(nroPerguntas == 0) nroPerguntas = 10;
-            
-            
-            perguntas = escolherPerguntasAleatoriamente(perguntas, nroPerguntas);
-            
-            simulado.setDescricao(txtDescricaoSimulado.getText());
-            simulado.setDisciplina(disciplina);
-            simulado.setAssunto(assunto);
-            
-            if(!perguntas.isEmpty()){
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/View/Simulado.fxml"));
-                Parent root = loader.load();
 
-                SimuladoQuestaoController sqc = loader.getController();
-                sqc.iniciarSimulado(perguntas, simulado);
-
-                Stage telaAddQuestao = new Stage();
-                Scene cena = new Scene(root);
-                telaAddQuestao.setScene(cena);
-                telaAddQuestao.showAndWait();
-
-                Stage window = (Stage) btnGerar.getScene().getWindow();
-                window.close();
-
-            }else{
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("Resultado da Operação:");
-                alerta.setHeaderText("Erro ao gerar o simulado!");
-
-                String erro = "Perguntas não encontradas para os seguintes parametros:\n\n"
-                        + "Disciplina: "+txtDisciplina.getText()+"\n"
-                        + "Assunto: "+txtAssunto.getText();
-
-                alerta.setContentText(erro);
-                alerta.showAndWait();
-            }
-        }else{
-            Alert alerta = new Alert(Alert.AlertType.WARNING);
+        } catch (Exception ex) {
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("Resultado da Operação:");
             alerta.setHeaderText("Erro ao gerar o simulado!");
             alerta.setContentText("Informações inválidas encontradas nos compos obrigatórios!");
             alerta.showAndWait();
         }
-        
-        
+
     }
-    
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dao = new PerguntaDAO();
     }
-    
-    public List<Pergunta> escolherPerguntasAleatoriamente(List<Pergunta> perguntas, int nroPerguntas){
+
+    public List<Pergunta> escolherPerguntasAleatoriamente(List<Pergunta> perguntas, int nroPerguntas) {
         Random random = new Random();
         List<Pergunta> listaPerguntas = new ArrayList<>();
         Pergunta p;
         int aux;
-        while(nroPerguntas>0 && !perguntas.isEmpty()){
+        while (nroPerguntas > 0 && !perguntas.isEmpty()) {
             aux = random.nextInt(perguntas.size());
             p = perguntas.get(aux);
             perguntas.remove(aux);
             listaPerguntas.add(p);
             nroPerguntas--;
         }
-        
+
         return listaPerguntas;
     }
-    
-    
-    public boolean verificarCampos(String p1, String p2){
-        if(p1.equals("")){
+
+    public boolean verificarCampos(String p1, String p2) {
+        if (p1.equals("")) {
             return false;
-        }else if(p2.equals("")){
+        } else if (p2.equals("")) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }

@@ -36,8 +36,7 @@ public class TelaPrincipal extends Application {
         window = primaryStage;
         
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/View/Tela_Principal.fxml"));
-        Parent fxmlTelaPrincipal = loader.load();
+        Parent fxmlTelaPrincipal = loader.load(getClass().getResource("/View/Tela_Principal.fxml"));
         
         window.setTitle("QuizAcademy");
         window.setScene(new Scene(fxmlTelaPrincipal,WIDTH, HEIGHT));
