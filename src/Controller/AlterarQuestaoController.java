@@ -57,8 +57,13 @@ public class AlterarQuestaoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    }
+
+    public void iniciarTela(Pergunta p){
         pdao = new PerguntaDAO();
-    }    
+        pergunta = p;
+        carregarDados();
+    }
 
     public void cancelar() {
         Stage janela = (Stage) btnCancelar.getScene().getWindow();
@@ -102,20 +107,16 @@ public class AlterarQuestaoController implements Initializable {
         }
     }
 
-    
-    public void setPergunta(Pergunta p){
-        pergunta = p;
-    }
-    
     public void carregarDados(){
+        System.out.println(txtDisciplina);
         txtDisciplina.setText(pergunta.getDisciplina());
         txtAssunto.setText(pergunta.getAssunto());
         txtDescricao.setText(pergunta.getDescricao());
         txtEnunciado.setText(pergunta.getEnunciado());
         txtResposta.setText(pergunta.getResposta());
         
-        imageEnunciado.setImage(new Image("file:///"+Pergunta.PATHENUNCIADO+pergunta.getImagemEnunciado()));
-        imageResposta.setImage(new Image("file:///"+Pergunta.PATHRESPOSTA+pergunta.getImagemResposta()));
+        //imageEnunciado.setImage(new Image("file:///"+Pergunta.PATHENUNCIADO+pergunta.getImagemEnunciado()));
+        //imageResposta.setImage(new Image("file:///"+Pergunta.PATHRESPOSTA+pergunta.getImagemResposta()));
     }
     
     public void atualizarPergunta(){

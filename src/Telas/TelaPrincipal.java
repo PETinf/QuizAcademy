@@ -5,16 +5,6 @@
  */
 package Telas;
 
-import Model.Pergunta;
-import Model.PerguntaDAO;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,8 +25,7 @@ public class TelaPrincipal extends Application {
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
         
-        FXMLLoader loader = new FXMLLoader();
-        Parent fxmlTelaPrincipal = loader.load(getClass().getResource("/View/Tela_Principal.fxml"));
+        Parent fxmlTelaPrincipal = FXMLLoader.load(TelaPrincipal.class.getResource("/View/Tela_Principal.fxml"));
         
         window.setTitle("QuizAcademy");
         window.setScene(new Scene(fxmlTelaPrincipal,WIDTH, HEIGHT));

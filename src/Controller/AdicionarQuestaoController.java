@@ -20,7 +20,8 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class AdicionarQuestaoController implements Initializable{
+public class AdicionarQuestaoController implements Initializable {
+
     @FXML
     private Button btnAdicionar;
 
@@ -44,99 +45,100 @@ public class AdicionarQuestaoController implements Initializable{
 
     @FXML
     private TextField txtDisciplina;
-    
+
     @FXML
     private TextField txtResposta;
-    
+
     private PerguntaDAO pdao;
-    
+
     private Pergunta p;
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         pdao = new PerguntaDAO();
         p = new Pergunta();
-        
-        Image image = new Image(getClass().getResourceAsStream("../ImagemEnunciado/default.jpg"));
+
+        Image image = new Image(AdicionarQuestaoController.class.getResourceAsStream("/ImagemEnunciado/default.jpg"));
         imageEnunciado.setImage(image);
         imageResposta.setImage(image);
     }
+
     
-    
-    public void carregarDados(){
-        
+    public void carregarDados() {
+
         txtDisciplina.setText(p.getDisciplina());
         txtAssunto.setText(p.getAssunto());
         txtDescricao.setText(p.getDescricao());
         txtEnunciado.setText(p.getEnunciado());
         txtResposta.setText(p.getResposta());
-        
+
         File imagem;
         String caminho;
-        
-        if(p.getImagemEnunciado() != null){
-            caminho = Pergunta.PATHENUNCIADO+p.getImagemEnunciado();
-            imagem = new File(caminho);
-            imageEnunciado.setImage(new Image("file:///"+imagem));
+        try {
+            if (p.getImagemEnunciado() != null) {
+                caminho = Pergunta.PATHENUNCIADO + p.getImagemEnunciado();
+                imagem = new File(caminho);
+                imageEnunciado.setImage(new Image("file:///" + imagem));
+            }
+            if (p.getImagemResposta() != null) {
+                caminho = Pergunta.PATHRESPOSTA + p.getImagemResposta();
+                imagem = new File(caminho);
+                imageResposta.setImage(new Image("file:///" + imagem));
+            }
+        } catch (NullPointerException ex) {
+            System.out.println(ex.getMessage());
         }
-        if(p.getImagemResposta() != null){
-            caminho = Pergunta.PATHRESPOSTA+p.getImagemResposta();
-            imagem = new File(caminho);
-            imageResposta.setImage(new Image("file:///"+imagem));
-        }
-        
     }
-    
-    
+
     @FXML
     protected void adicionar(ActionEvent event) {
-        
+
         p.setDisciplina(txtDisciplina.getText());
         p.setAssunto(txtAssunto.getText());
         p.setDescricao(txtDescricao.getText());
         p.setEnunciado(txtEnunciado.getText());
         p.setResposta(txtResposta.getText());
-        
-        try{
+
+        try {
             pdao.insert(p);
             cancelar();
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             TelaPrincipalController.showErrorAsDialog(ex);
         }
     }
-    
+
     @FXML
-    protected void cancelar(){
+    protected void cancelar() {
         Stage janelaAtual = (Stage) btnCancelar.getScene().getWindow();
         janelaAtual.close();
     }
-    
+
     @FXML
-    public void escolherImagemEnunciado(){
-        
+    public void escolherImagemEnunciado() {
+
         FileChooser fc = new FileChooser();
         String caminho = System.getProperty("user.dir") + "/src/ImagemEnunciado/";
         fc.setInitialDirectory(new File(caminho));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens","*.jpg","*.png","*.jpeg"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens", "*.jpg", "*.png", "*.jpeg"));
         File arquivo = fc.showOpenDialog(new Stage());
-        if(arquivo != null){
-            imageEnunciado.setImage(new Image("file:///"+arquivo.getAbsolutePath()));
+        if (arquivo != null) {
+            imageEnunciado.setImage(new Image("file:///" + arquivo.getAbsolutePath()));
             p.setImagemEnunciado(arquivo.getName());
         }
     }
-    
+
     @FXML
-    public void escolherImagemResposta(){
-        
+    public void escolherImagemResposta() {
+
         FileChooser fc = new FileChooser();
         String caminho = System.getProperty("user.dir") + "/src/ImagemResposta/";
         fc.setInitialDirectory(new File(caminho));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens","*.jpg","*.png","*.jpeg"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens", "*.jpg", "*.png", "*.jpeg"));
         File arquivo = fc.showOpenDialog(new Stage());
-        if(arquivo != null){
-            imageResposta.setImage(new Image("file:///"+arquivo.getAbsolutePath()));
+        if (arquivo != null) {
+            imageResposta.setImage(new Image("file:///" + arquivo.getAbsolutePath()));
             p.setImagemResposta(arquivo.getName());
         }
     }
-    
+
 }
