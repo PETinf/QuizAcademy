@@ -6,8 +6,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ConnectionFactory {
     
@@ -21,12 +19,12 @@ public class ConnectionFactory {
             Class.forName(DRIVER);
             return DriverManager.getConnection(URL+banco);
         } catch (ClassNotFoundException | SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("ConnectionFactory.getConnection: "+ex.getMessage());
             return null;
         }
         
     }
-    
+    /*
     public static Connection getConnection(String banco){
         
         try {
@@ -38,28 +36,30 @@ public class ConnectionFactory {
         }
         
     }
-    
+    */
     public static void closeConnection(Connection conexao){
         
         try {
             if(conexao != null){
                 conexao.close();
-            }  
+            }
+            
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("ConnectionFactory.closeConnection1: "+ex.getMessage());
         }
         
     }
     
     public static void closeConnection(Connection conexao, PreparedStatement stmt){
+        
         closeConnection(conexao);
         
         try {
             if(stmt != null){
                 stmt.close();
-            }  
+            }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("ConnectionFactory.closeConnection2: "+ex.getMessage());
         }
         
     }
@@ -71,9 +71,9 @@ public class ConnectionFactory {
         try {
             if(rs != null){
                 rs.close();
-            }  
+            }
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("ConnectionFactory.closeConnection3: "+ex.getMessage());
         }
         
     }

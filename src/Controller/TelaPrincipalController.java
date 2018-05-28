@@ -49,44 +49,26 @@ import javafx.stage.Window;
  */
 public class TelaPrincipalController implements Initializable {
 
-    @FXML
-    private Button btnExport;
-    @FXML
-    private Button btnRemoverQuestao;
-    @FXML
-    private Button btnAddQuestao;
-    @FXML
-    private Button btnAlterarQuestao;
-    @FXML
-    private Button btnTrocarBD;
-    @FXML
-    private Button btnImport;
-    @FXML
-    private Button btnHistorico;
-    @FXML
-    private TextField tfNumero;
-    @FXML
-    private ComboBox<String> cbBanco;
-    @FXML
-    private TableView<Pergunta> tabela;
-    @FXML
-    private TextField tfAssunto;
-    @FXML
-    private Button btnPequisar;
-    @FXML
-    private TextField tfDisciplina;
-    @FXML
-    private Button gerarHistorico;
-    @FXML
-    private TextField tfId;
-    @FXML
-    private TableColumn<Pergunta, String> colDisciplina;
-    @FXML
-    private TableColumn<Pergunta, String> colDescricao;
-    @FXML
-    private TableColumn<Pergunta, String> colAssunto;
-    @FXML
-    private TableColumn<Pergunta, Integer> colId;
+    @FXML private Button btnExport;
+    @FXML private Button btnRemoverQuestao;
+    @FXML private Button btnAddQuestao;
+    @FXML private Button btnAlterarQuestao;
+    @FXML private Button btnTrocarBD;
+    @FXML private Button btnImport;
+    @FXML private Button btnHistorico;
+    @FXML private Button btnPequisar;
+    @FXML private Button gerarHistorico;
+    @FXML private TextField txtAssunto;
+    @FXML private TextField txtDisciplina;
+    @FXML private TextField txtId;
+    @FXML private TextField txtDescricao;
+    @FXML private TableColumn<Pergunta, String> colDisciplina;
+    @FXML private TableColumn<Pergunta, String> colDescricao;
+    @FXML private TableColumn<Pergunta, String> colAssunto;
+    @FXML private TableView<Pergunta> tabela;
+    @FXML private TableColumn<Pergunta, Integer> colId;
+    @FXML private ComboBox<String> cbBanco;
+    
     private List<Pergunta> lista;
     private PerguntaDAO pdao;
     private ObservableList perguntas;
@@ -172,48 +154,23 @@ public class TelaPrincipalController implements Initializable {
         Pergunta pergunta = tabela.getSelectionModel().getSelectedItem();
 
         if (pergunta != null) {
-            /*
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(TelaPrincipalController.class.getResource("../View/Alterar_Questao.fxml"));
-            Parent root = loader.load();
-
-            Stage telaAddQuestao = new Stage();
-            Scene cena = new Scene(root);
-
-            AlterarQuestaoController c = loader.getController();
-            c.setPergunta(pergunta);
-            c.carregarDados();
-
-            telaAddQuestao.setScene(cena);
-            telaAddQuestao.showAndWait();
-            */
             Stage window = new Stage();
+            
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(TelaPrincipalController.class.getResource("/View/Adicionar_Questao.fxml"));
+            loader.setLocation(TelaPrincipalController.class.getResource("/View/Alterar_Questao.fxml"));
+            
             Parent alterarQuestao = loader.load();
             Scene cena = new Scene(alterarQuestao);
             window.setScene(cena);
             
-            loader.setController(new AlterarQuestaoController());
-            AlterarQuestaoController c = loader.getController();
-            
-            System.out.println(pergunta.getId());
-            c.iniciarTela(pergunta);
+            AlterarQuestaoController controller = loader.getController();
+            controller.iniciarTela(pergunta);
             
             window.showAndWait();
 
-            
-            //carregarTabela();
+            carregarTabela();
         }
     }
-
-    /*
-    @FXML
-    protected void historico(ActionEvent event) throws Exception {
-        Historico historico = new Historico();
-        historico.start(new Stage());
-    }
-     */
     public void iniciarTabela() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
@@ -229,7 +186,7 @@ public class TelaPrincipalController implements Initializable {
         } catch (SQLException ex) {
             showErrorAsDialog(ex);
         } catch (NullPointerException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("TelaPrincipalController.carregarTabela: "+ex.getMessage());
         }
     }
 
@@ -264,7 +221,7 @@ public class TelaPrincipalController implements Initializable {
             ObservableList obs = FXCollections.observableArrayList(bds);
             cbBanco.setItems(obs);
         } catch (NullPointerException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("TelaPrincipalController.listabancos: "+ex.getMessage());
         }
 
     }
@@ -293,7 +250,6 @@ public class TelaPrincipalController implements Initializable {
     public void importarBanco() {
 
         FileChooser fc = new FileChooser();
-        //fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Banco de Dados", "."));
         File arquivo = fc.showOpenDialog(new Stage());
         if (arquivo != null && arquivo.getName().endsWith(".db")) {
             String dir = System.getProperty("user.dir") + "/db/";
@@ -393,10 +349,13 @@ public class TelaPrincipalController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pdao = new PerguntaDAO();
-        iniciarTabela();
-        carregarTabela();
-        listarbancos();
+        try{
+            pdao = new PerguntaDAO();
+            iniciarTabela();
+            carregarTabela();
+            listarbancos();
+        }catch(Exception ex){
+            System.out.println("TelPrincipalController.initialize: "+ex.getMessage());
+        }
     }
-
 }

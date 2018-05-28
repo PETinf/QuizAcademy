@@ -40,8 +40,7 @@ public class RespostaController implements Initializable {
     public void iniciarTela(Pergunta p){
         
         if(p.getImagemResposta() != null){
-            System.out.println(p.getImagemResposta());
-            imgResposta.setImage(new Image("file:///"+System.getProperty("user.dir") + "/src/ImagemResposta/"+p.getImagemResposta()));
+            imgResposta.setImage(new Image(getClass().getResourceAsStream("/ImagemResposta/"+p.getImagemResposta())));
         }
         lblResposta.setText(p.getResposta());
         

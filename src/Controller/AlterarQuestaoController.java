@@ -28,28 +28,17 @@ import javafx.stage.Stage;
  */
 public class AlterarQuestaoController implements Initializable {
 
-    @FXML
-    private TextField txtDisciplina;
-    @FXML
-    private TextField txtAssunto;
-    @FXML
-    private TextArea txtEnunciado;
-    @FXML
-    private TextField txtDescricao;
-    @FXML
-    private TextField txtResposta;
-    @FXML
-    private Button btnEscolherEnunciado;
-    @FXML
-    private Button btnEscolherResposta;
-    @FXML
-    private ImageView imageEnunciado;
-    @FXML
-    private ImageView imageResposta;
-    @FXML
-    private Button btnCancelar;
-    @FXML
-    private Button btnAlterar;
+    @FXML private TextField txtDisciplina;
+    @FXML private TextField txtAssunto;
+    @FXML private TextArea txtEnunciado;
+    @FXML private TextField txtDescricao;
+    @FXML private TextField txtResposta;
+    @FXML private Button btnEscolherEnunciado;
+    @FXML private Button btnEscolherResposta;
+    @FXML private ImageView imageEnunciado;
+    @FXML private ImageView imageResposta;
+    @FXML private Button btnCancelar;
+    @FXML private Button btnAlterar;
     private Pergunta pergunta;
     private PerguntaDAO pdao;
     /**
@@ -60,9 +49,14 @@ public class AlterarQuestaoController implements Initializable {
     }
 
     public void iniciarTela(Pergunta p){
-        pdao = new PerguntaDAO();
-        pergunta = p;
-        carregarDados();
+        try{
+            pdao = new PerguntaDAO();
+            pergunta = p;
+            carregarDados();
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        
     }
 
     public void cancelar() {
@@ -108,15 +102,18 @@ public class AlterarQuestaoController implements Initializable {
     }
 
     public void carregarDados(){
-        System.out.println(txtDisciplina);
         txtDisciplina.setText(pergunta.getDisciplina());
         txtAssunto.setText(pergunta.getAssunto());
         txtDescricao.setText(pergunta.getDescricao());
         txtEnunciado.setText(pergunta.getEnunciado());
         txtResposta.setText(pergunta.getResposta());
+        if(pergunta.getImagemEnunciado() != null){
+            imageEnunciado.setImage(new Image(getClass().getResourceAsStream("/ImagemEnunciado/"+pergunta.getImagemEnunciado())));
+        }
+        if(pergunta.getImagemResposta() != null){
+            imageResposta.setImage(new Image(getClass().getResourceAsStream("/ImagemResposta/"+pergunta.getImagemResposta())));
+        }
         
-        //imageEnunciado.setImage(new Image("file:///"+Pergunta.PATHENUNCIADO+pergunta.getImagemEnunciado()));
-        //imageResposta.setImage(new Image("file:///"+Pergunta.PATHRESPOSTA+pergunta.getImagemResposta()));
     }
     
     public void atualizarPergunta(){

@@ -79,7 +79,10 @@ public class TelaQuestaoController implements Initializable {
         lblAssunto.setText(pergunta.getAssunto());
         lblDescricao.setText(pergunta.getDescricao());
         lblEnunciado.setText(pergunta.getEnunciado());
-        imgEnunciado.setImage(new Image("file:///"+System.getProperty("user.dir") + "/src/ImagemEnunciado/"+pergunta.getImagemEnunciado()));
+        if(pergunta.getImagemEnunciado() != null){
+            imgEnunciado.setImage(new Image(getClass().getResourceAsStream("/ImagemEnunciado/"+pergunta.getImagemEnunciado())));
+        }
+        
     }
     
     public void next(){
