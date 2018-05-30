@@ -10,7 +10,6 @@ import Model.PerguntaDAO;
 import Model.Simulado;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -33,23 +32,12 @@ public class SimuladoController implements Initializable {
 
     private Button btn_cancelar;
 
-    @FXML
-    private TextField txtDescricaoSimulado;
-
-    @FXML
-    private TextField txtDisciplina;
-
-    @FXML
-    private TextField txtAssunto;
-
-    @FXML
-    private TextField txtNroPerguntas;
-
-    @FXML
-    private Button btnGerar;
-    @FXML
-    private Button btnCancelar;
-
+    @FXML private TextField txtDescricaoSimulado;
+    @FXML private TextField txtDisciplina;
+    @FXML private TextField txtAssunto;
+    @FXML private TextField txtNroPerguntas;
+    @FXML private Button btnGerar;
+    @FXML private Button btnCancelar;
     private PerguntaDAO dao;
 
     @FXML

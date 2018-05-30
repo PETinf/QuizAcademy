@@ -22,35 +22,17 @@ import javafx.stage.Stage;
 
 public class AdicionarQuestaoController implements Initializable {
 
-    @FXML
-    private Button btnAdicionar;
-
-    @FXML
-    private TextField txtAssunto;
-
-    @FXML
-    private ImageView imageResposta;
-
-    @FXML
-    private Button btnCancelar;
-
-    @FXML
-    private TextArea txtEnunciado;
-
-    @FXML
-    private TextField txtDescricao;
-
-    @FXML
-    private ImageView imageEnunciado;
-
-    @FXML
-    private TextField txtDisciplina;
-
-    @FXML
-    private TextField txtResposta;
-
+    @FXML private Button btnAdicionar;
+    @FXML private TextField txtAssunto;
+    @FXML private ImageView imageResposta;
+    @FXML private Button btnCancelar;
+    @FXML private TextArea txtEnunciado;
+    @FXML private TextField txtDescricao;
+    @FXML private ImageView imageEnunciado;
+    @FXML private TextField txtDisciplina;
+    @FXML private TextField txtResposta;
+    
     private PerguntaDAO pdao;
-
     private Pergunta p;
 
     @Override
@@ -61,33 +43,6 @@ public class AdicionarQuestaoController implements Initializable {
         Image image = new Image(AdicionarQuestaoController.class.getResourceAsStream("/ImagemEnunciado/default.jpg"));
         imageEnunciado.setImage(image);
         imageResposta.setImage(image);
-    }
-
-    
-    public void carregarDados() {
-
-        txtDisciplina.setText(p.getDisciplina());
-        txtAssunto.setText(p.getAssunto());
-        txtDescricao.setText(p.getDescricao());
-        txtEnunciado.setText(p.getEnunciado());
-        txtResposta.setText(p.getResposta());
-
-        File imagem;
-        String caminho;
-        try {
-            if (p.getImagemEnunciado() != null) {
-                caminho = Pergunta.PATHENUNCIADO + p.getImagemEnunciado();
-                imagem = new File(caminho);
-                imageEnunciado.setImage(new Image("file:///" + imagem));
-            }
-            if (p.getImagemResposta() != null) {
-                caminho = Pergunta.PATHRESPOSTA + p.getImagemResposta();
-                imagem = new File(caminho);
-                imageResposta.setImage(new Image("file:///" + imagem));
-            }
-        } catch (NullPointerException ex) {
-            System.out.println(ex.getMessage());
-        }
     }
 
     @FXML
@@ -117,7 +72,7 @@ public class AdicionarQuestaoController implements Initializable {
     public void escolherImagemEnunciado() {
 
         FileChooser fc = new FileChooser();
-        String caminho = System.getProperty("user.dir") + "/src/ImagemEnunciado/";
+        String caminho = System.getProperty("user.dir");
         fc.setInitialDirectory(new File(caminho));
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens", "*.jpg", "*.png", "*.jpeg"));
         File arquivo = fc.showOpenDialog(new Stage());
@@ -129,9 +84,8 @@ public class AdicionarQuestaoController implements Initializable {
 
     @FXML
     public void escolherImagemResposta() {
-
         FileChooser fc = new FileChooser();
-        String caminho = System.getProperty("user.dir") + "/src/ImagemResposta/";
+        String caminho = System.getProperty("user.dir");
         fc.setInitialDirectory(new File(caminho));
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens", "*.jpg", "*.png", "*.jpeg"));
         File arquivo = fc.showOpenDialog(new Stage());
@@ -140,5 +94,4 @@ public class AdicionarQuestaoController implements Initializable {
             p.setImagemResposta(arquivo.getName());
         }
     }
-
 }

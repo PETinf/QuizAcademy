@@ -29,24 +29,15 @@ import javafx.stage.Stage;
  */
 public class TelaQuestaoController implements Initializable {
 
-    @FXML
-    private Button btnPrev;
-    @FXML
-    private Button btnNext;
-    @FXML
-    private Label lblDisciplina;
-    @FXML
-    private Label lblAssunto;
-    @FXML
-    private Button btnResposta;
-    @FXML
-    private Button btnVoltar;
-    @FXML
-    private Label lblDescricao;
-    @FXML
-    private Label lblEnunciado;
-    @FXML
-    private ImageView imgEnunciado;
+    @FXML private Button btnPrev;
+    @FXML private Button btnNext;
+    @FXML private Label lblDisciplina;
+    @FXML private Label lblAssunto;
+    @FXML private Button btnResposta;
+    @FXML private Button btnVoltar;
+    @FXML private Label lblDescricao;
+    @FXML private Label lblEnunciado;
+    @FXML private ImageView imgEnunciado;
     private Pergunta pergunta;
     private List<Pergunta> perguntas;
     private ListIterator<Pergunta> it;

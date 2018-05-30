@@ -31,28 +31,17 @@ import javafx.stage.Stage;
  */
 public class SimuladoQuestaoController implements Initializable {
 
-    @FXML
-    private Button btnVoltar;
-    @FXML
-    private Button btnAvancar;
-    @FXML
-    private Button btnComitar;
-    @FXML
-    private Button btnFinalizar;
-    @FXML
-    private Label lblDisciplina;
-    @FXML
-    private Label lblAssunto;
-    @FXML
-    private Label lblDescricao;
-    @FXML
-    private Label lblEnunciado;
-    @FXML
-    private ImageView imgEnunciado;
-    @FXML
-    private ImageView imgConfirm;
-    @FXML
-    private TextField txtResposta;
+    @FXML private Button btnVoltar;
+    @FXML private Button btnAvancar;
+    @FXML private Button btnComitar;
+    @FXML private Button btnFinalizar;
+    @FXML private Label lblDisciplina;
+    @FXML private Label lblAssunto;
+    @FXML private Label lblDescricao;
+    @FXML private Label lblEnunciado;
+    @FXML private ImageView imgEnunciado;
+    @FXML private ImageView imgConfirm;
+    @FXML private TextField txtResposta;
     private Simulado simulado;
     private List<Pergunta> perguntas;
     private int nroPergunta;

@@ -41,6 +41,7 @@ public class AlterarQuestaoController implements Initializable {
     @FXML private Button btnAlterar;
     private Pergunta pergunta;
     private PerguntaDAO pdao;
+
     /**
      * Initializes the controller class.
      */
@@ -48,15 +49,15 @@ public class AlterarQuestaoController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public void iniciarTela(Pergunta p){
-        try{
+    public void iniciarTela(Pergunta p) {
+        try {
             pdao = new PerguntaDAO();
             pergunta = p;
             carregarDados();
-        }catch(Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        
+
     }
 
     public void cancelar() {
@@ -65,65 +66,71 @@ public class AlterarQuestaoController implements Initializable {
     }
 
     public void escolherEnunciado() {
-        
-        FileChooser fc = new FileChooser();
-        String caminho = Pergunta.PATHENUNCIADO;
-        fc.setInitialDirectory(new File(caminho));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens","*.jpg","*.png","*.jpeg"));
-        File arquivo = fc.showOpenDialog(new Stage());
-        if(arquivo != null){
-            imageEnunciado.setImage(new Image("file:///"+arquivo.getAbsolutePath()));
-            pergunta.setImagemEnunciado(arquivo.getName());
+        try {
+            FileChooser fc = new FileChooser();
+            String caminho = System.getProperty("user.dir");
+            System.out.println(caminho);
+            fc.setInitialDirectory(new File(caminho));
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens", "*.jpg", "*.png", "*.jpeg"));
+            File arquivo = fc.showOpenDialog(new Stage());
+            if (arquivo != null) {
+                imageEnunciado.setImage(new Image("file:///" + arquivo.getAbsolutePath()));
+                pergunta.setImagemEnunciado(arquivo.getName());
+            }
+        } catch (Exception ex) {
+            System.out.println("ERRO: " + ex.getMessage());
         }
     }
-    
 
     public void escolherResposta() {
-        
-        FileChooser fc = new FileChooser();
-        String caminho = Pergunta.PATHRESPOSTA;
-        fc.setInitialDirectory(new File(caminho));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens","*.jpg","*.png","*.jpeg"));
-        File arquivo = fc.showOpenDialog(new Stage());
-        if(arquivo != null){
-            imageResposta.setImage(new Image("file:///"+arquivo.getAbsolutePath()));
-            pergunta.setImagemResposta(arquivo.getName());
+        try {
+            FileChooser fc = new FileChooser();
+            String caminho = System.getProperty("user.dir");
+            fc.setInitialDirectory(new File(caminho));
+            fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens", "*.jpg", "*.png", "*.jpeg"));
+            File arquivo = fc.showOpenDialog(new Stage());
+            if (arquivo != null) {
+                imageResposta.setImage(new Image("file:///" + arquivo.getAbsolutePath()));
+                pergunta.setImagemResposta(arquivo.getName());
+            }
+        } catch (Exception ex) {
+            System.out.println("ERRO: " + ex.getMessage());
         }
-        
     }
 
     public void alterar() {
-        try{
+        try {
             atualizarPergunta();
             pdao.update(pergunta);
-        }catch(SQLException ex){
+
+            Stage s = (Stage) btnAlterar.getScene().getWindow();
+            s.close();
+        } catch (SQLException ex) {
             TelaPrincipalController.showErrorAsDialog(ex);
         }
     }
 
-    public void carregarDados(){
+    public void carregarDados() {
         txtDisciplina.setText(pergunta.getDisciplina());
         txtAssunto.setText(pergunta.getAssunto());
         txtDescricao.setText(pergunta.getDescricao());
         txtEnunciado.setText(pergunta.getEnunciado());
         txtResposta.setText(pergunta.getResposta());
-        if(pergunta.getImagemEnunciado() != null){
-            imageEnunciado.setImage(new Image(getClass().getResourceAsStream("/ImagemEnunciado/"+pergunta.getImagemEnunciado())));
-        }
-        if(pergunta.getImagemResposta() != null){
-            imageResposta.setImage(new Image(getClass().getResourceAsStream("/ImagemResposta/"+pergunta.getImagemResposta())));
-        }
         
+        if (pergunta.getImagemEnunciado() != null) {
+            imageEnunciado.setImage(new Image(getClass().getResourceAsStream("/ImagemEnunciado/" + pergunta.getImagemEnunciado())));
+        }
+        if (pergunta.getImagemResposta() != null) {
+            imageResposta.setImage(new Image(getClass().getResourceAsStream("/ImagemResposta/" + pergunta.getImagemResposta())));
+        }
+
     }
-    
-    public void atualizarPergunta(){
+
+    public void atualizarPergunta() {
         pergunta.setDisciplina(txtDisciplina.getText());
         pergunta.setAssunto(txtAssunto.getText());
         pergunta.setDescricao(txtDescricao.getText());
         pergunta.setEnunciado(txtEnunciado.getText());
-        txtResposta.setText(pergunta.getResposta());
-        
-        Stage s = (Stage) btnAlterar.getScene().getWindow();
-        s.close();
+        pergunta.setResposta(txtResposta.getText());
     }
 }
