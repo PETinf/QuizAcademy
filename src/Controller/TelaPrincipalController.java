@@ -48,7 +48,7 @@ import javafx.stage.Window;
  * @author Vinicius
  */
 public class TelaPrincipalController implements Initializable {
-    
+
     @FXML private Button btnExport;
     @FXML private Button btnRemoverQuestao;
     @FXML private Button btnAddQuestao;
@@ -68,14 +68,14 @@ public class TelaPrincipalController implements Initializable {
     @FXML private TableView<Pergunta> tabela;
     @FXML private TableColumn<Pergunta, Integer> colId;
     @FXML private ComboBox<String> cbBanco;
-    
+
     private List<Pergunta> lista;
     private PerguntaDAO pdao;
     private ObservableList perguntas;
+
     
-    @FXML
-    protected void adicionarQuestao() {
-        
+    public void adicionarQuestao(){
+        /*
         try {
             Stage primaryStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
@@ -88,75 +88,80 @@ public class TelaPrincipalController implements Initializable {
             carregarTabela();
         } catch (IOException ex) {
             showErrorAsDialog(ex);
-        }
-    }
-    
-    @FXML
-    protected void removerQuestao(ActionEvent event){
-        
+        }*/
         try{
-            Pergunta p = tabela.getSelectionModel().getSelectedItem();
-        PerguntaDAO dao = new PerguntaDAO();
-        
-        if (p != null) {
-            Alert alerta = new Alert(AlertType.CONFIRMATION);
-            alerta.setTitle("Aguardando a confirmação da operação...");
-            alerta.setHeaderText("Você realmente deseja excluir esa questão?:");
-            
-            String questao = "Questão:\n\n";
-            
-            questao += "ID: " + p.getId();
-            
-            if (p.getDescricao() != null) {
-                questao += "\nDescrição: " + p.getDescricao();
-            }
-            if (p.getDisciplina() != null) {
-                questao += "\nDisciplina: " + p.getDisciplina();
-            }
-            if (p.getAssunto() != null) {
-                questao += "\nAssunto: " + p.getAssunto() + "\n";
-            }
-            
-            alerta.setContentText(questao);
-            Optional<ButtonType> result = alerta.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                    dao.remove(p);
-                    carregarTabela();
-            } else {
-                alerta.close();
-            }
-        }
-        
-        carregarTabela();
-        }catch(SQLException ex){
+            filtrarTabelaPorDisciplina(txtDisciplina.getText());
+        }catch(Exception ex){
             showErrorAsDialog(ex);
         }
-        
     }
-    
-    public void alterarQuestao(){
-        
-        try{
-            Pergunta pergunta = tabela.getSelectionModel().getSelectedItem();
-        
-        if (pergunta != null) {
-            Stage window = new Stage();
+
+    @FXML
+    protected void removerQuestao(ActionEvent event) {
+
+        try {
+            Pergunta p = tabela.getSelectionModel().getSelectedItem();
+            PerguntaDAO dao = new PerguntaDAO();
+
+            if (p != null) {
+                Alert alerta = new Alert(AlertType.CONFIRMATION);
+                alerta.setTitle("Aguardando a confirmação da operação...");
+                alerta.setHeaderText("Você realmente deseja excluir esa questão?:");
+
+                String questao = "Questão:\n\n";
+
+                questao += "ID: " + p.getId();
+
+                if (p.getDescricao() != null) {
+                    questao += "\nDescrição: " + p.getDescricao();
+                }
+                if (p.getDisciplina() != null) {
+                    questao += "\nDisciplina: " + p.getDisciplina();
+                }
+                if (p.getAssunto() != null) {
+                    questao += "\nAssunto: " + p.getAssunto() + "\n";
+                }
+
+                alerta.setContentText(questao);
+                Optional<ButtonType> result = alerta.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    dao.remove(p);
+                } else {
+                    alerta.close();
+                }
+            }
             
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(TelaPrincipalController.class.getResource("/View/Alterar_Questao.fxml"));
-            
-            Parent alterarQuestao = loader.load();
-            Scene cena = new Scene(alterarQuestao);
-            window.setScene(cena);
-            
-            AlterarQuestaoController controller = loader.getController();
-            controller.iniciarTela(pergunta);
-            
-            window.showAndWait();
-            
-            carregarTabela();
+            refreshTable();
+        } catch (Exception ex) {
+            showErrorAsDialog(ex);
+        }finally{
         }
-        }catch(Exception ex){
+
+    }
+
+    public void alterarQuestao() {
+
+        try {
+            Pergunta pergunta = tabela.getSelectionModel().getSelectedItem();
+
+            if (pergunta != null) {
+                Stage window = new Stage();
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(TelaPrincipalController.class.getResource("/View/Alterar_Questao.fxml"));
+
+                Parent alterarQuestao = loader.load();
+                Scene cena = new Scene(alterarQuestao);
+                window.setScene(cena);
+
+                AlterarQuestaoController controller = loader.getController();
+                controller.iniciarTela(pergunta);
+
+                window.showAndWait();
+
+                refreshTable();
+            }
+        } catch (Exception ex) {
             showErrorAsDialog(ex);
         }
     }
@@ -167,44 +172,43 @@ public class TelaPrincipalController implements Initializable {
         colAssunto.setCellValueFactory(new PropertyValueFactory<>("assunto"));
         colDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
     }
-    
-    public void carregarTabela() {
+
+    public void carregarTabela(List<Pergunta> listaDePerguntas) {
         try {
-            lista = pdao.read();
-            perguntas = FXCollections.observableList(lista);
+            perguntas = FXCollections.observableList(listaDePerguntas);
             tabela.setItems(perguntas);
         } catch (Exception ex) {
             System.out.println("TelaPrincipalController.carregarTabela: " + ex.getMessage());
         }
     }
-    
-    public void selecionarQuestao(){
-        try{
+
+    public void selecionarQuestao() {
+        try {
             Pergunta p = tabela.getSelectionModel().getSelectedItem();
-        if (p != null) {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/View/Questao.fxml"));
-            Parent root = loader.load();
-            
-            TelaQuestaoController tqc = loader.getController();
-            tqc.iniciarQuestao(lista, p.getId());
-            
-            Scene cena = new Scene(root);
-            Stage window = new Stage();
-            window.setScene(cena);
-            window.showAndWait();
-        }
-        }catch(Exception ex){
+            if (p != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/View/Questao.fxml"));
+                Parent root = loader.load();
+
+                TelaQuestaoController tqc = loader.getController();
+                tqc.iniciarQuestao(lista, p.getId());
+
+                Scene cena = new Scene(root);
+                Stage window = new Stage();
+                window.setScene(cena);
+                window.showAndWait();
+            }
+        } catch (Exception ex) {
             showErrorAsDialog(ex);
         }
     }
-    
+
     public void listarbancos() {
         try {
             File pasta = new File(System.getProperty("user.dir") + "/db/");
             List<String> bds = new ArrayList<>();
             File[] arquivos = pasta.listFiles();
-            
+
             for (File arq : arquivos) {
                 if (arq.getName().endsWith(".db")) {
                     bds.add(arq.getName());
@@ -215,81 +219,81 @@ public class TelaPrincipalController implements Initializable {
         } catch (Exception ex) {
             System.out.println("TelaPrincipalController.listabancos: " + ex.getMessage());
         }
-        
+
     }
-    
+
     public void selecionarBancoDeDados() {
-        try{
+        try {
             String bd = cbBanco.getSelectionModel().getSelectedItem();
-        
-        if (bd != null) {
-            ConnectionFactory.setBanco(bd);
-            carregarTabela();
-            
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Relatório de operação");
-            alerta.setHeaderText("Operação finalizada:");
-            alerta.setContentText("O Banco de Dados foi alterado para : " + bd + " com sucesso!");
-            alerta.showAndWait();
-        } else {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Relatório de operação");
-            alerta.setHeaderText("Erro na operação:");
-            alerta.setContentText("Banco de Dados não selecionado ou não encontrado!");
-            alerta.showAndWait();
-        }
-        }catch(Exception ex){
+
+            if (bd != null) {
+                ConnectionFactory.setBanco(bd);
+                refreshTable();
+
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Relatório de operação");
+                alerta.setHeaderText("Operação finalizada:");
+                alerta.setContentText("O Banco de Dados foi alterado para : " + bd + " com sucesso!");
+                alerta.showAndWait();
+            } else {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setTitle("Relatório de operação");
+                alerta.setHeaderText("Erro na operação:");
+                alerta.setContentText("Banco de Dados não selecionado ou não encontrado!");
+                alerta.showAndWait();
+            }
+        } catch (Exception ex) {
             showErrorAsDialog(ex);
         }
     }
-    
+
     public void importarBanco() {
-        
-        try{
+
+        try {
             FileChooser fc = new FileChooser();
-        File arquivo = fc.showOpenDialog(new Stage());
-        if (arquivo != null && arquivo.getName().endsWith(".db")) {
-            String dir = System.getProperty("user.dir") + "/db/";
-            arquivo.renameTo(new File(dir, arquivo.getName()));
-            
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Relatório de operação");
-            alerta.setHeaderText("Operação finalizada:");
-            alerta.setContentText("O Banco de Dados " + arquivo.getName() + " importado com sucesso!");
-            alerta.showAndWait();
-            
-            listarbancos();
-        } else {
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Relatório de operação");
-            alerta.setHeaderText("Erro na operação:");
-            alerta.setContentText("Não foi possivel importar o banco de dados!");
-            alerta.showAndWait();
-        }
-        }catch(Exception ex){
+            File arquivo = fc.showOpenDialog(new Stage());
+            if (arquivo != null && arquivo.getName().endsWith(".db")) {
+                String dir = System.getProperty("user.dir") + "/db/";
+                arquivo.renameTo(new File(dir, arquivo.getName()));
+
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Relatório de operação");
+                alerta.setHeaderText("Operação finalizada:");
+                alerta.setContentText("O Banco de Dados " + arquivo.getName() + " importado com sucesso!");
+                alerta.showAndWait();
+
+                listarbancos();
+            } else {
+                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                alerta.setTitle("Relatório de operação");
+                alerta.setHeaderText("Erro na operação:");
+                alerta.setContentText("Não foi possivel importar o banco de dados!");
+                alerta.showAndWait();
+            }
+        } catch (Exception ex) {
             showErrorAsDialog(ex);
         }
-        
+
     }
-    
+
     public void exportarBanco() {
-        
+
         DirectoryChooser dc = new DirectoryChooser();
-        
+
         try {
             String c = dc.showDialog(new Stage()).getAbsolutePath();
             String nome = setNomeArquivo();
             Path destino = Paths.get(c + "//" + nome + ".db");
             Path arquivo = Paths.get(System.getProperty("user.dir") + "/db/" + ConnectionFactory.getBanco());
-            
+
             Files.copy(arquivo, destino, StandardCopyOption.REPLACE_EXISTING);
-            
+
             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
             alerta.setTitle("Resultado da operacao:");
             alerta.setHeaderText("Operacao finalizada:");
             alerta.setContentText("Banco de dados exportado com sucesso!");
             alerta.showAndWait();
-            
+
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
             Alert alerta = new Alert(Alert.AlertType.ERROR);
@@ -298,42 +302,47 @@ public class TelaPrincipalController implements Initializable {
             alerta.setContentText("Erro ao exportar o banco de dados!");
             alerta.showAndWait();
         }
-        
+
     }
-    
+
     @FXML
     protected void gerarSimulado(ActionEvent event) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/View/Gerar_Simulado.fxml"));
-        
+
         Parent root = loader.load();
         Scene cena = new Scene(root);
         Stage window = new Stage();
-        
+
         window.setScene(cena);
         window.showAndWait();
-        
+
     }
-    
-    public void historico(){
-        try{
+
+    public void historico() {
+        try {
             FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/View/Historico_Simulados.fxml"));
-        Parent root = loader.load();
-        
-        Stage telaHistorico = new Stage();
-        Scene cena = new Scene(root);
-        
-        HistoricoController hc = loader.getController();
-        hc.carregarSimulados();
-        
-        telaHistorico.setScene(cena);
-        telaHistorico.showAndWait();
-        }catch(Exception ex){
+            loader.setLocation(getClass().getResource("/View/Historico_Simulados.fxml"));
+            Parent root = loader.load();
+
+            Stage telaHistorico = new Stage();
+            Scene cena = new Scene(root);
+
+            HistoricoController hc = loader.getController();
+            hc.carregarSimulados();
+
+            telaHistorico.setScene(cena);
+            telaHistorico.showAndWait();
+        } catch (Exception ex) {
             showErrorAsDialog(ex);
         }
     }
-    
+
+    public void filtrarTabelaPorDisciplina(String disciplina) throws Exception{
+        lista = pdao.pesquisarDisciplina(disciplina);
+        carregarTabela(lista);
+    }
+
     public String setNomeArquivo() {
         TextInputDialog alerta = new TextInputDialog();
         alerta.setTitle("Aguardando ...:");
@@ -342,13 +351,17 @@ public class TelaPrincipalController implements Initializable {
         Optional<String> nome = alerta.showAndWait();
         return nome.get();
     }
-    
+
     public static void showErrorAsDialog(Exception ex) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle("Resultado da operação:");
-        alerta.setHeaderText("Erro "+ex.getClass()+":");
+        alerta.setHeaderText("Erro " + ex.getClass() + ":");
         alerta.setContentText(ex.getMessage());
         alerta.showAndWait();
+    }
+
+    public void refreshTable() throws Exception{
+        carregarTabela(pdao.read());
     }
     
     @Override
@@ -356,7 +369,7 @@ public class TelaPrincipalController implements Initializable {
         try {
             pdao = new PerguntaDAO();
             iniciarTabela();
-            carregarTabela();
+            refreshTable();
             listarbancos();
         } catch (Exception ex) {
             System.out.println("TelPrincipalController.initialize: " + ex.getMessage());

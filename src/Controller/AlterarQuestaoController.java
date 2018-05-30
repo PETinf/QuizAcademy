@@ -54,6 +54,7 @@ public class AlterarQuestaoController implements Initializable {
             pdao = new PerguntaDAO();
             pergunta = p;
             carregarDados();
+            System.out.println(txtDisciplina);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }

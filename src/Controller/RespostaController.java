@@ -23,12 +23,9 @@ import javafx.stage.Stage;
  */
 public class RespostaController implements Initializable {
 
-    @FXML
-    private ImageView imgResposta;
-    @FXML
-    private Button btnVoltar;
-    @FXML
-    private Label lblResposta;
+    @FXML private ImageView imgResposta;
+    @FXML private Button btnVoltar;
+    @FXML private Label lblResposta;
 
     
     @FXML

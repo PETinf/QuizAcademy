@@ -168,7 +168,9 @@ public class PerguntaDAO {
                
             perguntas.add(p);
         }
-            
+        
+        System.out.println(perguntas.size());
+        
         ConnectionFactory.closeConnection(conexao, stmt, rs);
             
         return perguntas;
