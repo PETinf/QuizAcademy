@@ -107,7 +107,7 @@ public class AlterarQuestaoController implements Initializable {
             Stage s = (Stage) btnAlterar.getScene().getWindow();
             s.close();
         } catch (SQLException ex) {
-            TelaPrincipalController.showErrorAsDialog(ex);
+            TelaPrincipalController.showErrorAsAlert(ex);
         }
     }
 

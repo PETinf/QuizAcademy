@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -41,7 +43,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 /**
  *
@@ -49,55 +50,66 @@ import javafx.stage.Window;
  */
 public class TelaPrincipalController implements Initializable {
 
-    @FXML private Button btnExport;
-    @FXML private Button btnRemoverQuestao;
-    @FXML private Button btnAddQuestao;
-    @FXML private Button btnAlterarQuestao;
-    @FXML private Button btnTrocarBD;
-    @FXML private Button btnImport;
-    @FXML private Button btnHistorico;
-    @FXML private Button btnPequisar;
-    @FXML private Button gerarHistorico;
-    @FXML private TextField txtAssunto;
-    @FXML private TextField txtDisciplina;
-    @FXML private TextField txtId;
-    @FXML private TextField txtDescricao;
-    @FXML private TableColumn<Pergunta, String> colDisciplina;
-    @FXML private TableColumn<Pergunta, String> colDescricao;
-    @FXML private TableColumn<Pergunta, String> colAssunto;
-    @FXML private TableView<Pergunta> tabela;
-    @FXML private TableColumn<Pergunta, Integer> colId;
-    @FXML private ComboBox<String> cbBanco;
+    @FXML
+    private Button btnExport;
+    @FXML
+    private Button btnRemoverQuestao;
+    @FXML
+    private Button btnAddQuestao;
+    @FXML
+    private Button btnAlterarQuestao;
+    @FXML
+    private Button btnTrocarBD;
+    @FXML
+    private Button btnImport;
+    @FXML
+    private Button btnHistorico;
+    @FXML
+    private Button btnPequisar;
+    @FXML
+    private Button gerarHistorico;
+    @FXML
+    private TextField txtAssunto;
+    @FXML
+    private TextField txtDisciplina;
+    @FXML
+    private TextField txtId;
+    @FXML
+    private TextField txtDescricao;
+    @FXML
+    private TableColumn<Pergunta, String> colDisciplina;
+    @FXML
+    private TableColumn<Pergunta, String> colDescricao;
+    @FXML
+    private TableColumn<Pergunta, String> colAssunto;
+    @FXML
+    private TableView<Pergunta> tabela;
+    @FXML
+    private TableColumn<Pergunta, Integer> colId;
+    @FXML
+    private ComboBox<String> cbBanco;
 
     private List<Pergunta> lista;
     private PerguntaDAO pdao;
     private ObservableList perguntas;
 
-    
-    public void adicionarQuestao(){
-        /*
+    public void adicionarQuestao() {
         try {
             Stage primaryStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
-            
+
             Parent adicionarQuestao = FXMLLoader.load(TelaPrincipalController.class.getResource("/View/Adicionar_Questao.fxml"));
             Scene cena = new Scene(adicionarQuestao);
             primaryStage.setScene(cena);
             primaryStage.showAndWait();
-            
-            carregarTabela();
+
+            refreshTable();
         } catch (IOException ex) {
-            showErrorAsDialog(ex);
-        }*/
-        try{
-            filtrarTabelaPorDisciplina(txtDisciplina.getText());
-        }catch(Exception ex){
-            showErrorAsDialog(ex);
+            showErrorAsAlert(ex);
         }
     }
 
-    @FXML
-    protected void removerQuestao(ActionEvent event) {
+    public void removerQuestao() {
 
         try {
             Pergunta p = tabela.getSelectionModel().getSelectedItem();
@@ -130,11 +142,10 @@ public class TelaPrincipalController implements Initializable {
                     alerta.close();
                 }
             }
-            
+
             refreshTable();
-        } catch (Exception ex) {
-            showErrorAsDialog(ex);
-        }finally{
+        } catch (SQLException ex) {
+            showErrorAsAlert(ex);
         }
 
     }
@@ -161,11 +172,180 @@ public class TelaPrincipalController implements Initializable {
 
                 refreshTable();
             }
-        } catch (Exception ex) {
-            showErrorAsDialog(ex);
+        } catch (IOException ex) {
+            showErrorAsAlert(ex);
+        }
+    }
+    
+    public void selecionarQuestao() {
+        try {
+            Pergunta p = tabela.getSelectionModel().getSelectedItem();
+            if (p != null) {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/View/Questao.fxml"));
+                Parent root = loader.load();
+
+                QuestaoController tqc = loader.getController();
+                tqc.iniciarQuestao(lista, p.getId());
+
+                Scene cena = new Scene(root);
+                Stage window = new Stage();
+                window.setScene(cena);
+                window.showAndWait();
+            }
+        } catch (IOException ex) {
+            showErrorAsAlert(ex);
         }
     }
 
+    public void importarBanco() {
+
+        try {
+            FileChooser fc = new FileChooser();
+            File arquivo = fc.showOpenDialog(new Stage());
+            String dir = System.getProperty("user.dir") + "/db/";
+            arquivo.renameTo(new File(dir, arquivo.getName()));
+            if (arquivo.getName().endsWith(".db")) {
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Relatório de operação");
+                alerta.setHeaderText("Operação finalizada:");
+                alerta.setContentText("O Banco de Dados " + arquivo.getName() + " importado com sucesso!");
+                alerta.showAndWait();
+
+                listarbancos();
+            } else {
+                throw new Exception("Esse aquivo não é um banco SQLITE!");
+            }
+
+        } catch (Exception ex) {
+            showErrorAsAlert(ex);
+        }
+
+    }
+
+    public void exportarBanco() {
+
+        DirectoryChooser dc = new DirectoryChooser();
+
+        try {
+            String c = dc.showDialog(new Stage()).getAbsolutePath();
+            String nome = setNomeArquivo();
+            Path destino = Paths.get(c + "//" + nome + ".db");
+            Path arquivo = Paths.get(System.getProperty("user.dir") + "/db/" + ConnectionFactory.getBanco());
+
+            Files.copy(arquivo, destino, StandardCopyOption.REPLACE_EXISTING);
+
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Resultado da operacao:");
+            alerta.setHeaderText("Operacao finalizada:");
+            alerta.setContentText("Banco de dados exportado com sucesso!");
+            alerta.showAndWait();
+
+        } catch (IOException ex) {
+            showErrorAsAlert(ex);
+        }
+
+    }
+
+    public void gerarSimulado() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View/Gerar_Simulado.fxml"));
+
+            Parent root = loader.load();
+            Scene cena = new Scene(root);
+            Stage window = new Stage();
+
+            window.setScene(cena);
+            window.showAndWait();
+        } catch (IOException ex) {
+            showErrorAsAlert(ex);
+        }
+    }
+
+    public void historico() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View/Historico_Simulados.fxml"));
+            Parent root = loader.load();
+
+            Stage telaHistorico = new Stage();
+            Scene cena = new Scene(root);
+
+            HistoricoController hc = loader.getController();
+            hc.carregarSimulados();
+
+            telaHistorico.setScene(cena);
+            telaHistorico.showAndWait();
+        } catch (IOException ex) {
+            showErrorAsAlert(ex);
+        }
+    }
+
+    public void filtrar() {
+        String disciplina = txtDisciplina.getText();
+        String assunto = txtAssunto.getText();
+        List<Pergunta> listaAux = null;
+
+        try {
+            if (disciplina.length() != 0 && assunto.length() != 0) {
+                listaAux = pdao.pesquisarDisciplinaAssunto(disciplina, assunto);
+            } else if (disciplina.length() != 0) {
+                listaAux = pdao.pesquisarDisciplina(disciplina);
+            } else if (assunto.length() != 0) {
+                listaAux = pdao.pesquisarAssunto(assunto);
+            } else {
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Resultado da operacao:");
+                alerta.setHeaderText("Filtragem inválida:");
+                alerta.setContentText("Campos vázios.");
+                alerta.showAndWait();
+                listaAux = pdao.read();
+            }
+
+            if (listaAux.isEmpty()) {
+                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                alerta.setTitle("Resultado da operacao:");
+                alerta.setHeaderText("Filtro não encontrado:");
+                alerta.setContentText("Os parâmetros da pesquisa retornaram uma lista vazia.");
+                alerta.showAndWait();
+                listaAux = pdao.read();
+            }
+            carregarTabela(listaAux);
+        } catch (SQLException ex) {
+            showErrorAsAlert(ex);
+        }
+    }
+
+    public void pesquisar() {
+        String id = txtId.getText();
+
+        try {
+            int idNumero = Integer.parseInt(id);
+            Pergunta p = pdao.pesquisarPorId(idNumero);
+
+            if (p == null) {
+                throw new NullPointerException("Pergunta inexistente!");
+            } else {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/View/Questao.fxml"));
+                Parent root = loader.load();
+
+                QuestaoController tqc = loader.getController();
+                tqc.iniciarQuestao(lista, p.getId());
+
+                Scene cena = new Scene(root);
+                Stage window = new Stage();
+                window.setScene(cena);
+                window.showAndWait();
+            }
+
+        } catch (NumberFormatException | SQLException | IOException ex) {
+            showErrorAsAlert(ex);
+        }
+
+    }
+    
     public void iniciarTabela() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
@@ -179,27 +359,6 @@ public class TelaPrincipalController implements Initializable {
             tabela.setItems(perguntas);
         } catch (Exception ex) {
             System.out.println("TelaPrincipalController.carregarTabela: " + ex.getMessage());
-        }
-    }
-
-    public void selecionarQuestao() {
-        try {
-            Pergunta p = tabela.getSelectionModel().getSelectedItem();
-            if (p != null) {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/View/Questao.fxml"));
-                Parent root = loader.load();
-
-                TelaQuestaoController tqc = loader.getController();
-                tqc.iniciarQuestao(lista, p.getId());
-
-                Scene cena = new Scene(root);
-                Stage window = new Stage();
-                window.setScene(cena);
-                window.showAndWait();
-            }
-        } catch (Exception ex) {
-            showErrorAsDialog(ex);
         }
     }
 
@@ -217,7 +376,7 @@ public class TelaPrincipalController implements Initializable {
             ObservableList obs = FXCollections.observableArrayList(bds);
             cbBanco.setItems(obs);
         } catch (Exception ex) {
-            System.out.println("TelaPrincipalController.listabancos: " + ex.getMessage());
+            showErrorAsAlert(ex);
         }
 
     }
@@ -243,104 +402,8 @@ public class TelaPrincipalController implements Initializable {
                 alerta.showAndWait();
             }
         } catch (Exception ex) {
-            showErrorAsDialog(ex);
+            showErrorAsAlert(ex);
         }
-    }
-
-    public void importarBanco() {
-
-        try {
-            FileChooser fc = new FileChooser();
-            File arquivo = fc.showOpenDialog(new Stage());
-            if (arquivo != null && arquivo.getName().endsWith(".db")) {
-                String dir = System.getProperty("user.dir") + "/db/";
-                arquivo.renameTo(new File(dir, arquivo.getName()));
-
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                alerta.setTitle("Relatório de operação");
-                alerta.setHeaderText("Operação finalizada:");
-                alerta.setContentText("O Banco de Dados " + arquivo.getName() + " importado com sucesso!");
-                alerta.showAndWait();
-
-                listarbancos();
-            } else {
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
-                alerta.setTitle("Relatório de operação");
-                alerta.setHeaderText("Erro na operação:");
-                alerta.setContentText("Não foi possivel importar o banco de dados!");
-                alerta.showAndWait();
-            }
-        } catch (Exception ex) {
-            showErrorAsDialog(ex);
-        }
-
-    }
-
-    public void exportarBanco() {
-
-        DirectoryChooser dc = new DirectoryChooser();
-
-        try {
-            String c = dc.showDialog(new Stage()).getAbsolutePath();
-            String nome = setNomeArquivo();
-            Path destino = Paths.get(c + "//" + nome + ".db");
-            Path arquivo = Paths.get(System.getProperty("user.dir") + "/db/" + ConnectionFactory.getBanco());
-
-            Files.copy(arquivo, destino, StandardCopyOption.REPLACE_EXISTING);
-
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-            alerta.setTitle("Resultado da operacao:");
-            alerta.setHeaderText("Operacao finalizada:");
-            alerta.setContentText("Banco de dados exportado com sucesso!");
-            alerta.showAndWait();
-
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-            Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Resultado da operacao:");
-            alerta.setHeaderText("ERRO!");
-            alerta.setContentText("Erro ao exportar o banco de dados!");
-            alerta.showAndWait();
-        }
-
-    }
-
-    @FXML
-    protected void gerarSimulado(ActionEvent event) throws Exception {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/View/Gerar_Simulado.fxml"));
-
-        Parent root = loader.load();
-        Scene cena = new Scene(root);
-        Stage window = new Stage();
-
-        window.setScene(cena);
-        window.showAndWait();
-
-    }
-
-    public void historico() {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/View/Historico_Simulados.fxml"));
-            Parent root = loader.load();
-
-            Stage telaHistorico = new Stage();
-            Scene cena = new Scene(root);
-
-            HistoricoController hc = loader.getController();
-            hc.carregarSimulados();
-
-            telaHistorico.setScene(cena);
-            telaHistorico.showAndWait();
-        } catch (Exception ex) {
-            showErrorAsDialog(ex);
-        }
-    }
-
-    public void filtrarTabelaPorDisciplina(String disciplina) throws Exception{
-        lista = pdao.pesquisarDisciplina(disciplina);
-        carregarTabela(lista);
     }
 
     public String setNomeArquivo() {
@@ -352,7 +415,7 @@ public class TelaPrincipalController implements Initializable {
         return nome.get();
     }
 
-    public static void showErrorAsDialog(Exception ex) {
+    public static void showErrorAsAlert(Exception ex) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle("Resultado da operação:");
         alerta.setHeaderText("Erro " + ex.getClass() + ":");
@@ -360,19 +423,24 @@ public class TelaPrincipalController implements Initializable {
         alerta.showAndWait();
     }
 
-    public void refreshTable() throws Exception{
-        carregarTabela(pdao.read());
+    public void refreshTable() {
+        try {
+            carregarTabela(pdao.read());
+        } catch (SQLException ex) {
+            showErrorAsAlert(ex);
+        }
     }
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        pdao = new PerguntaDAO();
+        iniciarTabela();
         try {
-            pdao = new PerguntaDAO();
-            iniciarTabela();
-            refreshTable();
-            listarbancos();
-        } catch (Exception ex) {
-            System.out.println("TelPrincipalController.initialize: " + ex.getMessage());
+            lista = pdao.read();
+            carregarTabela(lista);
+        } catch (SQLException ex) {
+            showErrorAsAlert(ex);
         }
+        listarbancos();
     }
 }

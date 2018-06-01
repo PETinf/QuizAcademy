@@ -58,7 +58,7 @@ public class AdicionarQuestaoController implements Initializable {
             pdao.insert(p);
             cancelar();
         } catch (SQLException ex) {
-            TelaPrincipalController.showErrorAsDialog(ex);
+            TelaPrincipalController.showErrorAsAlert(ex);
         }
     }
 

@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="600.0" maxWidth="580.0" minHeight="600.0" minWidth="580.0" prefHeight="600.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TelaPrincipalController">
+<GridPane maxHeight="601.0" maxWidth="670.0" minHeight="591.0" minWidth="580.0" prefHeight="591.0" prefWidth="658.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.TelaPrincipalController">
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" />
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
@@ -29,13 +29,14 @@
         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="250.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="200.0" prefWidth="250.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="250.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="250.0" />
+        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+      <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="10.0" minWidth="10.0" prefWidth="10.0" />
     </columnConstraints>
     <rowConstraints>
         <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" valignment="CENTER" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
       <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
         <RowConstraints maxHeight="50.0" minHeight="50.0" prefHeight="50.0" vgrow="SOMETIMES" />
@@ -74,7 +75,6 @@
         </TextField>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
             <children>
-                <Button fx:id="btnPequisar" layoutX="81.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="119.0" text="Pequisar" AnchorPane.rightAnchor="0.0" />
                 <TextField fx:id="txtId" layoutY="13.0" maxWidth="70.0" minWidth="50.0" prefHeight="25.0" prefWidth="70.0" promptText="ID" />
             </children>
         </AnchorPane>
@@ -93,6 +93,9 @@
          </columnResizePolicy></TableView>
       <Button fx:id="btnAlterarQuestao" maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" mnemonicParsing="false" onMouseClicked="#alterarQuestao" prefHeight="30.0" prefWidth="130.0" text="Alterar Questão" GridPane.rowIndex="5" />
       <Button fx:id="btnTrocarBanco" mnemonicParsing="false" onMouseClicked="#selecionarBancoDeDados" prefWidth="130.0" text="Trocar banco" GridPane.rowIndex="11" />
+      <Button fx:id="btnRefresh" mnemonicParsing="false" onAction="#refreshTable" text="Refresh" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+          <Button fx:id="btnFiltrar" mnemonicParsing="false" onAction="#filtrar" prefHeight="25.0" prefWidth="119.0" text="Filtrar" GridPane.columnIndex="6" />
+      <Button fx:id="btnPequisar" mnemonicParsing="false" onAction="#pesquisar" text="Pesquisar" GridPane.columnIndex="6" GridPane.rowIndex="1" />
     </children>
     <effect>
         <ColorAdjust />

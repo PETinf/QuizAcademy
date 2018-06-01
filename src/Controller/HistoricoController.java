@@ -58,7 +58,7 @@ public class HistoricoController implements Initializable{
         
             tableSimulado.getItems().addAll(listaSimulados);
         }catch(SQLException ex){
-            TelaPrincipalController.showErrorAsDialog(ex);
+            TelaPrincipalController.showErrorAsAlert(ex);
         }
     }
     

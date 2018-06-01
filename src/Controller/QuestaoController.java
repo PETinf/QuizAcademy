@@ -27,7 +27,7 @@ import javafx.stage.Stage;
  *
  * @author Vinicius
  */
-public class TelaQuestaoController implements Initializable {
+public class QuestaoController implements Initializable {
 
     @FXML private Button btnPrev;
     @FXML private Button btnNext;

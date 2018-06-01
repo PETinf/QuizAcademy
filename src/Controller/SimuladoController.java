@@ -8,7 +8,9 @@ package Controller;
 import Model.Pergunta;
 import Model.PerguntaDAO;
 import Model.Simulado;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -105,7 +107,7 @@ public class SimuladoController implements Initializable {
                 }
             }
 
-        } catch (Exception ex) {
+        } catch (IOException | NumberFormatException | SQLException ex) {
             Alert alerta = new Alert(Alert.AlertType.ERROR);
             alerta.setTitle("Resultado da Operação:");
             alerta.setHeaderText("Erro ao gerar o simulado!");

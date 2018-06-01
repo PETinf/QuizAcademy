@@ -155,7 +155,7 @@ public class SimuladoQuestaoController implements Initializable {
         try {
             dao.insert(simulado);
         } catch (SQLException ex) {
-            TelaPrincipalController.showErrorAsDialog(ex);
+            TelaPrincipalController.showErrorAsAlert(ex);
         }
     }
 }
