@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import Model.ConnectionFactory;
@@ -44,10 +39,6 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-/**
- *
- * @author Vinicius
- */
 public class TelaPrincipalController implements Initializable {
 
     @FXML
@@ -176,7 +167,7 @@ public class TelaPrincipalController implements Initializable {
             showErrorAsAlert(ex);
         }
     }
-    
+
     public void selecionarQuestao() {
         try {
             Pergunta p = tabela.getSelectionModel().getSelectedItem();
@@ -319,33 +310,38 @@ public class TelaPrincipalController implements Initializable {
 
     public void pesquisar() {
         String id = txtId.getText();
+        String descricao = txtDescricao.getText();
+        Pergunta p;
 
         try {
-            int idNumero = Integer.parseInt(id);
-            Pergunta p = pdao.pesquisarPorId(idNumero);
-
-            if (p == null) {
-                throw new NullPointerException("Pergunta inexistente!");
-            } else {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/View/Questao.fxml"));
-                Parent root = loader.load();
-
-                QuestaoController tqc = loader.getController();
-                tqc.iniciarQuestao(lista, p.getId());
-
-                Scene cena = new Scene(root);
-                Stage window = new Stage();
-                window.setScene(cena);
-                window.showAndWait();
+            p = searchByDescricao(descricao);
+            if(p == null && !id.equals("")){
+                int idInt = Integer.parseInt(id);
+                p = searchById(idInt);
             }
 
-        } catch (NumberFormatException | SQLException | IOException ex) {
-            showErrorAsAlert(ex);
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View/Questao.fxml"));
+            Parent root = loader.load();
+
+            QuestaoController tqc = loader.getController();
+            tqc.iniciarQuestao(lista, p.getId());
+
+            Scene cena = new Scene(root);
+            Stage window = new Stage();
+            window.setScene(cena);
+            window.showAndWait();
+
+        }catch (NumberFormatException ex){
+            showErrorAsAlert(new NumberFormatException("Valor inserido no campo 'id' inválido!"));
+        }catch (NullPointerException ex){
+            showErrorAsAlert(new NullPointerException("Pergunta não encontrada!"));
+        }catch (IOException ex){
+            showErrorAsAlert(new IOException("Erro ao executar o método 'pesquisa'!"));
         }
 
     }
-    
+
     public void iniciarTabela() {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
@@ -418,7 +414,7 @@ public class TelaPrincipalController implements Initializable {
     public static void showErrorAsAlert(Exception ex) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle("Resultado da operação:");
-        alerta.setHeaderText("Erro " + ex.getClass() + ":");
+        alerta.setHeaderText("Erro ao executar a operacão:");
         alerta.setContentText(ex.getMessage());
         alerta.showAndWait();
     }
@@ -428,6 +424,28 @@ public class TelaPrincipalController implements Initializable {
             carregarTabela(pdao.read());
         } catch (SQLException ex) {
             showErrorAsAlert(ex);
+        }
+    }
+    
+    public Pergunta searchByDescricao(String descricao){
+        Pergunta p = null;
+        try{
+            p = pdao.pesquisarPorDescricao(descricao);
+        }catch(SQLException ex){
+            /// Apenas para não interromper o programa
+        }finally{
+            return p;
+        }
+    }
+    
+    public Pergunta searchById(int id){
+        Pergunta p = null;
+        try{
+            p = pdao.pesquisarPorId(id);
+        }catch(SQLException ex){
+            /// Apenas para não interromper o programa
+        }finally{
+            return p;
         }
     }
 
