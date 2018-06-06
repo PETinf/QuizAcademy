@@ -34,7 +34,7 @@ public class RespostaController implements Initializable {
         window.close();
     }
     
-    public void iniciarTela(Pergunta p){
+    public void iniciarTela(Pergunta p) throws NullPointerException{
         
         if(p.getImagemResposta() != null){
             imgResposta.setImage(new Image(getClass().getResourceAsStream("/ImagemResposta/"+p.getImagemResposta())));

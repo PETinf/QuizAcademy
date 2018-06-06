@@ -68,19 +68,24 @@ public class AdicionarQuestaoController implements Initializable {
         try {
             pdao.insert(p);
             if(fileImagemEnunciado != null){
-                Path pathDestino = Paths.get(caminhoPadrao(true));
-                Files.copy(fileImagemEnunciado.toPath(), pathDestino, StandardCopyOption.REPLACE_EXISTING);
+                Path pathArquivo = Paths.get(fileImagemEnunciado.getAbsolutePath());
+                Path pathDestino = Paths.get(caminhoPadrao(true)+"//"+(pathArquivo.toFile()).getName());
+                System.out.println(pathArquivo);
+                System.out.println(pathDestino);
+                Files.copy(pathArquivo, pathDestino, StandardCopyOption.REPLACE_EXISTING);
             }
+            
             if(fileImagemResposta != null){
-                Path pathDestino = Paths.get(caminhoPadrao(false));
-                Files.copy(fileImagemResposta.toPath(), pathDestino, StandardCopyOption.REPLACE_EXISTING);
+                Path pathArquivo = Paths.get(fileImagemResposta.getAbsolutePath());
+                Path pathDestino = Paths.get(caminhoPadrao(false)+"//"+(pathArquivo.toFile()).getName());
+                Files.copy(pathArquivo, pathDestino, StandardCopyOption.REPLACE_EXISTING);
             }
             
             cancelar();
         } catch (SQLException ex) {
             TelaPrincipalController.showErrorAsAlert(new SQLException("Erro ao inserir a questão no banco de dados!"));
         } catch (IOException ex) {
-            TelaPrincipalController.showErrorAsAlert(new IOException("Erro ao compiar a imagem escolhida!"));
+            TelaPrincipalController.showErrorAsAlert(new IOException("Erro ao copiar a imagem escolhida!"));
         } 
     }
 

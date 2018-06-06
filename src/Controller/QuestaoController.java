@@ -28,36 +28,41 @@ import javafx.stage.Stage;
  * @author Vinicius
  */
 public class QuestaoController implements Initializable {
-
-    @FXML private Button btnPrev;
-    @FXML private Button btnNext;
-    @FXML private Label lblDisciplina;
-    @FXML private Label lblAssunto;
-    @FXML private Button btnResposta;
-    @FXML private Button btnVoltar;
-    @FXML private Label lblDescricao;
-    @FXML private Label lblEnunciado;
-    @FXML private ImageView imgEnunciado;
+    
+    @FXML
+    private Button btnPrev;
+    @FXML
+    private Button btnNext;
+    @FXML
+    private Label lblDisciplina;
+    @FXML
+    private Label lblAssunto;
+    @FXML
+    private Button btnResposta;
+    @FXML
+    private Button btnVoltar;
+    @FXML
+    private Label lblDescricao;
+    @FXML
+    private Label lblEnunciado;
+    @FXML
+    private ImageView imgEnunciado;
     private Pergunta pergunta;
     private List<Pergunta> perguntas;
     private ListIterator<Pergunta> it;
     
-    
-    
-    public void voltar(){
+    public void voltar() {
         Stage window = (Stage) btnVoltar.getScene().getWindow();
         window.close();
     }
     
-    
-    
-    public void iniciarQuestao(List<Pergunta> perguntas, int id){
+    public void iniciarQuestao(List<Pergunta> perguntas, int id) {
         this.perguntas = perguntas;
         it = perguntas.listIterator();
         
-        while(it.hasNext()){
+        while (it.hasNext()) {
             pergunta = it.next();
-            if(pergunta.getId() == id){
+            if (pergunta.getId() == id) {
                 break;
             }
         }
@@ -65,47 +70,52 @@ public class QuestaoController implements Initializable {
         carregarDados();
     }
     
-    public void carregarDados(){
+    public void carregarDados() {
         lblDisciplina.setText(pergunta.getDisciplina());
         lblAssunto.setText(pergunta.getAssunto());
         lblDescricao.setText(pergunta.getDescricao());
         lblEnunciado.setText(pergunta.getEnunciado());
-        if(pergunta.getImagemEnunciado() != null){
-            imgEnunciado.setImage(new Image(getClass().getResourceAsStream("/ImagemEnunciado/"+pergunta.getImagemEnunciado())));
+        if (pergunta.getImagemEnunciado() != null) {
+            System.out.println(pergunta.getImagemEnunciado());
+            imgEnunciado.setImage(new Image(getClass().getResourceAsStream("/ImagemEnunciado/" + pergunta.getImagemEnunciado())));
         }
         
     }
     
-    public void next(){
-        if(it.hasNext()){
+    public void next() {
+        if (it.hasNext()) {
             pergunta = it.next();
             carregarDados();
         }
     }
     
-    public void prev(){
-        if(it.hasPrevious()){
+    public void prev() {
+        if (it.hasPrevious()) {
             pergunta = it.previous();
             carregarDados();
         }
     }
     
-    public void exibirResposta() throws IOException{
+    public void exibirResposta() throws IOException {
         
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/View/Resposta.fxml"));
-        Parent root = loader.load();
-        
-        RespostaController rc = loader.getController();
-        rc.iniciarTela(pergunta);
-        
-        Scene cena = new Scene(root);
-        Stage window = new Stage();
-        
-        window.setScene(cena);
-        window.showAndWait();
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/View/Resposta.fxml"));
+            Parent root = loader.load();
+            
+            RespostaController rc = loader.getController();
+            rc.iniciarTela(pergunta);
+            
+            Scene cena = new Scene(root);
+            Stage window = new Stage();
+            
+            window.setScene(cena);
+            window.showAndWait();
+        } catch (NullPointerException ex) {
+            TelaPrincipalController.showErrorAsAlert(new NullPointerException("Imagem de resposta não encontrada!"));
+        }
     }
-    
+
     /**
      * Initializes the controller class.
      */

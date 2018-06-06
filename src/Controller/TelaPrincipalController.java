@@ -82,7 +82,6 @@ public class TelaPrincipalController implements Initializable {
 
     private List<Pergunta> lista;
     private PerguntaDAO pdao;
-    private ObservableList perguntas;
 
     public void adicionarQuestao() {
         try {
@@ -185,7 +184,9 @@ public class TelaPrincipalController implements Initializable {
                 window.showAndWait();
             }
         } catch (IOException ex) {
-            showErrorAsAlert(ex);
+            showErrorAsAlert(new IOException("Erro ao executar a questão!"));
+        } catch (NullPointerException ex) {
+            showErrorAsAlert(new NullPointerException("Erro ao carregar a imagem da questão!"));
         }
     }
 
@@ -302,7 +303,7 @@ public class TelaPrincipalController implements Initializable {
                 alerta.showAndWait();
                 listaAux = pdao.read();
             }
-            carregarTabela(listaAux);
+            refreshTable(listaAux);
         } catch (SQLException ex) {
             showErrorAsAlert(ex);
         }
@@ -315,7 +316,7 @@ public class TelaPrincipalController implements Initializable {
 
         try {
             p = searchByDescricao(descricao);
-            if(p == null && !id.equals("")){
+            if (p == null && !id.equals("")) {
                 int idInt = Integer.parseInt(id);
                 p = searchById(idInt);
             }
@@ -332,11 +333,11 @@ public class TelaPrincipalController implements Initializable {
             window.setScene(cena);
             window.showAndWait();
 
-        }catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             showErrorAsAlert(new NumberFormatException("Valor inserido no campo 'id' inválido!"));
-        }catch (NullPointerException ex){
+        } catch (NullPointerException ex) {
             showErrorAsAlert(new NullPointerException("Pergunta não encontrada!"));
-        }catch (IOException ex){
+        } catch (IOException ex) {
             showErrorAsAlert(new IOException("Erro ao executar o método 'pesquisa'!"));
         }
 
@@ -347,15 +348,6 @@ public class TelaPrincipalController implements Initializable {
         colDisciplina.setCellValueFactory(new PropertyValueFactory<>("disciplina"));
         colAssunto.setCellValueFactory(new PropertyValueFactory<>("assunto"));
         colDescricao.setCellValueFactory(new PropertyValueFactory<>("descricao"));
-    }
-
-    public void carregarTabela(List<Pergunta> listaDePerguntas) {
-        try {
-            perguntas = FXCollections.observableList(listaDePerguntas);
-            tabela.setItems(perguntas);
-        } catch (Exception ex) {
-            System.out.println("TelaPrincipalController.carregarTabela: " + ex.getMessage());
-        }
     }
 
     public void listarbancos() {
@@ -419,32 +411,41 @@ public class TelaPrincipalController implements Initializable {
         alerta.showAndWait();
     }
 
-    public void refreshTable() {
+    public void refreshTable(List<Pergunta> listaPerguntas) {
         try {
-            carregarTabela(pdao.read());
-        } catch (SQLException ex) {
-            showErrorAsAlert(ex);
+            tabela.setItems(FXCollections.observableList(listaPerguntas));
+        } catch (Exception ex) {
+            showErrorAsAlert(new Exception("Erro ao atualizar a tabela!"));
         }
     }
-    
-    public Pergunta searchByDescricao(String descricao){
+
+    public void refreshTable() {
+        try {
+            lista = pdao.read();
+            refreshTable(lista);
+        } catch (SQLException ex) {
+            showErrorAsAlert(new Exception("Erro ao atualizar a tabela!"));
+        }
+    }
+
+    public Pergunta searchByDescricao(String descricao) {
         Pergunta p = null;
-        try{
+        try {
             p = pdao.pesquisarPorDescricao(descricao);
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             /// Apenas para não interromper o programa
-        }finally{
+        } finally {
             return p;
         }
     }
-    
-    public Pergunta searchById(int id){
+
+    public Pergunta searchById(int id) {
         Pergunta p = null;
-        try{
+        try {
             p = pdao.pesquisarPorId(id);
-        }catch(SQLException ex){
+        } catch (SQLException ex) {
             /// Apenas para não interromper o programa
-        }finally{
+        } finally {
             return p;
         }
     }
@@ -453,12 +454,7 @@ public class TelaPrincipalController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         pdao = new PerguntaDAO();
         iniciarTabela();
-        try {
-            lista = pdao.read();
-            carregarTabela(lista);
-        } catch (SQLException ex) {
-            showErrorAsAlert(ex);
-        }
+        refreshTable();
         listarbancos();
     }
 }
