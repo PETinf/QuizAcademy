@@ -51,7 +51,7 @@ public class AdicionarQuestaoController implements Initializable {
         fileImagemEnunciado = null;
         fileImagemResposta = null;
         
-        Image image = new Image(AdicionarQuestaoController.class.getResourceAsStream("/ImagemEnunciado/default.jpg"));
+        Image image = new Image(AdicionarQuestaoController.class.getResourceAsStream("/Imagens/default.jpg"));
         imageEnunciado.setImage(image);
         imageResposta.setImage(image);
     }
@@ -69,7 +69,7 @@ public class AdicionarQuestaoController implements Initializable {
             pdao.insert(p);
             if(fileImagemEnunciado != null){
                 Path pathArquivo = Paths.get(fileImagemEnunciado.getAbsolutePath());
-                Path pathDestino = Paths.get(caminhoPadrao(true)+"//"+(pathArquivo.toFile()).getName());
+                Path pathDestino = Paths.get(caminhoPadrao()+"//"+(pathArquivo.toFile()).getName());
                 System.out.println(pathArquivo);
                 System.out.println(pathDestino);
                 Files.copy(pathArquivo, pathDestino, StandardCopyOption.REPLACE_EXISTING);
@@ -77,7 +77,7 @@ public class AdicionarQuestaoController implements Initializable {
             
             if(fileImagemResposta != null){
                 Path pathArquivo = Paths.get(fileImagemResposta.getAbsolutePath());
-                Path pathDestino = Paths.get(caminhoPadrao(false)+"//"+(pathArquivo.toFile()).getName());
+                Path pathDestino = Paths.get(caminhoPadrao()+"//"+(pathArquivo.toFile()).getName());
                 Files.copy(pathArquivo, pathDestino, StandardCopyOption.REPLACE_EXISTING);
             }
             
@@ -99,7 +99,7 @@ public class AdicionarQuestaoController implements Initializable {
     public void escolherImagemEnunciado() {
 
         FileChooser fc = new FileChooser();
-        String caminho = caminhoPadrao(true);
+        String caminho = caminhoPadrao();
         fc.setInitialDirectory(new File(caminho));
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens", "*.jpg", "*.png", "*.jpeg"));
         File arquivo = fc.showOpenDialog(new Stage());
@@ -113,7 +113,7 @@ public class AdicionarQuestaoController implements Initializable {
     @FXML
     public void escolherImagemResposta() {
         FileChooser fc = new FileChooser();
-        String caminho = caminhoPadrao(false);
+        String caminho = caminhoPadrao();
         fc.setInitialDirectory(new File(caminho));
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Imagens", "*.jpg", "*.png", "*.jpeg"));
         File arquivo = fc.showOpenDialog(new Stage());
@@ -124,22 +124,13 @@ public class AdicionarQuestaoController implements Initializable {
         }
     }
     
-    public String caminhoPadrao(boolean enunciado){
+    public String caminhoPadrao(){
         String path = System.getProperty("user.dir");
         if(path.contains("dist")){
-            if(enunciado){
-                path += "/../src/ImagemEnunciado/";
-            }else{
-                path += "/../src/ImagemResposta/";
-            }
+            path += "/../src/Imagens/";
         }else{
-            if(enunciado){
-                path += "/src/ImagemEnunciado/";
-            }else{
-                path += "/src/ImagemResposta/";
-            }
+            path += "/Imagens/";
         }
-        
         return path;
     }
 }

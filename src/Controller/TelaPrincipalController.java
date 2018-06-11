@@ -3,10 +3,10 @@ package Controller;
 import Model.ConnectionFactory;
 import Model.Pergunta;
 import Model.PerguntaDAO;
+import com.jfoenix.controls.JFXButton;
 import java.io.File;
 import java.io.IOException;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -50,7 +48,7 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private Button btnAlterarQuestao;
     @FXML
-    private Button btnTrocarBD;
+    private JFXButton btnTrocarBD;
     @FXML
     private Button btnImport;
     @FXML
@@ -59,6 +57,8 @@ public class TelaPrincipalController implements Initializable {
     private Button btnPequisar;
     @FXML
     private Button gerarHistorico;
+    @FXML
+    private JFXButton btnAtualizar;
     @FXML
     private TextField txtAssunto;
     @FXML
@@ -271,6 +271,8 @@ public class TelaPrincipalController implements Initializable {
             telaHistorico.showAndWait();
         } catch (IOException ex) {
             showErrorAsAlert(ex);
+        } catch (Exception ex){
+            showErrorAsAlert(new Exception("Erro desconhecido!"));
         }
     }
 
@@ -339,6 +341,8 @@ public class TelaPrincipalController implements Initializable {
             showErrorAsAlert(new NullPointerException("Pergunta não encontrada!"));
         } catch (IOException ex) {
             showErrorAsAlert(new IOException("Erro ao executar o método 'pesquisa'!"));
+        } catch (Exception ex){
+            showErrorAsAlert(new Exception("Erro desconhecido!"));
         }
 
     }
@@ -425,6 +429,8 @@ public class TelaPrincipalController implements Initializable {
             refreshTable(lista);
         } catch (SQLException ex) {
             showErrorAsAlert(new Exception("Erro ao atualizar a tabela!"));
+        } catch (Exception ex){
+            showErrorAsAlert(new Exception("Erro desconhecido!"));
         }
     }
 
@@ -434,7 +440,7 @@ public class TelaPrincipalController implements Initializable {
             p = pdao.pesquisarPorDescricao(descricao);
         } catch (SQLException ex) {
             /// Apenas para não interromper o programa
-        } finally {
+        }finally {
             return p;
         }
     }
@@ -452,6 +458,11 @@ public class TelaPrincipalController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
+        //imagem botão atualizar
+        btnAtualizar.setStyle("-fx-background-image: url('/View/refresh.png')");
+        //
+        
         pdao = new PerguntaDAO();
         iniciarTabela();
         refreshTable();

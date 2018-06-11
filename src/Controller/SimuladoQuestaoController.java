@@ -46,7 +46,6 @@ public class SimuladoQuestaoController implements Initializable {
     private List<Pergunta> perguntas;
     private int nroPergunta;
     private Integer[] respostas;
-    private static final String PATHIMAGE = "file:///" + System.getProperty("user.dir") + "/src/ImagemResposta/";
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -63,7 +62,7 @@ public class SimuladoQuestaoController implements Initializable {
         lblDescricao.setText(p.getDescricao());
         lblEnunciado.setText(p.getEnunciado());
         if (p.getImagemEnunciado() != null) {
-            imgEnunciado.setImage(new Image("file:///" + Pergunta.PATHENUNCIADO + p.getImagemEnunciado()));
+            imgEnunciado.setImage(new Image("file:///"+caminhoPadrao() + p.getImagemEnunciado()));
         } else {
             imgEnunciado.setImage(null);
         }
@@ -89,7 +88,7 @@ public class SimuladoQuestaoController implements Initializable {
     public void atualizarResposta() {
         txtResposta.setText("");
         if (respostas[nroPergunta] != null) {
-            imgConfirm.setImage(new Image(PATHIMAGE + respostas[nroPergunta] + ".png"));
+            imgConfirm.setImage(new Image("file:///"+caminhoPadrao()+ respostas[nroPergunta] + ".png"));
             btnComitar.setDisable(true);
         } else {
             imgConfirm.setImage(null);
@@ -109,10 +108,10 @@ public class SimuladoQuestaoController implements Initializable {
         String resposta = p.getResposta();
         if (txtResposta.getText().equals(resposta)) {
             respostas[nroPergunta] = 1;
-            imgConfirm.setImage(new Image(PATHIMAGE + 1 + ".png"));
+            imgConfirm.setImage(new Image("file:///"+caminhoPadrao() + 1 + ".png"));
         } else {
             respostas[nroPergunta] = 0;
-            imgConfirm.setImage(new Image(PATHIMAGE + 0 + ".png"));
+            imgConfirm.setImage(new Image("file:///"+caminhoPadrao()+ 0 + ".png"));
         }
         btnComitar.setDisable(true);
     }
@@ -157,5 +156,15 @@ public class SimuladoQuestaoController implements Initializable {
         } catch (SQLException ex) {
             TelaPrincipalController.showErrorAsAlert(ex);
         }
+    }
+    
+    public static String caminhoPadrao(){
+        String path = System.getProperty("user.dir");
+        if(path.contains("dist")){
+            path += "/../src/Imagens/";
+        }else{
+            path += "/Imagens/";
+        }
+        return path;
     }
 }

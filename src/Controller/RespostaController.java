@@ -37,14 +37,22 @@ public class RespostaController implements Initializable {
     public void iniciarTela(Pergunta p) throws NullPointerException{
         
         if(p.getImagemResposta() != null){
-            imgResposta.setImage(new Image(getClass().getResourceAsStream("/ImagemResposta/"+p.getImagemResposta())));
+            imgResposta.setImage(new Image("file:///"+caminhoPadrao()+p.getImagemResposta()));
         }
         lblResposta.setText(p.getResposta());
         
     }
-    /**
-     * Initializes the controller class.
-     */
+    
+    public static String caminhoPadrao(){
+        String path = System.getProperty("user.dir");
+        if(path.contains("dist")){
+            path += "/../src/Imagens/";
+        }else{
+            path += "/Imagens/";
+        }
+        return path;
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //...

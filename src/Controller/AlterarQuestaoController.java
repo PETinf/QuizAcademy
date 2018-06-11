@@ -54,7 +54,6 @@ public class AlterarQuestaoController implements Initializable {
             pdao = new PerguntaDAO();
             pergunta = p;
             carregarDados();
-            System.out.println(txtDisciplina);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -119,10 +118,10 @@ public class AlterarQuestaoController implements Initializable {
         txtResposta.setText(pergunta.getResposta());
         
         if (pergunta.getImagemEnunciado() != null) {
-            imageEnunciado.setImage(new Image(getClass().getResourceAsStream("/ImagemEnunciado/" + pergunta.getImagemEnunciado())));
+            imageEnunciado.setImage(new Image("file:///"+caminhoPadrao() + pergunta.getImagemEnunciado()));
         }
         if (pergunta.getImagemResposta() != null) {
-            imageResposta.setImage(new Image(getClass().getResourceAsStream("/ImagemResposta/" + pergunta.getImagemResposta())));
+            imageResposta.setImage(new Image("file:///"+caminhoPadrao() + pergunta.getImagemResposta()));
         }
 
     }
@@ -133,5 +132,15 @@ public class AlterarQuestaoController implements Initializable {
         pergunta.setDescricao(txtDescricao.getText());
         pergunta.setEnunciado(txtEnunciado.getText());
         pergunta.setResposta(txtResposta.getText());
+    }
+    
+    public static String caminhoPadrao(){
+        String path = System.getProperty("user.dir");
+        if(path.contains("dist")){
+            path += "/../src/Imagens/";
+        }else{
+            path += "/Imagens/";
+        }
+        return path;
     }
 }

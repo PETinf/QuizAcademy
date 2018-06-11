@@ -6,6 +6,7 @@
 package Controller;
 
 import Model.Pergunta;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -76,8 +77,9 @@ public class QuestaoController implements Initializable {
         lblDescricao.setText(pergunta.getDescricao());
         lblEnunciado.setText(pergunta.getEnunciado());
         if (pergunta.getImagemEnunciado() != null) {
-            System.out.println(pergunta.getImagemEnunciado());
-            imgEnunciado.setImage(new Image(getClass().getResourceAsStream("/ImagemEnunciado/" + pergunta.getImagemEnunciado())));
+            imgEnunciado.setImage(new Image("file:///"+caminhoPadrao() + pergunta.getImagemEnunciado()));
+        }else{
+            imgEnunciado.setImage(null);
         }
         
     }
@@ -96,7 +98,7 @@ public class QuestaoController implements Initializable {
         }
     }
     
-    public void exibirResposta() throws IOException {
+    public void exibirResposta() {
         
         try {
             FXMLLoader loader = new FXMLLoader();
@@ -113,12 +115,21 @@ public class QuestaoController implements Initializable {
             window.showAndWait();
         } catch (NullPointerException ex) {
             TelaPrincipalController.showErrorAsAlert(new NullPointerException("Imagem de resposta não encontrada!"));
+        } catch (IOException ex){
+            TelaPrincipalController.showErrorAsAlert(new IOException("Erro ao exibir a resposta!"));
         }
     }
-
-    /**
-     * Initializes the controller class.
-     */
+    
+    public String caminhoPadrao(){
+        String path = System.getProperty("user.dir");
+        if(path.contains("dist")){
+            path += "/../src/Imagens/";
+        }else{
+            path += "/Imagens/";
+        }
+        return path;
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

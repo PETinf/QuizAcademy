@@ -34,11 +34,9 @@
           <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="80.0" minHeight="80.0" prefHeight="80.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="10.0" minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="ALWAYS" />
-            <RowConstraints minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="ALWAYS" />
-            <RowConstraints minHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="ALWAYS" />
+            <RowConstraints minHeight="250.0" prefHeight="250.0" valignment="CENTER" vgrow="ALWAYS" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="40.0" minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -56,20 +54,19 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btnResposta" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#exibirResposta" prefHeight="30.0" prefWidth="100.0" text="Resposta" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="12" GridPane.valignment="CENTER" />
-            <Button fx:id="btnVoltar" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#voltar" prefHeight="30.0" prefWidth="100.0" text="Voltar" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="12" GridPane.valignment="CENTER" />
+            <Button fx:id="btnResposta" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#exibirResposta" prefHeight="30.0" prefWidth="100.0" text="Resposta" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER" />
+            <Button fx:id="btnVoltar" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#voltar" prefHeight="30.0" prefWidth="100.0" text="Voltar" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER" />
             <Label fx:id="lblDescricao" text="Descrição da Questão" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="18.0" />
                </font>
             </Label>
-            <Label fx:id="lblEnunciado" text="Enunciado" GridPane.columnIndex="3" GridPane.rowIndex="6">
+            <Label fx:id="lblEnunciado" contentDisplay="TOP" prefHeight="27.0" prefWidth="450.0" text="Enunciado" textOverrun="CLIP" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="6">
                <font>
-                  <Font size="18.0" />
+                  <Font size="16.0" />
                </font>
             </Label>
-            <ImageView fx:id="imgEnunciado" fitHeight="152.0" fitWidth="179.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-            <ImageView fx:id="imgResposta" fitHeight="147.0" fitWidth="186.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <ImageView fx:id="imgEnunciado" fitHeight="285.0" fitWidth="310.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
          </children>
       </GridPane>
    </children>
