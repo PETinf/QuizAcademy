@@ -67,7 +67,7 @@ public class SimuladoController implements Initializable {
                     perguntas = dao.pesquisarDisciplina(disciplina);
                 }
                 //Valor DEFAULT;
-                if (nroPerguntas == 0) {
+                if (nroPerguntas < 0) {
                     nroPerguntas = 10;
                 }
 
@@ -134,7 +134,6 @@ public class SimuladoController implements Initializable {
             listaPerguntas.add(p);
             nroPerguntas--;
         }
-
         return listaPerguntas;
     }
 

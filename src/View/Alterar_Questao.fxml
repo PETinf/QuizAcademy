@@ -40,7 +40,7 @@
       <TextField fx:id="txtAssunto" alignment="CENTER" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" promptText="Assunto" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
       <TextArea fx:id="txtEnunciado" maxWidth="400.0" minWidth="400.0" prefHeight="200.0" prefWidth="400.0" promptText="Enunciado....." GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
       <TextField fx:id="txtDescricao" alignment="CENTER" maxWidth="400.0" minWidth="400.0" prefWidth="400.0" promptText="Descrição" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-      <Button fx:id="btnEscolherEnunciado" mnemonicParsing="false" onMouseClicked="#escolherEnunciado" text="Escolher Imagem" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="10" GridPane.valignment="TOP">
+      <Button fx:id="btnEscolherEnunciado" mnemonicParsing="false" onMouseClicked="#escolherImagemEnunciado" text="Escolher Imagem" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="10" GridPane.valignment="TOP">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -48,7 +48,7 @@
             <Insets left="30.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="btnEscolherResposta" mnemonicParsing="false" onMouseClicked="#escolherResposta" text="Escoher Imagem" GridPane.columnIndex="1" GridPane.rowIndex="13" GridPane.valignment="TOP">
+      <Button fx:id="btnEscolherResposta" mnemonicParsing="false" onMouseClicked="#escolherImagemResposta" text="Escoher Imagem" GridPane.columnIndex="1" GridPane.rowIndex="13" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets left="30.0" />
          </GridPane.margin>
