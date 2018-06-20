@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane maxHeight="538.0" maxWidth="444.0" minHeight="538.0" minWidth="444.0" prefHeight="538.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HistoricoController">
    <children>
-      <Button fx:id="btnVoltar" layoutX="198.0" layoutY="499.0" mnemonicParsing="false" onAction="#voltar" text="Voltar" />
       <TableView fx:id="tableSimulado" layoutX="14.0" layoutY="14.0" prefHeight="468.0" prefWidth="417.0">
         <columns>
           <TableColumn fx:id="colNota" prefWidth="75.0" text="Nota" />
@@ -16,5 +16,6 @@
             <TableColumn fx:id="colId" prefWidth="116.0" text="IDs perguntas" />
         </columns>
       </TableView>
+      <JFXButton fx:id="btnVoltar" layoutX="147.0" layoutY="494.0" onAction="#voltar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #0070cce5;" text="Voltar" textFill="WHITE" />
    </children>
 </AnchorPane>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -21,8 +22,8 @@
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="210.0" prefWidth="210.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="210.0" minWidth="210.0" prefWidth="210.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="210.0" minWidth="210.0" prefWidth="210.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="210.0" minWidth="210.0" prefWidth="210.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="30.0" minWidth="30.0" prefWidth="30.0" />
@@ -42,8 +43,6 @@
             <RowConstraints maxHeight="30.0" minHeight="30.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="btnPrev" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#prev" prefHeight="30.0" prefWidth="30.0" text="&lt;" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
-            <Button fx:id="btnNext" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#next" text="&gt;" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
             <Label fx:id="lblDisciplina" text="Disciplina" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font size="24.0" />
@@ -54,8 +53,6 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btnResposta" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#exibirResposta" prefHeight="30.0" prefWidth="100.0" text="Resposta" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER" />
-            <Button fx:id="btnVoltar" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#voltar" prefHeight="30.0" prefWidth="100.0" text="Voltar" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER" />
             <Label fx:id="lblDescricao" text="Descrição da Questão" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="18.0" />
@@ -67,6 +64,10 @@
                </font>
             </Label>
             <ImageView fx:id="imgEnunciado" fitHeight="285.0" fitWidth="310.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <JFXButton fx:id="btnNext" onAction="#next" style="-fx-background-color: #0070cce5;" text="&gt;" textFill="WHITE" GridPane.columnIndex="6" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+            <JFXButton fx:id="btnPrev" onAction="#prev" style="-fx-background-color: #0070cce5;" text="&lt;" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+            <JFXButton fx:id="btnResposta" onAction="#exibirResposta" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #0070cce5;" text="Resposta" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+            <JFXButton fx:id="btnVoltar" onAction="#voltar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #0070cce5;" text="Votlar" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="10" />
          </children>
       </GridPane>
    </children>

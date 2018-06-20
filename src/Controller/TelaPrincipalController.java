@@ -19,6 +19,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -33,6 +34,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -54,7 +57,7 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private Button btnHistorico;
     @FXML
-    private Button btnPequisar;
+    private Button btnPesquisar;
     @FXML
     private Button gerarHistorico;
     @FXML
@@ -88,9 +91,10 @@ public class TelaPrincipalController implements Initializable {
             Stage primaryStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
 
-            Parent adicionarQuestao = FXMLLoader.load(TelaPrincipalController.class.getResource("/View/Adicionar_Questao.fxml"));
+            Parent adicionarQuestao = FXMLLoader.load(TelaPrincipalController.class.getResource("/View/Add_Questao.fxml"));
             Scene cena = new Scene(adicionarQuestao);
             primaryStage.setScene(cena);
+            primaryStage.setResizable(false);
             primaryStage.showAndWait();
 
             refreshTable();
@@ -158,6 +162,7 @@ public class TelaPrincipalController implements Initializable {
                 AlterarQuestaoController controller = loader.getController();
                 controller.iniciarTela(pergunta);
 
+                window.setResizable(false);
                 window.showAndWait();
 
                 refreshTable();
@@ -180,6 +185,8 @@ public class TelaPrincipalController implements Initializable {
 
                 Scene cena = new Scene(root);
                 Stage window = new Stage();
+                
+                window.setResizable(false);
                 window.setScene(cena);
                 window.showAndWait();
             }
@@ -248,6 +255,7 @@ public class TelaPrincipalController implements Initializable {
             Scene cena = new Scene(root);
             Stage window = new Stage();
 
+            window.setResizable(false);
             window.setScene(cena);
             window.showAndWait();
         } catch (IOException ex) {
@@ -267,6 +275,7 @@ public class TelaPrincipalController implements Initializable {
             HistoricoController hc = loader.getController();
             hc.carregarSimulados();
 
+            telaHistorico.setResizable(false);
             telaHistorico.setScene(cena);
             telaHistorico.showAndWait();
         } catch (IOException ex) {
@@ -332,6 +341,7 @@ public class TelaPrincipalController implements Initializable {
 
             Scene cena = new Scene(root);
             Stage window = new Stage();
+            window.setResizable(false);
             window.setScene(cena);
             window.showAndWait();
 
@@ -458,14 +468,17 @@ public class TelaPrincipalController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
-        //imagem botão atualizar
-        btnAtualizar.setStyle("-fx-background-image: url('/View/refresh.png')");
-        //
-        
         pdao = new PerguntaDAO();
         iniciarTabela();
         refreshTable();
         listarbancos();
+        
+        //FUnções de teclas:
+        //Enter para pesquisa;
+        txtDescricao.setOnKeyPressed((KeyEvent key) -> {
+            if(KeyCode.ENTER.equals(key.getCode())){
+                pesquisar();
+            }
+        });
     }
 }

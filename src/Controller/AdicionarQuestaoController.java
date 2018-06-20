@@ -55,7 +55,7 @@ public class AdicionarQuestaoController implements Initializable {
     }
 
     @FXML
-    protected void adicionar(ActionEvent event) {
+    public void adicionar(ActionEvent event) {
 
         p.setDisciplina(txtDisciplina.getText());
         p.setAssunto(txtAssunto.getText());
@@ -68,8 +68,6 @@ public class AdicionarQuestaoController implements Initializable {
             if(fileImagemEnunciado != null){
                 Path pathArquivo = Paths.get(fileImagemEnunciado.getAbsolutePath());
                 Path pathDestino = Paths.get(caminhoPadrao()+"//"+(pathArquivo.toFile()).getName());
-                System.out.println(pathArquivo);
-                System.out.println(pathDestino);
                 Files.copy(pathArquivo, pathDestino, StandardCopyOption.REPLACE_EXISTING);
             }
             
@@ -88,7 +86,7 @@ public class AdicionarQuestaoController implements Initializable {
     }
 
     @FXML
-    protected void cancelar() {
+    public void cancelar() {
         Stage janelaAtual = (Stage) btnCancelar.getScene().getWindow();
         janelaAtual.close();
     }

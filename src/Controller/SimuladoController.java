@@ -87,6 +87,7 @@ public class SimuladoController implements Initializable {
 
                     Stage telaAddQuestao = new Stage();
                     Scene cena = new Scene(root);
+                    telaAddQuestao.setResizable(false);
                     telaAddQuestao.setScene(cena);
                     telaAddQuestao.showAndWait();
 

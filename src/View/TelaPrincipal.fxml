@@ -28,7 +28,7 @@
          <children>
             <MenuBar style="-fx-background-color: #0070cce5;">
               <menus>
-                <Menu mnemonicParsing="false" text="Menu">
+                <Menu mnemonicParsing="false" style="-fx-background-color: white;" text="Menu">
                   <items>
                     <MenuItem mnemonicParsing="false" onAction="#adicionarQuestao" text="Adicionar Questão" />
                         <MenuItem mnemonicParsing="false" onAction="#removerQuestao" text="Remover Questão" />
