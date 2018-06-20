@@ -17,9 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -480,5 +481,20 @@ public class TelaPrincipalController implements Initializable {
                 pesquisar();
             }
         });
+        //Filtrar enquanto o usuário digita
+        txtDisciplina.setOnKeyReleased((Event e) -> {
+            List<Pergunta> aux = lista.stream().
+                    filter((p)->p.getDisciplina().contains(txtDisciplina.getText())).
+                    collect(Collectors.toList());
+            tabela.setItems(FXCollections.observableList(aux));
+        });
+        //Filtrar
+        txtAssunto.setOnKeyReleased((Event e) -> {
+            List<Pergunta> aux = lista.stream().
+                    filter((p)->p.getAssunto().contains(txtAssunto.getText())).
+                    collect(Collectors.toList());
+            tabela.setItems(FXCollections.observableList(aux));
+        });
+        
     }
 }
