@@ -45,19 +45,7 @@ public class PerguntaDAO {
         rs = stmt.executeQuery();
 
         while (rs.next()) {
-
-            Pergunta p = new Pergunta();
-
-            p.setId(rs.getInt("id"));
-            p.setDisciplina(rs.getString("disciplina"));
-            p.setAssunto(rs.getString("assunto"));
-            p.setDescricao(rs.getString("descricao"));
-            p.setEnunciado(rs.getString("enunciado"));
-            p.setImagemEnunciado(rs.getString("imagemenunciado"));
-            p.setImagemResposta(rs.getString("imagemresposta"));
-            p.setResposta(rs.getString("resposta"));
-
-            perguntas.add(p);
+            perguntas.add(getPergunta(rs));
         }
 
         ConnectionFactory.closeConnection(conexao, stmt, rs);
@@ -116,19 +104,7 @@ public class PerguntaDAO {
         List<Pergunta> perguntas = new LinkedList<>();
 
         while (rs.next()) {
-
-            Pergunta p = new Pergunta();
-
-            p.setId(rs.getInt("id"));
-            p.setDisciplina(rs.getString("disciplina"));
-            p.setAssunto(rs.getString("assunto"));
-            p.setDescricao(rs.getString("descricao"));
-            p.setEnunciado(rs.getString("enunciado"));
-            p.setImagemEnunciado(rs.getString("imagemenunciado"));
-            p.setImagemResposta(rs.getString("imagemresposta"));
-            p.setResposta(rs.getString("resposta"));
-
-            perguntas.add(p);
+            perguntas.add(getPergunta(rs));
         }
         ConnectionFactory.closeConnection(conexao, stmt, rs);
         return perguntas;
@@ -146,19 +122,7 @@ public class PerguntaDAO {
         List<Pergunta> perguntas = new LinkedList<>();
 
         while (rs.next()) {
-
-            Pergunta p = new Pergunta();
-
-            p.setId(rs.getInt("id"));
-            p.setDisciplina(rs.getString("disciplina"));
-            p.setAssunto(rs.getString("assunto"));
-            p.setDescricao(rs.getString("descricao"));
-            p.setEnunciado(rs.getString("enunciado"));
-            p.setImagemEnunciado(rs.getString("imagemenunciado"));
-            p.setImagemResposta(rs.getString("imagemresposta"));
-            p.setResposta(rs.getString("resposta"));
-
-            perguntas.add(p);
+            perguntas.add(getPergunta(rs));
         }
 
         System.out.println(perguntas.size());
@@ -182,18 +146,7 @@ public class PerguntaDAO {
 
         while (rs.next()) {
 
-            Pergunta p = new Pergunta();
-
-            p.setId(rs.getInt("id"));
-            p.setDisciplina(rs.getString("disciplina"));
-            p.setAssunto(rs.getString("assunto"));
-            p.setDescricao(rs.getString("descricao"));
-            p.setEnunciado(rs.getString("enunciado"));
-            p.setImagemEnunciado(rs.getString("imagemenunciado"));
-            p.setImagemResposta(rs.getString("imagemresposta"));
-            p.setResposta(rs.getString("resposta"));
-
-            perguntas.add(p);
+            perguntas.add(getPergunta(rs));
         }
 
         ConnectionFactory.closeConnection(conexao, stmt, rs);
@@ -221,6 +174,9 @@ public class PerguntaDAO {
         p.setImagemEnunciado(rs.getString("imagemenunciado"));
         p.setImagemResposta(rs.getString("imagemresposta"));
         p.setResposta(rs.getString("resposta"));
+        if (rs.getString("resposta") != null) {
+            p.setSimulavel(true);
+        }
 
         ConnectionFactory.closeConnection(conexao, stmt, rs);
 
@@ -245,11 +201,32 @@ public class PerguntaDAO {
         p.setImagemEnunciado(rs.getString("imagemenunciado"));
         p.setImagemResposta(rs.getString("imagemresposta"));
         p.setResposta(rs.getString("resposta"));
+        if (rs.getString("resposta") != null) {
+            p.setSimulavel(true);
+        }
 
         ConnectionFactory.closeConnection(conecao, stmt, rs);
 
         return p;
 
+    }
+    
+    private Pergunta getPergunta(ResultSet rs) throws SQLException{
+        Pergunta p = new Pergunta();
+        
+        p.setId(rs.getInt("id"));
+        p.setDisciplina(rs.getString("disciplina"));
+        p.setAssunto(rs.getString("assunto"));
+        p.setDescricao(rs.getString("descricao"));
+        p.setEnunciado(rs.getString("enunciado"));
+        p.setImagemEnunciado(rs.getString("imagemenunciado"));
+        p.setImagemResposta(rs.getString("imagemresposta"));
+        p.setResposta(rs.getString("resposta"));
+        if (!rs.getString("resposta").equals("")) {
+            p.setSimulavel(true);
+        }
+        
+        return p;
     }
 
 }

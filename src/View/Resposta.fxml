@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="461.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RespostaController">
+<GridPane hgap="5.0" vgap="20.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.RespostaController">
+  <columnConstraints>
+    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="100.0" />
+    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints valignment="TOP" vgrow="SOMETIMES" />
+    <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+  </rowConstraints>
    <children>
-      <ImageView fx:id="imgResposta" fitHeight="552.0" fitWidth="433.0" layoutX="14.0" layoutY="83.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="btnVoltar" layoutX="181.0" layoutY="642.0" minWidth="100.0" mnemonicParsing="false" onAction="#voltar" text="Voltar" />
-      <Label fx:id="lblResposta" layoutX="83.0" layoutY="26.0" text="RESPOSTA" />
-      <Label layoutX="29.0" layoutY="26.0" text="Resposta: " />
-      <Label layoutX="29.0" layoutY="56.0" text="Resolução:" />
+      <Label text="Resposta:">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font></Label>
+      <ImageView fx:id="imgResposta" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+      <Label fx:id="lblResposta" text="Label" GridPane.columnIndex="1">
+         <font>
+            <Font name="Arial" size="14.0" />
+         </font></Label>
+      <Button fx:id="btnVoltar" mnemonicParsing="false" text="Voltar" GridPane.columnSpan="2" GridPane.rowIndex="2" />
    </children>
-</AnchorPane>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

@@ -23,39 +23,50 @@ import javafx.stage.Stage;
  */
 public class RespostaController implements Initializable {
 
-    @FXML private ImageView imgResposta;
-    @FXML private Button btnVoltar;
-    @FXML private Label lblResposta;
-
-    
     @FXML
-    public void voltar(){
+    private ImageView imgResposta;
+    @FXML
+    private Button btnVoltar;
+    @FXML
+    private Label lblResposta;
+
+    @FXML
+    public void voltar() {
         Stage window = (Stage) btnVoltar.getScene().getWindow();
         window.close();
     }
-    
-    public void iniciarTela(Pergunta p) throws NullPointerException{
-        
-        if(p.getImagemResposta() != null){
-            imgResposta.setImage(new Image("file:///"+caminhoPadrao()+p.getImagemResposta()));
+
+    public void iniciarTela(Pergunta p) throws NullPointerException {
+
+        if (p.getImagemResposta() != null) {
+            Image image = new Image("file:///" + caminhoPadrao() + p.getImagemResposta());
+            imgResposta.setImage(image);
+            if (image.getWidth()<= 600 && image.getHeight() <= 400) {
+                imgResposta.setFitWidth(image.getWidth());
+                imgResposta.setFitHeight(image.getHeight());
+            }else{
+                imgResposta.setFitWidth(600);
+                imgResposta.setFitHeight(400);
+            }
+
         }
         lblResposta.setText(p.getResposta());
-        
+
     }
-    
-    public static String caminhoPadrao(){
+
+    public static String caminhoPadrao() {
         String path = System.getProperty("user.dir");
-        if(path.contains("dist")){
+        if (path.contains("dist")) {
             path += "/../src/Imagens/";
-        }else{
+        } else {
             path += "/Imagens/";
         }
         return path;
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //...
-    }    
-    
+    }
+
 }

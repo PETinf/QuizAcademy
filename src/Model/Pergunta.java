@@ -2,9 +2,6 @@ package Model;
 
 public class Pergunta {
     
-    public static String PATHENUNCIADO = System.getProperty("user.dir") + "/src/ImagemEnunciado/";
-    public static String PATHRESPOSTA = System.getProperty("user.dir") + "/src/ImagemResposta/";
-    
     private int id;
     private String descricao;
     private String enunciado;
@@ -13,6 +10,22 @@ public class Pergunta {
     private String imagemEnunciado;
     private String imagemResposta;
     private String resposta;
+    private boolean simulavel;
+
+    public Pergunta(int id, String descricao, String enunciado, String disciplina, String assunto, String imagemEnunciado, String imagemResposta, String resposta, boolean simulavel) {
+        this.id = id;
+        this.descricao = descricao;
+        this.enunciado = enunciado;
+        this.disciplina = disciplina;
+        this.assunto = assunto;
+        this.imagemEnunciado = imagemEnunciado;
+        this.imagemResposta = imagemResposta;
+        this.resposta = resposta;
+        this.simulavel = simulavel;
+    }
+
+    public Pergunta() {
+    }
     
     
     public int getId() {
@@ -79,6 +92,16 @@ public class Pergunta {
         this.resposta = resposta;
     }
 
+    public boolean isSimulavel() {
+        return simulavel;
+    }
+
+    public void setSimulavel(boolean simulavel) {
+        this.simulavel = simulavel;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "Pergunta{" + "id=" + id + ", descricao=" + descricao + ", enunciado=" + enunciado + ", disciplina=" + disciplina + ", assunto=" + assunto + ", imagemEnunciado=" + imagemEnunciado + ", imagemResposta=" + imagemResposta + ", resposta=" + resposta + '}';

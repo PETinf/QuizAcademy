@@ -131,8 +131,10 @@ public class SimuladoController implements Initializable {
             aux = random.nextInt(perguntas.size());
             p = perguntas.get(aux);
             perguntas.remove(aux);
-            listaPerguntas.add(p);
-            nroPerguntas--;
+            if(p.isSimulavel()){
+                listaPerguntas.add(p);
+                nroPerguntas--;
+            }
         }
         return listaPerguntas;
     }

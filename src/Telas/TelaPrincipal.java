@@ -14,7 +14,7 @@ public class TelaPrincipal extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         
-        Parent fxmlTelaPrincipal = FXMLLoader.load(TelaPrincipal.class.getResource("/View/TelaPrincipal.fxml"));
+        Parent fxmlTelaPrincipal = FXMLLoader.load(getClass().getResource("/View/TelaPrincipal.fxml"));
         
         primaryStage.setTitle("QuizAcademy");
         primaryStage.setScene(new Scene(fxmlTelaPrincipal));
