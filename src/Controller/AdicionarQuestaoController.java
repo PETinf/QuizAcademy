@@ -44,14 +44,16 @@ public class AdicionarQuestaoController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
         pdao = new PerguntaDAO();
         p = new Pergunta();
         fileImagemEnunciado = null;
         fileImagemResposta = null;
         
-        Image image = new Image(AdicionarQuestaoController.class.getResourceAsStream("/Imagens/default.jpg"));
+        Image image = new Image("file:///"+caminhoPadrao()+"default.jpg");
         imageEnunciado.setImage(image);
         imageResposta.setImage(image);
+
     }
 
     @FXML
@@ -123,7 +125,7 @@ public class AdicionarQuestaoController implements Initializable {
     public String caminhoPadrao(){
         String path = System.getProperty("user.dir");
         if(path.contains("dist")){
-            path += "/../src/Imagens/";
+            path += "/Imagens/";
         }else{
             path += "/Imagens/";
         }

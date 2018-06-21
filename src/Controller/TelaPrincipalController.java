@@ -90,9 +90,9 @@ public class TelaPrincipalController implements Initializable {
     public void adicionarQuestao() {
         try {
             Stage primaryStage = new Stage();
+            
             FXMLLoader loader = new FXMLLoader();
-
-            Parent adicionarQuestao = FXMLLoader.load(TelaPrincipalController.class.getResource("/View/Add_Questao.fxml"));
+            Parent adicionarQuestao = loader.load(TelaPrincipalController.class.getResource("/View/Adicionar_Questao.fxml"));
             Scene cena = new Scene(adicionarQuestao);
             primaryStage.setScene(cena);
             primaryStage.setResizable(false);
@@ -241,7 +241,7 @@ public class TelaPrincipalController implements Initializable {
             alerta.setContentText("Banco de dados exportado com sucesso!");
             alerta.showAndWait();
 
-        } catch (IOException ex) {
+        } catch (IOException | NullPointerException ex) {
             showErrorAsAlert(ex);
         }
 
@@ -481,6 +481,12 @@ public class TelaPrincipalController implements Initializable {
                 pesquisar();
             }
         });
+        //Pesquisar Id
+        txtId.setOnKeyPressed((KeyEvent key) -> {
+            if(KeyCode.ENTER.equals(key.getCode())){
+                pesquisar();
+            }
+        });
         //Filtrar enquanto o usuário digita
         txtDisciplina.setOnKeyReleased((Event e) -> {
             List<Pergunta> aux = lista.stream().
@@ -497,4 +503,5 @@ public class TelaPrincipalController implements Initializable {
         });
         
     }
+    
 }
