@@ -121,12 +121,7 @@ public class QuestaoController implements Initializable {
     }
     
     public String caminhoPadrao(){
-        String path = System.getProperty("user.dir");
-        if(path.contains("dist")){
-            path += "/../src/Imagens/";
-        }else{
-            path += "/Imagens/";
-        }
+        String path = System.getProperty("user.dir") + "/Imagens/";
         return path;
     }
     

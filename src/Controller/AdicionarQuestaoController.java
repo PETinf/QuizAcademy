@@ -123,12 +123,7 @@ public class AdicionarQuestaoController implements Initializable {
     }
     
     public String caminhoPadrao(){
-        String path = System.getProperty("user.dir");
-        if(path.contains("dist")){
-            path += "/Imagens/";
-        }else{
-            path += "/Imagens/";
-        }
+        String path = System.getProperty("user.dir") + "/Imagens/";
         return path;
     }
 }

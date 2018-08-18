@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="631.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SimuladoQuestaoController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="631.0" style="-fx-background-color: #d6d6d6;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SimuladoQuestaoController">
    <children>
       <Label fx:id="lblDisciplina" layoutX="285.0" layoutY="12.0" text="Disciplina">
          <font>
@@ -28,9 +28,9 @@
       <ImageView fx:id="imgEnunciado" fitHeight="206.0" fitWidth="404.0" layoutX="114.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="txtResposta" alignment="CENTER" layoutX="254.0" layoutY="471.0" promptText="Resposta" />
       <ImageView fx:id="imgConfirm" fitHeight="25.0" fitWidth="29.0" layoutX="206.0" layoutY="471.0" pickOnBounds="true" preserveRatio="true" />
-      <JFXButton fx:id="btnVoltar" layoutX="13.0" layoutY="14.0" onAction="#prev" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #0070cce5;" text="Voltar" textFill="WHITE" />
-      <JFXButton fx:id="btnAvancar" layoutX="537.0" layoutY="14.0" onAction="#next" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #0070cce5;" text="Avançar" textFill="WHITE" />
-      <JFXButton fx:id="btnComitar" layoutX="425.0" layoutY="471.0" onAction="#comitar" style="-fx-background-color: #0070cce5;" text="Confirmar" textFill="WHITE" />
-      <JFXButton fx:id="btnFinalizar" layoutX="253.0" layoutY="530.0" onAction="#finalizarSimulado" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #0070cce5;" text="Finalizar Simulado" textFill="WHITE" />
+      <JFXButton fx:id="btnVoltar" layoutX="13.0" layoutY="14.0" onAction="#prev" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #32658f9a;" text="Voltar" textFill="WHITE" />
+      <JFXButton fx:id="btnAvancar" layoutX="537.0" layoutY="14.0" onAction="#next" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #32658f9a;" text="Avançar" textFill="WHITE" />
+      <JFXButton fx:id="btnComitar" layoutX="425.0" layoutY="471.0" onAction="#comitar" style="-fx-background-color: #32658f9a;" text="Confirmar" textFill="WHITE" />
+      <JFXButton fx:id="btnFinalizar" layoutX="253.0" layoutY="530.0" onAction="#finalizarSimulado" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Finalizar Simulado" textFill="WHITE" />
    </children>
 </AnchorPane>

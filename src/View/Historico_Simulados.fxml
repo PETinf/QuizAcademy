@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="538.0" maxWidth="444.0" minHeight="538.0" minWidth="444.0" prefHeight="538.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HistoricoController">
+<AnchorPane maxHeight="538.0" maxWidth="444.0" minHeight="538.0" minWidth="444.0" prefHeight="538.0" prefWidth="444.0" style="-fx-background-color: #d6d6d6;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.HistoricoController">
    <children>
       <TableView fx:id="tableSimulado" layoutX="14.0" layoutY="14.0" prefHeight="468.0" prefWidth="417.0">
         <columns>
@@ -16,6 +16,6 @@
             <TableColumn fx:id="colId" prefWidth="116.0" text="IDs perguntas" />
         </columns>
       </TableView>
-      <JFXButton fx:id="btnVoltar" layoutX="147.0" layoutY="494.0" onAction="#voltar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #0070cce5;" text="Voltar" textFill="WHITE" />
+      <JFXButton fx:id="btnVoltar" layoutX="147.0" layoutY="494.0" onAction="#voltar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Voltar" textFill="WHITE" />
    </children>
 </AnchorPane>

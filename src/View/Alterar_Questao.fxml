@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="700.0" maxWidth="500.0" minHeight="700.0" minWidth="500.0" prefHeight="700.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AlterarQuestaoController">
+<GridPane maxHeight="700.0" maxWidth="500.0" minHeight="700.0" minWidth="500.0" prefHeight="700.0" prefWidth="500.0" style="-fx-background-color: #d6d6d6;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AlterarQuestaoController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="20.0" minWidth="20.0" prefWidth="20.0" />
       <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="230.0" minWidth="230.0" prefWidth="230.0" />
@@ -44,7 +47,7 @@
       <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="10" />
       <ImageView fx:id="imageEnunciado" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="9" GridPane.rowSpan="2" />
       <ImageView fx:id="imageResposta" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="12" GridPane.rowSpan="2" />
-      <Label text="Imagem de enunciado" GridPane.columnIndex="1" GridPane.rowIndex="9">
+      <Label text="Imagem de enunciado" textFill="#32658f" GridPane.columnIndex="1" GridPane.rowIndex="9">
          <font>
             <Font size="18.0" />
          </font>
@@ -55,7 +58,7 @@
             <Insets left="30.0" />
          </GridPane.margin>
       </Label>
-      <Label layoutX="60.0" layoutY="317.0" text="Imagem de resposta" GridPane.columnIndex="1" GridPane.rowIndex="12">
+      <Label layoutX="60.0" layoutY="317.0" text="Imagem de resposta" textFill="#32658f" GridPane.columnIndex="1" GridPane.rowIndex="12">
          <font>
             <Font size="18.0" />
          </font>
@@ -67,17 +70,17 @@
          </GridPane.margin>
       </Label>
       <TextField fx:id="txtResposta" alignment="CENTER" promptText="Resposta" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="15" GridPane.valignment="CENTER" />
-      <JFXButton fx:id="btnEscolherEnunciado" onAction="#escolherImagemEnunciado" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #0070cce5;" text="Escolher Imagem" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="10">
+      <JFXButton fx:id="btnEscolherEnunciado" onAction="#escolherImagemEnunciado" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Escolher Imagem" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets left="30.0" />
          </GridPane.margin>
       </JFXButton>
-      <JFXButton fx:id="btnEscolherResposta" onAction="#escolherImagemResposta" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #0070cce5;" text="Escolher Imagem" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="13">
+      <JFXButton fx:id="btnEscolherResposta" onAction="#escolherImagemResposta" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Escolher Imagem" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="13">
          <GridPane.margin>
             <Insets left="30.0" />
          </GridPane.margin>
       </JFXButton>
-      <JFXButton fx:id="btnAlterar" onMouseClicked="#alterar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #0070cce5;" text="Alterar Questão" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="17" GridPane.valignment="CENTER" />
-      <JFXButton fx:id="btnCancelar" onMouseClicked="#cancelar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #0070cce5;" text="Cancelar" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="17" />
+      <JFXButton fx:id="btnAlterar" onMouseClicked="#alterar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Alterar Questão" textFill="WHITE" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="17" GridPane.valignment="CENTER" />
+      <JFXButton fx:id="btnCancelar" onMouseClicked="#cancelar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Cancelar" textFill="WHITE" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="17" />
    </children>
 </GridPane>

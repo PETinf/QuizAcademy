@@ -40,11 +40,11 @@ public class ConnectionFactory {
     
     public static void closeConnection(Connection conexao, PreparedStatement stmt){
         
-        closeConnection(conexao);
         
         try {
             if(stmt != null){
                 stmt.close();
+                closeConnection(conexao);
             }
         } catch (SQLException ex) {
             System.out.println("ConnectionFactory.closeConnection2: "+ex.getMessage());
@@ -54,11 +54,10 @@ public class ConnectionFactory {
     
     public static void closeConnection(Connection conexao, PreparedStatement stmt, ResultSet rs){
         
-        closeConnection(conexao, stmt);
-        
         try {
             if(rs != null){
                 rs.close();
+                closeConnection(conexao, stmt);
             }
         } catch (SQLException ex) {
             System.out.println("ConnectionFactory.closeConnection3: "+ex.getMessage());
