@@ -21,7 +21,7 @@ import javafx.stage.Stage;
  *
  * @author Vinicius
  */
-public class RespostaController implements Initializable {
+public class RespostaController extends Controller implements Initializable {
 
     @FXML
     private ImageView imgResposta;
@@ -52,11 +52,6 @@ public class RespostaController implements Initializable {
         }
         lblResposta.setText(p.getResposta());
 
-    }
-
-    public static String caminhoPadrao() {
-        String path = System.getProperty("user.dir") + "/Imagens/";
-        return path;
     }
 
     @Override

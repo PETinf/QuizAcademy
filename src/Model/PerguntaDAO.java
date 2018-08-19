@@ -222,7 +222,7 @@ public class PerguntaDAO {
         p.setImagemEnunciado(rs.getString("imagemenunciado"));
         p.setImagemResposta(rs.getString("imagemresposta"));
         p.setResposta(rs.getString("resposta"));
-        if (!rs.getString("resposta").equals("")) {
+        if (rs.getString("resposta") != null) {
             p.setSimulavel(true);
         }
         

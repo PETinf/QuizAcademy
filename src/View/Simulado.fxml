@@ -5,18 +5,13 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="631.0" style="-fx-background-color: #d6d6d6;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.SimuladoQuestaoController">
    <children>
-      <Label fx:id="lblDisciplina" layoutX="285.0" layoutY="12.0" text="Disciplina">
-         <font>
-            <Font size="20.0" />
-         </font></Label>
-      <Label fx:id="lblAssunto" layoutX="296.0" layoutY="49.0" text="Assunto">
-         <font>
-            <Font size="18.0" />
-         </font></Label>
       <Label fx:id="lblDescricao" layoutX="65.0" layoutY="98.0" text="Descricao">
          <font>
             <Font size="16.0" />
@@ -28,9 +23,32 @@
       <ImageView fx:id="imgEnunciado" fitHeight="206.0" fitWidth="404.0" layoutX="114.0" layoutY="176.0" pickOnBounds="true" preserveRatio="true" />
       <TextField fx:id="txtResposta" alignment="CENTER" layoutX="254.0" layoutY="471.0" promptText="Resposta" />
       <ImageView fx:id="imgConfirm" fitHeight="25.0" fitWidth="29.0" layoutX="206.0" layoutY="471.0" pickOnBounds="true" preserveRatio="true" />
-      <JFXButton fx:id="btnVoltar" layoutX="13.0" layoutY="14.0" onAction="#prev" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #32658f9a;" text="Voltar" textFill="WHITE" />
-      <JFXButton fx:id="btnAvancar" layoutX="537.0" layoutY="14.0" onAction="#next" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #32658f9a;" text="Avançar" textFill="WHITE" />
       <JFXButton fx:id="btnComitar" layoutX="425.0" layoutY="471.0" onAction="#comitar" style="-fx-background-color: #32658f9a;" text="Confirmar" textFill="WHITE" />
       <JFXButton fx:id="btnFinalizar" layoutX="253.0" layoutY="530.0" onAction="#finalizarSimulado" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Finalizar Simulado" textFill="WHITE" />
+      <GridPane layoutX="20.0" layoutY="11.0" prefHeight="53.0" prefWidth="590.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <JFXButton fx:id="btnVoltar" onAction="#prev" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #32658f9a;" text="Voltar" textFill="WHITE" />
+            <JFXButton fx:id="btnAvancar" onAction="#next" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #32658f9a;" text="Avançar" textFill="WHITE" GridPane.columnIndex="2" />
+            <Label fx:id="lblDisciplina" text="Disciplina" GridPane.columnIndex="1">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblAssunto" text="Assunto" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>

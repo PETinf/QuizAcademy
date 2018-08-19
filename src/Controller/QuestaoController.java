@@ -28,7 +28,7 @@ import javafx.stage.Stage;
  *
  * @author Vinicius
  */
-public class QuestaoController implements Initializable {
+public class QuestaoController extends Controller implements Initializable {
     
     @FXML
     private Button btnPrev;
@@ -118,11 +118,6 @@ public class QuestaoController implements Initializable {
         } catch (IOException ex){
             TelaPrincipalController.showErrorAsAlert(new IOException("Erro ao exibir a resposta!"));
         }
-    }
-    
-    public String caminhoPadrao(){
-        String path = System.getProperty("user.dir") + "/Imagens/";
-        return path;
     }
     
     @Override

@@ -29,7 +29,7 @@ import javafx.stage.Stage;
  *
  * @author Vinicius
  */
-public class SimuladoQuestaoController implements Initializable {
+public class SimuladoQuestaoController extends Controller implements Initializable {
 
     @FXML private Button btnVoltar;
     @FXML private Button btnAvancar;
@@ -108,10 +108,10 @@ public class SimuladoQuestaoController implements Initializable {
         String resposta = p.getResposta();
         if (txtResposta.getText().equals(resposta)) {
             respostas[nroPergunta] = 1;
-            imgConfirm.setImage(new Image("file:///"+caminhoPadrao() + 1 + ".png"));
+            imgConfirm.setImage(new Image("file:///"+getCaminhoImagens() + 1 + ".png"));
         } else {
             respostas[nroPergunta] = 0;
-            imgConfirm.setImage(new Image("file:///"+caminhoPadrao()+ 0 + ".png"));
+            imgConfirm.setImage(new Image("file:///"+getCaminhoImagens()+ 0 + ".png"));
         }
         btnComitar.setDisable(true);
     }
@@ -158,8 +158,8 @@ public class SimuladoQuestaoController implements Initializable {
         }
     }
     
-    public static String caminhoPadrao(){
-        String path = System.getProperty("user.dir") + "/Imagens/";
-        return path;
+    private String getCaminhoImagens(){
+        String caminho = System.getProperty("user.dir") + "/sources/imagens/";
+        return caminho;
     }
 }

@@ -33,7 +33,7 @@ import javafx.stage.Stage;
  *
  * @author Vinicius
  */
-public class AlterarQuestaoController implements Initializable {
+public class AlterarQuestaoController extends Controller implements Initializable {
     
     @FXML
     private TextField txtDisciplina;
@@ -165,10 +165,5 @@ public class AlterarQuestaoController implements Initializable {
         } catch (IOException ex) {
             TelaPrincipalController.showErrorAsAlert(new IOException("Erro ao inserir a imagem!"));
         }
-    }
-    
-    public static String caminhoPadrao() {
-        String path = System.getProperty("user.dir") + "/Imagens/";
-        return path;
     }
 }

@@ -8,13 +8,16 @@ package Controller;
 import Model.Pergunta;
 import Model.PerguntaDAO;
 import Model.Simulado;
+import Model.Util;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -35,44 +39,42 @@ public class SimuladoController implements Initializable {
     private Button btn_cancelar;
 
     @FXML private TextField txtDescricaoSimulado;
-    @FXML private TextField txtDisciplina;
-    @FXML private TextField txtAssunto;
-    @FXML private TextField txtNroPerguntas;
     @FXML private Button btnGerar;
     @FXML private Button btnCancelar;
+    @FXML private ComboBox<String> cbDisciplina;
+    @FXML private ComboBox<String> cbAssunto;
+    @FXML private ComboBox<Integer> cmNroPerguntas;
+    
     private PerguntaDAO dao;
-
+    
     @FXML
     protected void Cancelar(ActionEvent event) throws Exception {
         Stage s = (Stage) btnGerar.getScene().getWindow();
         s.close();
     }
 
+    @FXML
     public void GerarSimulado() throws Exception {
 
         try {
             Simulado simulado = new Simulado();
 
-            String nPerguntas = txtNroPerguntas.getText();
-            String disciplina = txtDisciplina.getText();
-            String assunto = txtAssunto.getText();
-
-            if (verificarCampos(disciplina, nPerguntas)) {
+            String disciplina = cbDisciplina.getSelectionModel().getSelectedItem();
+            String assunto = cbAssunto.getSelectionModel().getSelectedItem();
+            Integer nroPerguntas = cmNroPerguntas.getValue();
+            
+            if (verificarCampos(disciplina, nroPerguntas)) {
+                
                 List<Pergunta> perguntas;
-                int nroPerguntas = Integer.parseInt(nPerguntas);
-
-                if (!assunto.equals("")) {
+                
+                if (!assunto.equals("TODOS")) {
                     perguntas = dao.pesquisarDisciplinaAssunto(disciplina, assunto);
                 } else {
                     perguntas = dao.pesquisarDisciplina(disciplina);
                 }
-                //Valor DEFAULT;
-                if (nroPerguntas < 0) {
-                    nroPerguntas = 10;
-                }
-
+                
                 perguntas = escolherPerguntasAleatoriamente(perguntas, nroPerguntas);
-
+                
                 simulado.setDescricao(txtDescricaoSimulado.getText());
                 simulado.setDisciplina(disciplina);
                 simulado.setAssunto(assunto);
@@ -100,8 +102,8 @@ public class SimuladoController implements Initializable {
                     alerta.setHeaderText("Erro ao gerar o simulado!");
 
                     String erro = "Perguntas não encontradas para os seguintes parametros:\n\n"
-                            + "Disciplina: " + txtDisciplina.getText() + "\n"
-                            + "Assunto: " + txtAssunto.getText();
+                            + "Disciplina: " + disciplina + "\n"
+                            + "Assunto: " + assunto;
 
                     alerta.setContentText(erro);
                     alerta.showAndWait();
@@ -121,6 +123,8 @@ public class SimuladoController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         dao = new PerguntaDAO();
+        iniciarCampos();
+        iniciarFuncoes();
     }
 
     public List<Pergunta> escolherPerguntasAleatoriamente(List<Pergunta> perguntas, int nroPerguntas) {
@@ -128,6 +132,7 @@ public class SimuladoController implements Initializable {
         List<Pergunta> listaPerguntas = new ArrayList<>();
         Pergunta p;
         int aux;
+        
         while (nroPerguntas > 0 && !perguntas.isEmpty()) {
             aux = random.nextInt(perguntas.size());
             p = perguntas.get(aux);
@@ -137,16 +142,45 @@ public class SimuladoController implements Initializable {
                 nroPerguntas--;
             }
         }
+        
         return listaPerguntas;
     }
 
-    public boolean verificarCampos(String p1, String p2) {
-        if (p1.equals("")) {
+    public boolean verificarCampos(String p1, Integer p2) {
+        if (p1 == null){
             return false;
-        } else if (p2.equals("")) {
-            return false;
-        } else {
-            return true;
+        }else{
+            return p2 != null;
         }
+    }
+    
+    private void iniciarCampos(){
+        cbDisciplina.setItems(FXCollections.observableList(Util.disciplinas()));
+    }
+    
+    private void iniciarFuncoes(){
+        cbDisciplina.setOnAction(e -> {
+            String disciplina = cbDisciplina.getSelectionModel().getSelectedItem();
+            if(disciplina != null){
+                cbAssunto.setItems(FXCollections.observableList(Util.assuntos(disciplina)));
+                atualizarNroPerguntas();
+            }
+        });
+        cbAssunto.setOnAction(e -> {
+            atualizarNroPerguntas();
+        });
+    }
+    
+    private void atualizarNroPerguntas(){
+        List<Integer> numeros = new LinkedList<>();
+        String disciplina = cbDisciplina.getSelectionModel().getSelectedItem();
+        String assunto = cbAssunto.getSelectionModel().getSelectedItem();
+        
+        int n = Util.nroPerguntas(disciplina, assunto);
+        for(int i=1; i<=n; i++){
+            numeros.add(i);
+        }
+        
+        cmNroPerguntas.setItems(FXCollections.observableList(numeros));
     }
 }

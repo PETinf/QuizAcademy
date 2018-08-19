@@ -37,6 +37,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -502,6 +503,11 @@ public class TelaPrincipalController implements Initializable {
             tabela.setItems(FXCollections.observableList(aux));
         });
         
+        tabela.setOnMouseClicked((MouseEvent me) -> {
+            if(me.getClickCount() == 2){
+                selecionarQuestao();
+            }
+        });
     }
     
 }

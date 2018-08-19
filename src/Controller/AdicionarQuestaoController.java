@@ -25,7 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class AdicionarQuestaoController implements Initializable {
+public class AdicionarQuestaoController extends Controller implements Initializable {
 
     @FXML private Button btnAdicionar;
     @FXML private TextField txtAssunto;
@@ -120,10 +120,5 @@ public class AdicionarQuestaoController implements Initializable {
             p.setImagemResposta(arquivo.getName());
             fileImagemResposta = arquivo;
         }
-    }
-    
-    public String caminhoPadrao(){
-        String path = System.getProperty("user.dir") + "/Imagens/";
-        return path;
     }
 }
