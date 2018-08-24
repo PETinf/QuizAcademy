@@ -61,7 +61,7 @@
             <JFXButton fx:id="btnNext" onAction="#next" style="-fx-background-color: #32658f9a;" text="&gt;" textFill="WHITE" GridPane.columnIndex="6" GridPane.rowIndex="1" GridPane.rowSpan="2" />
             <JFXButton fx:id="btnPrev" onAction="#prev" style="-fx-background-color: #32658f9a;" text="&lt;" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" />
             <JFXButton fx:id="btnResposta" onAction="#exibirResposta" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Resposta" textFill="WHITE" GridPane.columnIndex="3" GridPane.rowIndex="10" />
-            <JFXButton fx:id="btnVoltar" onAction="#voltar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Votlar" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="10" />
+            <JFXButton fx:id="btnVoltar" onAction="#voltar" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #32658f9a;" text="Voltar" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="10" />
          </children>
       </GridPane>
    </children>
